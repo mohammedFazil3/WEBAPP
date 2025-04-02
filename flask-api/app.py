@@ -385,7 +385,10 @@ def upload_fixed_text_data(username):
                         "error": f"CSV file is missing required columns: {', '.join(missing_columns)}"
                     }), 400
                 
-                preprocessedDatadf = keystroke_processor.preprocess_keystroke_data(df, username)
+                preprocessedDatadf = keystroke_processor.preprocess_keystroke_data(df, username, additional_users={
+                    "Aisha": "storage/data/FixedText_Aisha.csv",
+                    "Misbah": "storage/data/FixedText_Misbah.csv"
+                })
                 
                 # Save preprocessed data to CSV
                 preprocessed_filepath = os.path.join('storage/data', 'fixed_text_data_preprocessed.csv')

@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 import re
 import logging
+import os
 from datetime import datetime
 
 logger = logging.getLogger(__name__)
@@ -112,14 +113,14 @@ def standardize_windows_keystrokes(df):
 
 def process_keystroke_data(keystroke_data, user_name=None):
     """
-    Process raw keystroke data.
+    Process keystroke data from a DataFrame or dict.
     
     Args:
-        keystroke_data (dict): Raw keystroke data
+        keystroke_data (dict or pd.DataFrame): Raw keystroke data
         user_name (str, optional): User's name for labeling
         
     Returns:
-        pd.DataFrame: Processed DataFrame ready for feature extraction
+        pd.DataFrame: Processed grouped DataFrame
     """
     try:
         # Convert to DataFrame if needed
@@ -130,6 +131,8 @@ def process_keystroke_data(keystroke_data, user_name=None):
         else:
             df = keystroke_data
             
+        logger.info(f"Initial DataFrame for {user_name if user_name else 'unknown user'} has {len(df)} rows")
+        
         # Add user label if provided
         if user_name:
             df['User'] = user_name
@@ -145,7 +148,7 @@ def process_keystroke_data(keystroke_data, user_name=None):
         for index, row in df.iterrows():
             if row['Timestamp_Press'].date() != row['Timestamp_Release'].date():
                 rows_to_drop.append(index)
-
+        
         df.drop(rows_to_drop, axis=0, inplace=True)
         df.reset_index(drop=True, inplace=True)
 
@@ -188,9 +191,28 @@ def process_keystroke_data(keystroke_data, user_name=None):
             # If no keystroke data, return as is
             grouped_df = df
             
+        logger.info(f"Processed {len(grouped_df)} grouped keystroke entries for {user_name if user_name else 'unknown user'}")
         return grouped_df
     except Exception as e:
         logger.error(f"Error processing keystroke data: {str(e)}")
+        raise
+
+def process_keystroke_file(filepath, user_name):
+    """
+    Process keystroke data from a CSV file.
+    
+    Args:
+        filepath (str): Path to the CSV file
+        user_name (str): User's name for labeling
+        
+    Returns:
+        pd.DataFrame: Processed grouped DataFrame
+    """
+    try:
+        df = pd.read_csv(filepath)
+        return process_keystroke_data(df, user_name)
+    except Exception as e:
+        logger.error(f"Error processing keystroke file {filepath}: {str(e)}")
         raise
 
 def categorize_key(key):
@@ -363,74 +385,137 @@ def expand_features(grouped_df):
     expanded_features_df = pd.DataFrame(expanded_features_df)
     return expanded_features_df
 
-def preprocess_keystroke_data(keystroke_data, user_name=None):
+def preprocess_keystroke_data(keystroke_data, user_name=None, additional_users=None):
     """
     Main function to preprocess keystroke data and extract features.
     
     Args:
-        keystroke_data (dict): Raw keystroke data
+        keystroke_data (dict, DataFrame, or str): Raw keystroke data or filepath
         user_name (str, optional): User's name for labeling
+        additional_users (dict): Dictionary with {username: data} for additional users
         
     Returns:
         pd.DataFrame: Processed and feature-expanded DataFrame ready for ML
     """
     try:
-        # Process the raw data
-        grouped_df = process_keystroke_data(keystroke_data, user_name)
+        # Process the primary user's data
+        if isinstance(keystroke_data, str) and os.path.exists(keystroke_data):
+            # It's a filepath
+            grouped_df = process_keystroke_file(keystroke_data, user_name)
+        else:
+            # It's data
+            grouped_df = process_keystroke_data(keystroke_data, user_name)
         
-        # Expand features
-        expanded_features = expand_features(grouped_df)
+        logger.info(f"Processed {len(grouped_df)} grouped keystroke entries for {user_name if user_name else 'primary user'}")
         
-        # Combine dataframes
-        final_data = pd.concat([grouped_df, expanded_features], axis=1)
+        # Process additional users if provided
+        all_grouped_dfs = [grouped_df]
+        
+        if additional_users:
+            for add_user_name, add_user_data in additional_users.items():
+                logger.info(f"Processing additional user: {add_user_name}")
+                
+                if isinstance(add_user_data, str) and os.path.exists(add_user_data):
+                    # It's a filepath
+                    add_grouped_df = process_keystroke_file(add_user_data, add_user_name)
+                else:
+                    # It's data
+                    add_grouped_df = process_keystroke_data(add_user_data, add_user_name)
+                
+                logger.info(f"Processed {len(add_grouped_df)} grouped keystroke entries for {add_user_name}")
+                all_grouped_dfs.append(add_grouped_df)
+        
+        # Combine all user data
+        combined_grouped_df = pd.concat(all_grouped_dfs, ignore_index=True)
+        logger.info(f"Combined dataset has {len(combined_grouped_df)} total entries")
+        
+        # Expand features for the combined dataset
+        expanded_df = expand_features(combined_grouped_df)
+        logger.info(f"Generated {len(expanded_df.columns)} features")
+        
+        # Merge grouped and expanded DataFrames
+        final_df = pd.concat([combined_grouped_df, expanded_df], axis=1)
         
         # Cleanup unnecessary columns
         columns_to_drop = ['Hold Time', 'Application', 'Key Stroke', 
                            'Timestamp_Release', 'Timestamp_Press']
         
         for col in columns_to_drop:
-            if col in final_data.columns:
-                final_data = final_data.drop(columns=[col])
+            if col in final_df.columns:
+                final_df = final_df.drop(columns=[col])
         
-        # Encode categorical features
-        key_section_columns = [col for col in final_data.columns if col.startswith('Key_Section_')]
-        key_type_columns = [col for col in final_data.columns if col.startswith('Key_Type_')]
+        # Encode categorical features (except User column)
+        key_section_columns = [col for col in final_df.columns if col.startswith('Key_Section_')]
+        key_type_columns = [col for col in final_df.columns if col.startswith('Key_Type_')]
         
         # Simple encoding for demonstration
         # In production, you should use a consistent encoder across all predictions
         for column in key_section_columns:
-            if column in final_data.columns:
+            if column in final_df.columns:
                 # Map to numeric values (consistent mapping would be best)
                 section_mapping = {
                     'Section 1': 1, 'Section 2': 2, 'Section 3': 3, 'Section 4': 4,
                     'Section 5': 5, 'Section 6': 6, 'Section 7': 7, 'Section 8': 8,
                     'Section 9': 9, 'Other Section': 0
                 }
-                final_data[column] = final_data[column].map(section_mapping).fillna(0)
+                final_df[column] = final_df[column].map(section_mapping).fillna(0)
         
         for column in key_type_columns:
-            if column in final_data.columns:
+            if column in final_df.columns:
                 # Map to numeric values
                 type_mapping = {
                     'Function Key': 1, 'Media Key': 2, 'Upper Alpha': 3, 'Lower Alpha': 4,
                     'Numeric': 5, 'Punctuation': 6, 'Modifier': 7, 'Delete/Backspace': 8,
                     'Shortcut': 9, 'Other': 0
                 }
-                final_data[column] = final_data[column].map(type_mapping).fillna(0)
+                final_df[column] = final_df[column].map(type_mapping).fillna(0)
         
-        # Handle any remaining non-numeric columns
-        for col in final_data.columns:
-            if pd.api.types.is_object_dtype(final_data[col]):
+        # Handle any remaining non-numeric columns, but keep User column as is
+        for col in final_df.columns:
+            if col == 'User':
+                # Keep User column as categorical/string
+                continue
+            elif pd.api.types.is_object_dtype(final_df[col]):
                 try:
-                    final_data[col] = pd.to_numeric(final_data[col], errors='coerce')
+                    final_df[col] = pd.to_numeric(final_df[col], errors='coerce')
                 except:
                     # If conversion fails, drop the column
-                    final_data = final_data.drop(columns=[col])
+                    final_df = final_df.drop(columns=[col])
         
-        # Fill NA values
-        final_data = final_data.fillna(0)
+        # Fill NA values except for User column
+        columns_to_fill = [col for col in final_df.columns if col != 'User']
+        final_df[columns_to_fill] = final_df[columns_to_fill].fillna(0)
         
-        return final_data
+        return final_df
     except Exception as e:
         logger.error(f"Error preprocessing keystroke data: {str(e)}")
+        raise
+
+def preprocess_keystroke_files(input_filepath, output_filepath, user_name, additional_users=None):
+    """
+    Preprocess keystroke data from input CSV and save processed data to output CSV.
+    
+    Args:
+        input_filepath (str): Path to input CSV file
+        output_filepath (str): Path to output CSV file
+        user_name (str): User's name for labeling
+        additional_users (dict): Dictionary with {username: filepath} for additional users
+    """
+    try:
+        logger.info(f"Starting preprocessing for primary user: {user_name}")
+        logger.info(f"Input file: {input_filepath}")
+        
+        # Process the data
+        final_df = preprocess_keystroke_data(input_filepath, user_name, additional_users)
+        
+        # Create directories if needed
+        os.makedirs(os.path.dirname(output_filepath), exist_ok=True)
+        
+        # Save to output file
+        final_df.to_csv(output_filepath, index=False)
+        logger.info(f"Saved preprocessed data to: {output_filepath}")
+        
+        return final_df
+    except Exception as e:
+        logger.error(f"Error in preprocessing: {str(e)}")
         raise
