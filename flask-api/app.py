@@ -127,11 +127,11 @@ scheduler_thread.start()
 #------------ API ROUTES ------------#
 
 ##Keystroke Collection
-@app.route('/api/keystroke/collection/start', methods=['POST'])
-def start_collection():
+@app.route('/api/keystroke/collection/start/<username>/<modelType>', methods=['POST'])
+def start_collection(username, modelType):
     """Start keystroke collection"""
     try:
-        success = keystroke_collector.start_collection()
+        success = keystroke_collector.start_collection(username, modelType)
         status = keystroke_collector.get_collection_status()
         
         if success:
@@ -419,8 +419,7 @@ def upload_fixed_text_data(username):
             "error": str(e)
         }), 500
 
-
-
+##Kinda irrelevant api routes
 @app.route('/api/keystroke/models', methods=['GET'])
 def get_models():
     """Get all available models"""
@@ -525,6 +524,7 @@ def train_model():
         training_thread.start()
         
         return jsonify({'jobId': job_id})
+    
     except Exception as e:
         logger.error(f"Error starting training: {str(e)}")
         return jsonify({'error': str(e)}), 500

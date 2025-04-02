@@ -5,7 +5,7 @@ import os
 import pandas as pd
 import numpy as np
 from datetime import datetime
-from catboost import CatBoostClassifier
+from catboost import CatBoostClassifier, Pool
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, classification_report
 
@@ -16,10 +16,10 @@ class FixedTextModel(BaseModel):
     
     def __init__(self):
         super().__init__('fixed-text')
-        self.data_path = 'storage/data/fixed_text_data.csv'
+        self.data_path = 'storage/data/fixed_text_data_preprocessed.csv'
     
-    def train(self, parameters):
-        """Train the fixed text model using CatBoost"""
+    def train(self, parameters=None):
+        """Train the model with the given parameters"""
         try:
             # Check if training data exists
             if not os.path.exists(self.data_path):
@@ -33,7 +33,7 @@ class FixedTextModel(BaseModel):
             df = pd.read_csv(self.data_path)
             
             # Check if label column exists
-            if 'label' not in df.columns:
+            if 'User' not in df.columns:
                 logger.error("Label column not found in training data")
                 return {
                     'success': False,
@@ -41,29 +41,35 @@ class FixedTextModel(BaseModel):
                 }
             
             # Prepare features and target
-            X = df.drop(columns=['label'])
-            y = df['label']
+            X = df.drop(columns=['User'])
+            y = df['User']
+
+            # Encoding y
+            first_user = y.iloc[0]  # Get the first user
+            y = (y == first_user).astype(int)  # Convert to binary (1 for first user, 0 for others)
             
             # Split data
             X_train, X_test, y_train, y_test = train_test_split(
                 X, y, test_size=0.2, random_state=42
             )
             
+            # Initialize training pool
+            train_pool = Pool(X_train, y_train)
+            test_pool = Pool(X_test, y_test)
+
+            # Set default parameters if none provided
+            if parameters is None:
+                parameters = {
+                    'iterations': 100,
+                    'depth': 6,
+                    'learning_rate': 0.1,
+                    'loss_function': 'Logloss',
+                    'eval_metric': 'AUC',
+                    'random_seed': 42
+                }
+            
             # Create CatBoost classifier with parameters
-            model_params = {
-                'iterations': parameters.get('iterations', 100),
-                'learning_rate': parameters.get('learning_rate', 0.05),
-                'depth': parameters.get('depth', 4),
-                'loss_function': 'Logloss',
-                'auto_class_weights': 'Balanced',
-                'random_seed': 42,
-                'verbose': 100
-            }
-            
-            self.model = CatBoostClassifier(**model_params)
-            
-            # Create Pool object for CatBoost
-            train_pool = self.model.Pool(X_train, y_train)
+            self.model = CatBoostClassifier(**parameters)
             
             # Train the model
             self.model.fit(train_pool)
@@ -80,7 +86,7 @@ class FixedTextModel(BaseModel):
             info = {
                 'is_trained': True,
                 'model_type': self.model_type,
-                'parameters': model_params,
+                'parameters': parameters,
                 'accuracy': accuracy,
                 'report': report,
                 'last_trained': datetime.now().isoformat(),

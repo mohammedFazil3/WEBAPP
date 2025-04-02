@@ -38,7 +38,9 @@ collection_stats = {
     "keystroke_count": 0,
     "active": False,
     "target": 10000,  # Target for free-text model
-    "last_error": None
+    "last_error": None,
+    "username": None,
+    "model_type": None
 }
 
 # Create log directory
@@ -107,13 +109,18 @@ def get_log_file_path(log_dir=None):
     if log_dir is None:
         log_dir = key_log_dir
     today = datetime.now().strftime('%Y-%m-%d')
-    return os.path.join(log_dir, f'keystrokes_{today}.csv')
+    username = collection_stats.get("username", "unknown")
+    model_type = collection_stats.get("model_type", "unknown")
+    return os.path.join(log_dir, f'keystrokes_{username}_{model_type}_{today}.csv')
 
 def get_previous_log_file_path(log_dir=None):
     """Get the path to the most recent log file."""
     if log_dir is None:
         log_dir = key_log_dir
-    files = [f for f in os.listdir(log_dir) if f.startswith('keystrokes_') and f.endswith('.csv')]
+    username = collection_stats.get("username", "unknown")
+    model_type = collection_stats.get("model_type", "unknown")
+    pattern = f'keystrokes_{username}_{model_type}_*.csv'
+    files = [f for f in os.listdir(log_dir) if f.startswith(f'keystrokes_{username}_{model_type}_') and f.endswith('.csv')]
     if not files:
         return None
     files.sort(reverse=True)
@@ -194,7 +201,7 @@ def on_release(key):
         collection_stats["last_error"] = error_msg
 
 # Collection control functions
-def start_collection():
+def start_collection(username, modelType):
     """Start collecting keystrokes."""
     global listener, collection_active, collection_stats
     
@@ -203,20 +210,22 @@ def start_collection():
         return False
     
     try:
-        # Reset stats
+        # Reset stats and store username and modelType
         collection_stats = {
             "start_time": datetime.now().isoformat(),
             "keystroke_count": 0,
             "active": True,
             "target": 10000,
-            "last_error": None
+            "last_error": None,
+            "username": username,
+            "model_type": modelType
         }
         
         # Set up keyboard listener
         listener = keyboard.Listener(on_press=on_press, on_release=on_release)
         listener.start()
         collection_active = True
-        logger.info("Keystroke collection started successfully")
+        logger.info(f"Keystroke collection started successfully for user {username} with model type {modelType}")
         return True
     except Exception as e:
         error_msg = f"Error starting keystroke collection: {str(e)}"
