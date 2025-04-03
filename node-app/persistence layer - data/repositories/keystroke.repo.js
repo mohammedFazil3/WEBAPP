@@ -51,37 +51,9 @@ class KeystrokeRepository {
     }
   }
 
-  /**
-   * Train a model
-   * @param {string} modelType - Model type (fixed-text, free-text, multi-binary)
-   * @param {Object} parameters - Training parameters
-   */
-  async trainModel(modelType, parameters) {
-    try {
-      const response = await this.axiosInstance.post('/api/keystroke/train', {
-        modelType,
-        parameters
-      });
-      return response.data.jobId;
-    } catch (error) {
-      logger.error(`Error in KeystrokeRepository.trainModel for ${modelType}:`, error);
-      throw error;
-    }
-  }
+  
 
-  /**
-   * Get training status
-   * @param {string} jobId - Training job ID
-   */
-  async getTrainingStatus(jobId) {
-    try {
-      const response = await this.axiosInstance.get(`/api/keystroke/status/${jobId}`);
-      return response.data;
-    } catch (error) {
-      logger.error(`Error in KeystrokeRepository.getTrainingStatus for ${jobId}:`, error);
-      throw error;
-    }
-  }
+  
 
   /**
    * Make prediction with model
@@ -111,19 +83,6 @@ class KeystrokeRepository {
       return response.data;
     } catch (error) {
       logger.error(`Error in KeystrokeRepository.switchActiveModel to ${modelType}:`, error);
-      throw error;
-    }
-  }
-
-  /**
-   * Get data collection status for free-text model
-   */
-  async getDataCollectionStatus() {
-    try {
-      const response = await this.axiosInstance.get('/api/keystroke/collection/status');
-      return response.data;
-    } catch (error) {
-      logger.error('Error in KeystrokeRepository.getDataCollectionStatus:', error);
       throw error;
     }
   }
@@ -264,6 +223,174 @@ class KeystrokeRepository {
       throw error;
     }
   }
+
+//I AM STARTING FROM HERE................
+
+//KEYSTROKE COLLECTION FUNCTIONS:
+
+  //Keylogger Starting Function:
+  /**
+   * Start keystroke collection for a user
+   * @param {string} username - User to collect keystrokes from
+   * @param {string} modelType - Model type (fixed-text, free-text, multi-binary)
+   */
+  async startKeystrokeCollection(username, modelType) {
+    try {
+      const response = await this.axiosInstance.post(`/api/keystroke/collection/start/${username}/${modelType}`);
+      return response.data;
+    } catch (error) {
+      logger.error(`Error in KeystrokeRepository.startKeystrokeCollection for user ${username} and model ${modelType}:`, error);
+      throw error;
+    }
+  }
+
+  //Keylogger Stopping Function:
+  /**
+   * Stop keystroke collection
+   */
+  async stopKeystrokeCollection() {
+    try {
+      const response = await this.axiosInstance.post('/api/keystroke/collection/stop');
+      return response.data;
+    } catch (error) {
+      logger.error('Error in KeystrokeRepository.stopKeystrokeCollection:', error);
+      throw error;
+    }
+  }
+
+  //Keylogger Status Function:
+  /**
+   * Get keystroke collection status
+   */
+  async getKeystrokeCollectionStatus() {
+    try {
+      const response = await this.axiosInstance.get('/api/keystroke/collection/status');
+      return response.data;
+    } catch (error) {
+      logger.error('Error in KeystrokeRepository.getKeystrokeCollectionStatus:', error);
+      throw error;
+    }
+  }
+  
+  //Download Keystrokes by Date,Username,Model type Function:
+  /**
+   * Download keystroke collection data
+   * @param {string} username - Username for filtering data (required)
+   * @param {string} modelType - Model type to download data for (required)
+   * @param {string} date - Optional date parameter (defaults to current date)
+   * @returns {Blob} - CSV file as blob data
+   */
+  async downloadKeystrokeData(username, modelType, date = null) {
+    if (!username || !modelType) {
+      throw new Error("Both 'name' and 'modelType' parameters are required");
+    }
+
+    try {
+      let url = '/api/keystroke/collection/download';
+      
+      // Build query parameters
+      const queryParams = [
+        `name=${encodeURIComponent(username)}`,
+        `modelType=${encodeURIComponent(modelType)}`
+      ];
+      
+      // Add date parameter if provided
+      if (date) {
+        queryParams.push(`date=${encodeURIComponent(date)}`);
+      }
+      
+      url += `?${queryParams.join('&')}`;
+      
+      // Use responseType: 'blob' to handle binary data
+      const response = await this.axiosInstance.get(url, { responseType: 'blob' });
+      return response.data;
+    } catch (error) {
+      logger.error('Error in KeystrokeRepository.downloadKeystrokeData:', error);
+      throw error;
+    }
+  }
+
+  //Get all available files in "keystroke_collection" directory Function:
+  /**
+   * Get a list of all available keystroke collection files
+   */
+  async getKeystrokeFiles() {
+    try {
+      const response = await this.axiosInstance.get('/api/keystroke/collection/files');
+      return response.data;
+    } catch (error) {
+      logger.error('Error in KeystrokeRepository.getKeystrokeFiles:', error);
+      throw error;
+    }
+  }
+
+  //Get keystroke file by date Function:
+  /**
+   * Get keystroke data for a specific date
+   * @param {string} date - Date in YYYY-MM-DD format
+   */
+  async getKeystrokeDataByDate(date) {
+    try {
+      const response = await this.axiosInstance.get(`/api/keystroke/collection/download/${date}`);
+      return response.data;
+    } catch (error) {
+      logger.error(`Error in KeystrokeRepository.getKeystrokeDataByDate for date ${date}:`, error);
+      throw error;
+    }
+  }
+
+//MODEL TRAINING FUNCTIONS:
+
+  //Train a preprocessed keystroke file Function:
+  /**
+   * Train a keystroke model with the specified parameters
+   * @param {string} modelType - Model type (fixed-text, free-text, multi-binary)
+   * @param {Object} parameters - Training parameters
+   * @param {string} username - Username for model training
+   */
+  async trainKeystrokeModel(modelType, parameters, username) {
+    try {
+      const requestData = {
+        modelType,
+        parameters,
+        username
+      };
+      
+      const response = await this.axiosInstance.post('/api/keystroke/train', requestData);
+      return response.data;
+    } catch (error) {
+      logger.error(`Error in KeystrokeRepository.trainKeystrokeModel for ${modelType}:`, error);
+      throw error;
+    }
+  }
+
+  //Checking status of model training Function:
+  /**
+   * Get training status for a specific job
+   * @param {string} jobId - Training job ID
+   */
+  async getKeystrokeTrainingStatus(jobId) {
+    try {
+      const response = await this.axiosInstance.get(`/api/keystroke/status/${jobId}`);
+      return response.data;
+    } catch (error) {
+      logger.error(`Error in KeystrokeRepository.getKeystrokeTrainingStatus for job ${jobId}:`, error);
+      throw error;
+    }
+  }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 module.exports = new KeystrokeRepository();

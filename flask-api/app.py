@@ -15,6 +15,13 @@ from keystroke import keystroke_collector
 from models import fixed_text_model, free_text_model, multi_binary_model
 from preprocessing import keystroke_processor
 from utils import scheduler, data_handler
+from keystroke.freetext_keystroke_collector import (
+    start_free_text_collection,
+    stop_free_text_collection,
+    toggle_anomaly_detection,
+    get_status,
+    set_keystroke_threshold
+)
 
 # Set up logging
 from log_config import setup_logging
@@ -215,23 +222,36 @@ def get_collection_status():
 def download_keystrokes():
     """Download keystroke CSV file"""
     try:
-        # Get the file date from query param, default to today
+        # Get query parameters
         file_date = request.args.get('date', datetime.now().strftime('%Y-%m-%d'))
-        csv_file = os.path.join(keystroke_collector.key_log_dir, f'keystrokes_{file_date}.csv')
+        username = request.args.get('name')
+        model_type = request.args.get('modelType')
+        
+        # Validate required parameters
+        if not username or not model_type:
+            return jsonify({
+                "success": False,
+                "message": "Both 'name' and 'modelType' parameters are required"
+            }), 400
+            
+        # Construct file path with username and modelType
+        filename = f'keystrokes_{username}_{model_type}_{file_date}.csv'
+        csv_file = os.path.join(keystroke_collector.key_log_dir, filename)
         
         if not os.path.exists(csv_file):
             return jsonify({
                 "success": False,
-                "message": f"No keystroke data available for {file_date}"
+                "message": f"No keystroke data available for user {username} with model type {model_type} on {file_date}"
             }), 404
         
         return send_file(
             csv_file,
             mimetype='text/csv',
             as_attachment=True,
-            download_name=f'keystrokes_{file_date}.csv'
+            download_name=filename
         )
     except Exception as e:
+        logger.error(f"Error downloading keystroke data: {str(e)}")
         return jsonify({
             "success": False,
             "error": str(e)
@@ -419,7 +439,6 @@ def upload_fixed_text_data(username):
             "error": str(e)
         }), 500
 
-##Kinda irrelevant api routes
 @app.route('/api/keystroke/models', methods=['GET'])
 def get_models():
     """Get all available models"""
@@ -493,7 +512,7 @@ def get_active_model():
     except Exception as e:
         logger.error(f"Error getting active model: {str(e)}")
         return jsonify({'error': str(e)}), 500
-
+    
 @app.route('/api/keystroke/train', methods=['POST'])
 def train_model():
     """Start model training"""
@@ -501,9 +520,76 @@ def train_model():
         data = request.json
         model_type = data.get('modelType')
         parameters = data.get('parameters', {})
+        username = data.get('username')
         
         if model_type not in model_map:
             return jsonify({'error': 'Invalid model type'}), 400
+        
+        # Check for required username parameter
+        if not username:
+            return jsonify({'error': 'Username is required for training'}), 400
+            
+        # Validate that keystroke data exists for this user and model type
+        if model_type == 'fixed-text':
+            # Construct the expected keystroke collection file path
+            keystroke_file = os.path.join(
+                keystroke_collector.key_log_dir,
+                f'keystrokes_{username}_{model_type}_{datetime.now().strftime("%Y-%m-%d")}.csv'
+            )
+            
+            # Also check for any file matching the pattern for this user and model type
+            file_exists = False
+            if os.path.exists(keystroke_file):
+                file_exists = True
+            else:
+                # Try to find any file for this user and model type
+                files = [f for f in os.listdir(keystroke_collector.key_log_dir) 
+                         if f.startswith(f'keystrokes_{username}_{model_type}_') and f.endswith('.csv')]
+                if files:
+                    keystroke_file = os.path.join(keystroke_collector.key_log_dir, files[0])
+                    file_exists = True
+            
+            if not file_exists:
+                return jsonify({
+                    'error': 'No keystroke collection data found for this user and model type',
+                    'message': 'Please collect keystroke data first before training'
+                }), 400
+                
+            # Preprocess the data before training
+            try:
+                # Create the directory if it doesn't exist
+                os.makedirs('storage/data', exist_ok=True)
+                
+                # Read the raw keystroke data
+                df = pd.read_csv(keystroke_file)
+                
+                # Basic validation that the file has the expected format
+                required_columns = ['Timestamp_Press','Timestamp_Release','Key Stroke','Application','Hold Time']
+                
+                missing_columns = [col for col in required_columns if col not in df.columns]
+                if missing_columns:
+                    return jsonify({
+                        "success": False,
+                        "error": f"CSV file is missing required columns: {', '.join(missing_columns)}"
+                    }), 400
+                
+                # Process the data
+                preprocessedDatadf = keystroke_processor.preprocess_keystroke_data(df, username, additional_users={
+                    "Aisha": "storage/data/FixedText_Aisha.csv",
+                    "Misbah": "storage/data/FixedText_Misbah.csv"
+                })
+                
+                # Save preprocessed data to CSV
+                preprocessed_filepath = os.path.join('storage/data', 'fixed_text_data_preprocessed.csv')
+                preprocessedDatadf.to_csv(preprocessed_filepath, index=False)
+                
+                logger.info(f"Preprocessed keystroke data for {username} saved to {preprocessed_filepath}")
+                
+            except Exception as e:
+                return jsonify({
+                    "success": False,
+                    "error": f"Error preprocessing keystroke data: {str(e)}"
+                }), 400
         
         # Generate a unique job ID
         job_id = str(uuid.uuid4())
@@ -513,6 +599,7 @@ def train_model():
             'id': job_id,
             'model_type': model_type,
             'parameters': parameters,
+            'username': username,
             'status': 'pending',
             'created_at': datetime.now().isoformat()
         }
@@ -557,6 +644,342 @@ def get_training_status(job_id):
     except Exception as e:
         logger.error(f"Error getting job status: {str(e)}")
         return jsonify({'error': str(e)}), 500
+
+#------------ FREE-TEXT KEYSTROKE COLLECTION API ROUTES ------------#
+
+@app.route('/api/keystroke/free-text/start/<username>', methods=['POST'])
+def start_free_text_keystroke_collection(username):
+    """Start collecting keystrokes for free-text model with anomaly detection"""
+    try:
+        success, message = start_free_text_collection(username)
+        
+        if success:
+            return jsonify({
+                "success": True,
+                "message": message,
+                "status": get_status()
+            })
+        else:
+            return jsonify({
+                "success": False,
+                "message": message,
+                "status": get_status()
+            }), 400
+    except Exception as e:
+        logger.error(f"Error starting free-text collection: {str(e)}")
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+@app.route('/api/keystroke/free-text/stop', methods=['POST'])
+def stop_free_text_keystroke_collection():
+    """Stop collecting keystrokes for free-text model"""
+    try:
+        success, message = stop_free_text_collection()
+        
+        if success:
+            return jsonify({
+                "success": True,
+                "message": message,
+                "status": get_status()
+            })
+        else:
+            return jsonify({
+                "success": False,
+                "message": message,
+                "status": get_status()
+            }), 400
+    except Exception as e:
+        logger.error(f"Error stopping free-text collection: {str(e)}")
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+@app.route('/api/keystroke/free-text/status', methods=['GET'])
+def get_free_text_collection_status():
+    """Get free-text keystroke collection status"""
+    try:
+        # Get status from both collectors
+        free_text_status = get_status()
+        collection_status = free_text.get_collection_status()
+        
+        # Combine the statuses
+        combined_status = {
+            "success": True,
+            "collection_status": collection_status,
+            "free_text_status": free_text_status
+        }
+        
+        return jsonify(combined_status)
+    except Exception as e:
+        logger.error(f"Error getting free-text collection status: {str(e)}")
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+@app.route('/api/keystroke/free-text/detection/<action>', methods=['POST'])
+def toggle_free_text_anomaly_detection(action):
+    """Enable or disable real-time anomaly detection during free-text collection"""
+    try:
+        if action not in ['enable', 'disable']:
+            return jsonify({
+                "success": False,
+                "message": "Invalid action. Use 'enable' or 'disable'."
+            }), 400
+        
+        enable = (action == 'enable')
+        success, message = toggle_anomaly_detection(enable)
+        
+        if success:
+            return jsonify({
+                "success": True,
+                "message": message,
+                "status": get_status()
+            })
+        else:
+            return jsonify({
+                "success": False,
+                "message": message,
+                "status": get_status()
+            }), 400
+    except Exception as e:
+        logger.error(f"Error toggling anomaly detection: {str(e)}")
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+@app.route('/api/keystroke/free-text/threshold', methods=['POST'])
+def set_free_text_threshold():
+    """Set the keystroke threshold for anomaly detection during free-text collection"""
+    try:
+        data = request.json
+        threshold = data.get('threshold', 30)
+        
+        if not isinstance(threshold, int) or threshold < 5:
+            return jsonify({
+                "success": False,
+                "message": "Threshold must be an integer >= 5"
+            }), 400
+        
+        success, message = set_keystroke_threshold(threshold)
+        
+        if success:
+            return jsonify({
+                "success": True,
+                "message": message,
+                "status": get_status()
+            })
+        else:
+            return jsonify({
+                "success": False,
+                "message": message,
+                "status": get_status()
+            }), 400
+    except Exception as e:
+        logger.error(f"Error setting threshold: {str(e)}")
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+@app.route('/api/keystroke/free-text/alerts', methods=['GET'])
+def get_free_text_alerts():
+    """Get alerts from free-text keystroke collection"""
+    try:
+        page = int(request.args.get('page', 1))
+        limit = int(request.args.get('limit', 20))
+        
+        # Get alerts directory
+        alerts_dir = os.path.join("storage", "alerts")
+        if not os.path.exists(alerts_dir):
+            return jsonify({
+                "success": True,
+                "alerts": [],
+                "total": 0
+            })
+        
+        # Get all free-text alert files
+        alert_files = [f for f in os.listdir(alerts_dir) if f.startswith('free_text_alert_') and f.endswith('.json')]
+        alert_files.sort(key=lambda x: os.path.getmtime(os.path.join(alerts_dir, x)), reverse=True)
+        
+        # Get total count
+        total = len(alert_files)
+        
+        # Apply pagination
+        start_idx = (page - 1) * limit
+        end_idx = start_idx + limit
+        paginated_files = alert_files[start_idx:end_idx] if start_idx < total else []
+        
+        # Load alert data
+        alerts = []
+        for f in paginated_files:
+            try:
+                with open(os.path.join(alerts_dir, f), 'r') as file:
+                    alert_data = json.load(file)
+                    
+                    # Add a link to download the CSV file if it exists
+                    csv_filename = f.replace('.json', '_keystrokes.csv')
+                    csv_path = os.path.join(alerts_dir, csv_filename)
+                    if os.path.exists(csv_path):
+                        alert_data['keystroke_csv_available'] = True
+                        alert_data['keystroke_csv_filename'] = csv_filename
+                    else:
+                        alert_data['keystroke_csv_available'] = False
+                    
+                    alerts.append(alert_data)
+            except Exception as e:
+                logger.error(f"Error reading alert file {f}: {str(e)}")
+        
+        return jsonify({
+            "success": True,
+            "alerts": alerts,
+            "total": total,
+            "page": page,
+            "limit": limit
+        })
+    except Exception as e:
+        logger.error(f"Error getting alerts: {str(e)}")
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+@app.route('/api/keystroke/free-text/alerts/<alert_id>/keystrokes', methods=['GET'])
+def get_free_text_alert_keystrokes(alert_id):
+    """Get keystrokes CSV for a specific alert"""
+    try:
+        # Sanitize alert_id to prevent path traversal
+        alert_id = os.path.basename(alert_id)
+        csv_file = os.path.join("storage", "alerts", f"{alert_id}_keystrokes.csv")
+        
+        if not os.path.exists(csv_file):
+            return jsonify({
+                "success": False,
+                "message": "Keystroke data not found for this alert"
+            }), 404
+        
+        return send_file(
+            csv_file,
+            mimetype='text/csv',
+            as_attachment=True,
+            download_name=f"{alert_id}_keystrokes.csv"
+        )
+    except Exception as e:
+        logger.error(f"Error getting keystroke data for alert {alert_id}: {str(e)}")
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+@app.route('/api/keystroke/free-text/train', methods=['POST'])
+def train_free_text_model():
+    """Train the free-text model using collected keystrokes"""
+    try:
+        # Check if we have enough keystrokes
+        status = get_status()
+        if status["keystroke_count"] < status["free_text_progress"]["target"]:
+            return jsonify({
+                "success": False,
+                "message": f"Not enough keystrokes collected. Need {status['free_text_progress']['target']} but only have {status['keystroke_count']}.",
+                "status": status
+            }), 400
+            
+        # Import the free text model
+        from models import free_text_model
+        free_text = free_text_model.FreeTextModel()
+        
+        # Get training parameters from request or use defaults
+        data = request.json or {}
+        parameters = data.get('parameters', {
+            'iterations': 100,
+            'learning_rate': 0.05,
+            'depth': 4
+        })
+        
+        # Start training
+        result = free_text.train(parameters)
+        
+        if result.get('success', False):
+            return jsonify({
+                "success": True,
+                "message": "Free-text model trained successfully",
+                "result": result,
+                "status": get_status()
+            })
+        else:
+            return jsonify({
+                "success": False,
+                "message": "Failed to train free-text model",
+                "result": result,
+                "status": get_status()
+            }), 500
+    except Exception as e:
+        logger.error(f"Error training free-text model: {str(e)}")
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+@app.route('/api/keystroke/free-text/analyze-progress', methods=['GET'])
+def analyze_free_text_progress():
+    """Analyze the free-text collection progress with detailed statistics"""
+    try:
+        status = get_status()
+        
+        # Get free-text collection file
+        free_text_file = os.path.join("storage", "free_text_collection.csv")
+        if not os.path.exists(free_text_file):
+            return jsonify({
+                "success": True,
+                "message": "No keystroke data collected yet",
+                "status": status,
+                "analysis": {
+                    "total_keystrokes": 0,
+                    "collection_started": False
+                }
+            })
+        
+        # Read and analyze the data
+        try:
+            df = pd.read_csv(free_text_file)
+            
+            # Basic statistics
+            analysis = {
+                "total_keystrokes": len(df),
+                "collection_started": True,
+                "collection_complete": len(df) >= status["free_text_progress"]["target"],
+                "unique_keys": len(df["Key Stroke"].unique()),
+                "applications": df["Application"].unique().tolist(),
+                "first_keystroke_time": df["Timestamp_Press"].iloc[0] if not df.empty else None,
+                "last_keystroke_time": df["Timestamp_Press"].iloc[-1] if not df.empty else None
+            }
+            
+            # Get counts by application
+            application_counts = df["Application"].value_counts().to_dict()
+            analysis["application_distribution"] = application_counts
+            
+            return jsonify({
+                "success": True,
+                "status": status,
+                "analysis": analysis
+            })
+        except Exception as e:
+            logger.error(f"Error analyzing free-text data: {str(e)}")
+            return jsonify({
+                "success": False,
+                "error": f"Error analyzing data: {str(e)}",
+                "status": status
+            }), 500
+    except Exception as e:
+        logger.error(f"Error analyzing free-text progress: {str(e)}")
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
 
 @app.route('/api/keystroke/predict', methods=['POST'])
 def predict():
@@ -628,16 +1051,6 @@ def switch_active_model(model_type):
         })
     except Exception as e:
         logger.error(f"Error switching active model: {str(e)}")
-        return jsonify({'error': str(e)}), 500
-
-@app.route('/api/keystroke/collection/status', methods=['GET'])
-def get_free_text_collection_status():
-    """Get keystroke collection status for free-text model"""
-    try:
-        status = free_text.get_collection_status()
-        return jsonify(status)
-    except Exception as e:
-        logger.error(f"Error getting collection status: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
 @app.route('/api/keystroke/alerts', methods=['GET'])
