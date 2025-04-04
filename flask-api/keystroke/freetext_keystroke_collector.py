@@ -14,6 +14,7 @@ from models import fixed_text_model
 from preprocessing import keystroke_processor
 import pickle
 import glob
+from . import transition_integration
 
 logger = logging.getLogger(__name__)
 
@@ -202,6 +203,9 @@ def start_free_text_collection(username):
         save_status()
         
         logger.info(f"Started free-text collection for user {username}")
+
+        # Start transition monitoring
+        transition_integration.init_transition_monitoring("keystroke.freetext_keystroke_collector")
         return True, "Free-text collection started successfully"
         
     except Exception as e:

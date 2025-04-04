@@ -1,0 +1,266 @@
+{{!-- presentation layer - routes/templates/biometric-session.handlebars --}}
+<div class="biometric-container">
+    <h1>Biometric Session</h1>
+    <h2 id="welcomeMessage">Welcome, {{username}}!</h2>
+    
+    {{#if error}}
+    <div class="error-banner">
+        {{error}}
+    </div>
+    {{/if}}
+    
+    <div class="instructions">
+        <p>For security and authentication purposes, please type each text sample exactly as it appears. 
+        Your typing patterns will be used to create your unique biometric profile.</p>
+        <p class="session-indicator">Session <span id="currentSession">1</span> of 3</p>
+    </div>
+    
+    <div class="session-container" id="session1">
+        <div class="fixed-text-container">
+            <p id="fixedText1">The quick brown fox jumps over the lazy dog. Security through biometrics provides a seamless way to verify your identity without passwords.</p>
+        </div>
+        
+        <div class="form-group">
+            <label for="typingInput1">Type the text exactly as shown above:</label>
+            <textarea id="typingInput1" placeholder="Start typing here..."></textarea>
+            <div id="typingError1" class="error">Please type the exact text shown above</div>
+        </div>
+        
+        <button id="nextButton1" class="next-button" disabled>Next Session</button>
+    </div>
+    
+    <div class="session-container" id="session2" style="display: none;">
+        <div class="fixed-text-container">
+            <p id="fixedText2">Biometric authentication measures unique physical characteristics to verify a person's identity. Examples include fingerprints, facial recognition, and keystroke dynamics.</p>
+        </div>
+        
+        <div class="form-group">
+            <label for="typingInput2">Type the text exactly as shown above:</label>
+            <textarea id="typingInput2" placeholder="Start typing here..."></textarea>
+            <div id="typingError2" class="error">Please type the exact text shown above</div>
+        </div>
+        
+        <button id="nextButton2" class="next-button" disabled>Next Session</button>
+    </div>
+    
+    <div class="session-container" id="session3" style="display: none;">
+        <div class="fixed-text-container">
+            <p id="fixedText3">Keystroke dynamics analyze typing patterns like rhythm, speed, and pressure. These factors create a unique profile that can help verify your identity based on how you type.</p>
+        </div>
+        
+        <div class="form-group">
+            <label for="typingInput3">Type the text exactly as shown above:</label>
+            <textarea id="typingInput3" placeholder="Start typing here..."></textarea>
+            <div id="typingError3" class="error">Please type the exact text shown above</div>
+        </div>
+        
+        <button id="nextButton3" class="next-button" disabled>Complete Training</button>
+    </div>
+    
+    <form id="submissionForm" action="/submit-biometric" method="POST" style="display: none;">
+        <input type="hidden" name="username" value="{{username}}">
+        <input type="hidden" name="sessionsCompleted" value="3">
+    </form>
+</div>
+
+<style>
+    /* Custom styles for the biometric session page */
+    .biometric-container {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 700px;
+        padding: 30px;
+        margin: 0 auto;
+    }
+    
+    h1 {
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 10px;
+        font-size: 24px;
+    }
+    
+    h2 {
+        color: #3498db;
+        text-align: center;
+        margin-bottom: 20px;
+        font-weight: normal;
+        font-size: 18px;
+    }
+    
+    .session-indicator {
+        text-align: center;
+        font-weight: bold;
+        color: #3498db;
+        margin-top: 10px;
+    }
+    
+    .instructions {
+        margin-bottom: 25px;
+        color: #4a5568;
+        line-height: 1.6;
+    }
+    
+    .fixed-text-container {
+        background-color: #f8f9fa;
+        border-radius: 6px;
+        padding: 20px;
+        margin-bottom: 25px;
+        border-left: 4px solid #3498db;
+    }
+    
+    .fixed-text-container p {
+        font-size: 18px;
+        line-height: 1.6;
+        color: #2c3e50;
+        margin: 0;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: 600;
+        color: #4a5568;
+        font-size: 14px;
+    }
+    
+    textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+        box-sizing: border-box;
+        min-height: 120px;
+        resize: vertical;
+        line-height: 1.6;
+    }
+    
+    textarea:focus {
+        border-color: #3498db;
+        outline: none;
+    }
+    
+    .error {
+        color: #e74c3c;
+        font-size: 14px;
+        margin-top: 5px;
+        display: none;
+    }
+    
+    .error-banner {
+        background-color: #ffebee;
+        color: #e74c3c;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    
+    .next-button {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 12px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        width: 100%;
+        transition: background-color 0.3s, opacity 0.3s;
+    }
+    
+    .next-button:hover:not([disabled]) {
+        background-color: #2980b9;
+    }
+    
+    .next-button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+    
+    .session-container {
+        transition: all 0.3s ease;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const session1 = document.getElementById('session1');
+        const session2 = document.getElementById('session2');
+        const session3 = document.getElementById('session3');
+        const currentSessionIndicator = document.getElementById('currentSession');
+        
+        const fixedText1 = document.getElementById('fixedText1').textContent;
+        const fixedText2 = document.getElementById('fixedText2').textContent;
+        const fixedText3 = document.getElementById('fixedText3').textContent;
+        
+        const typingInput1 = document.getElementById('typingInput1');
+        const typingInput2 = document.getElementById('typingInput2');
+        const typingInput3 = document.getElementById('typingInput3');
+        
+        const typingError1 = document.getElementById('typingError1');
+        const typingError2 = document.getElementById('typingError2');
+        const typingError3 = document.getElementById('typingError3');
+        
+        const nextButton1 = document.getElementById('nextButton1');
+        const nextButton2 = document.getElementById('nextButton2');
+        const nextButton3 = document.getElementById('nextButton3');
+        
+        const submissionForm = document.getElementById('submissionForm');
+        
+        // Hide error messages initially
+        typingError1.style.display = 'none';
+        typingError2.style.display = 'none';
+        typingError3.style.display = 'none';
+        
+        // Setup event listeners for text inputs
+        setupInputValidation(typingInput1, fixedText1, nextButton1);
+        setupInputValidation(typingInput2, fixedText2, nextButton2);
+        setupInputValidation(typingInput3, fixedText3, nextButton3);
+        
+        // Focus on the first input
+        typingInput1.focus();
+        
+        // Set up navigation between sessions
+        nextButton1.addEventListener('click', function() {
+            session1.style.display = 'none';
+            session2.style.display = 'block';
+            currentSessionIndicator.textContent = '2';
+            typingInput2.focus();
+        });
+        
+        nextButton2.addEventListener('click', function() {
+            session2.style.display = 'none';
+            session3.style.display = 'block';
+            currentSessionIndicator.textContent = '3';
+            typingInput3.focus();
+        });
+        
+        nextButton3.addEventListener('click', function() {
+            // Submit the form to complete the biometric session
+            submissionForm.submit();
+        });
+        
+        // Function to validate input text against fixed text
+        function setupInputValidation(inputElement, fixedText, buttonElement) {
+            inputElement.addEventListener('input', function() {
+                const userInput = inputElement.value.trim();
+                const expectedText = fixedText.trim();
+                
+                // Enable button only when text matches exactly
+                if (userInput === expectedText) {
+                    buttonElement.disabled = false;
+                } else {
+                    buttonElement.disabled = true;
+                }
+            });
+        }
+    });
+</script>

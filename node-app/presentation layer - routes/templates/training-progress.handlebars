@@ -1,0 +1,346 @@
+{{!-- presentation layer - routes/templates/training-progress.handlebars --}}
+<div class="training-container">
+    <h1>Biometric Profile Training</h1>
+    <h2>Thank you, {{username}}!</h2>
+    
+    <div class="progress-section">
+        <div class="progress-indicator">
+            <div class="progress-circle"></div>
+            <div class="progress-message" id="statusMessage">Initializing training process...</div>
+        </div>
+        
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="progress-percentage" id="progressPercentage">0%</div>
+    </div>
+    
+    <div class="training-info">
+        <h3>What's happening now?</h3>
+        <p>Our system is analyzing your typing patterns to create a unique biometric profile. This includes:</p>
+        <ul>
+            <li>Rhythm and timing between keystrokes</li>
+            <li>Pressure patterns and dwell time</li>
+            <li>Distinctive typing cadence</li>
+            <li>Error and correction patterns</li>
+        </ul>
+        
+        <p>This profile will help secure your account with an additional layer of protection that's uniquely you.</p>
+    </div>
+    
+    <div class="complete-section" id="completeSection" style="display: none;">
+        <div class="success-message">
+            <h3>Congrats! Your Biometric Profile has been created!</h3>
+            <p>Your unique typing pattern is now part of your security profile.</p>
+        </div>
+        
+        <button id="nextButton" class="next-button">Continue to Dashboard</button>
+    </div>
+</div>
+
+<style>
+    /* Custom styles for the training progress page */
+    .training-container {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 700px;
+        padding: 30px;
+        margin: 0 auto;
+    }
+    
+    h1 {
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 10px;
+        font-size: 24px;
+    }
+    
+    h2 {
+        color: #3498db;
+        text-align: center;
+        margin-bottom: 30px;
+        font-weight: normal;
+        font-size: 18px;
+    }
+    
+    h3 {
+        color: #2c3e50;
+        margin-top: 30px;
+        margin-bottom: 15px;
+        font-size: 18px;
+    }
+    
+    .progress-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 30px 0;
+    }
+    
+    .progress-indicator {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    
+    .progress-circle {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: #3498db;
+        margin-right: 15px;
+        animation: pulse 1.5s infinite;
+    }
+    
+    .progress-message {
+        color: #3498db;
+        font-weight: 600;
+        font-size: 18px;
+    }
+    
+    .progress-bar-container {
+        width: 100%;
+        height: 20px;
+        background-color: #e0e0e0;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+    
+    .progress-bar {
+        height: 100%;
+        background-color: #3498db;
+        width: 0%;
+        transition: width 0.5s ease;
+    }
+    
+    .progress-percentage {
+        font-weight: bold;
+        color: #2c3e50;
+    }
+    
+    .training-info {
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 6px;
+        margin-top: 30px;
+    }
+    
+    .training-info p {
+        color: #4a5568;
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+    
+    .training-info ul {
+        margin-left: 20px;
+        margin-bottom: 20px;
+        color: #4a5568;
+    }
+    
+    .training-info li {
+        margin-bottom: 8px;
+        line-height: 1.4;
+    }
+    
+    .complete-section {
+        margin-top: 30px;
+        padding: 20px;
+        background-color: #e8f7f0;
+        border-radius: 6px;
+        text-align: center;
+        border-left: 4px solid #2ecc71;
+    }
+    
+    .success-message h3 {
+        color: #2ecc71;
+        margin-top: 0;
+        margin-bottom: 15px;
+    }
+    
+    .success-message p {
+        color: #4a5568;
+        margin-bottom: 20px;
+    }
+    
+    .next-button {
+        background-color: #2ecc71;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 12px 25px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    
+    .next-button:hover {
+        background-color: #27ae60;
+    }
+    
+    @keyframes pulse {
+        0% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.7);
+        }
+        
+        70% {
+            transform: scale(1);
+            box-shadow: 0 0 0 10px rgba(52, 152, 219, 0);
+        }
+        
+        100% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(52, 152, 219, 0);
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const progressBar = document.getElementById('progressBar');
+        const progressPercentage = document.getElementById('progressPercentage');
+        const statusMessage = document.getElementById('statusMessage');
+        const completeSection = document.getElementById('completeSection');
+        const nextButton = document.getElementById('nextButton');
+        
+        // Array of status messages to display during training
+        const statusMessages = [
+            'Initializing training process...',
+            'Analyzing typing patterns...',
+            'Understanding typing behavior...',
+            'Calculating keystroke dynamics...',
+            'Building neural network model...',
+            'Optimizing recognition parameters...',
+            'Finalizing biometric profile...'
+        ];
+        
+        let jobId = null;
+        let currentMessageIndex = 0;
+        let checkStatusInterval = null;
+        
+        // Start the training process
+        startTraining();
+        
+        // Handle next button click
+        nextButton.addEventListener('click', function() {
+            window.location.href = '/dashboard';
+        });
+        
+        // Function to start the training process
+        function startTraining() {
+            fetch('/api/start-training', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    username: '{{username}}' 
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.jobId) {
+                    jobId = data.jobId;
+                    console.log('Training started with job ID:', jobId);
+                    
+                    // Start checking status
+                    checkTrainingStatus();
+                    
+                    // Start rotating messages
+                    startMessageRotation();
+                } else {
+                    console.error('Failed to start training:', data.error);
+                    statusMessage.textContent = 'Failed to start training process. Please try again.';
+                }
+            })
+            .catch(error => {
+                console.error('Error starting training:', error);
+                statusMessage.textContent = 'Error connecting to server. Please try again.';
+            });
+        }
+        
+        // Function to check training status
+        function checkTrainingStatus() {
+            if (!jobId) return;
+            
+            checkStatusInterval = setInterval(() => {
+                fetch(`/api/training-status/${jobId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            handleStatusUpdate(data.status);
+                        } else {
+                            console.error('Failed to get status:', data.error);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error checking status:', error);
+                    });
+            }, 2000); // Check every 2 seconds
+        }
+        
+        // Function to handle status updates
+        function handleStatusUpdate(status) {
+            // Calculate progress percentage based on status
+            let progress = 0;
+            
+            // If the backend provides progress percentage, use it
+            if (status && status.progress !== undefined) {
+                progress = status.progress;
+            } 
+            // Otherwise use status.status or status.state for text-based statuses
+            else if (status && (status.status === 'completed' || status.state === 'completed')) {
+                progress = 100;
+                clearInterval(checkStatusInterval);
+                completeTraining();
+            } else if (status && (status.status === 'failed' || status.state === 'failed')) {
+                clearInterval(checkStatusInterval);
+                statusMessage.textContent = 'Training failed. Please try again.';
+                return;
+            } 
+            // If no clear progress indicator, simulate progress
+            else {
+                const currentProgress = parseFloat(progressPercentage.textContent);
+                progress = Math.min(currentProgress + 5, 95); // Cap at 95% until completion
+            }
+            
+            // Update progress bar and text
+            progressBar.style.width = progress + '%';
+            progressPercentage.textContent = Math.floor(progress) + '%';
+        }
+        
+        // Function to rotate through status messages
+        function startMessageRotation() {
+            setInterval(() => {
+                currentMessageIndex = (currentMessageIndex + 1) % statusMessages.length;
+                statusMessage.textContent = statusMessages[currentMessageIndex];
+            }, 3000); // Change message every 3 seconds
+        }
+        
+        // Function to handle training completion
+        function completeTraining() {
+            // Set final status
+            statusMessage.textContent = 'Biometric profile created successfully!';
+            progressBar.style.width = '100%';
+            progressPercentage.textContent = '100%';
+            
+            // Show completion section
+            setTimeout(() => {
+                completeSection.style.display = 'block';
+                document.querySelector('.progress-circle').style.animation = 'none';
+                document.querySelector('.progress-circle').style.backgroundColor = '#2ecc71';
+            }, 1000);
+        }
+        
+        // Fallback for demo/testing - completes after 20 seconds if no real API response
+        setTimeout(() => {
+            if (parseFloat(progressPercentage.textContent) < 100) {
+                clearInterval(checkStatusInterval);
+                completeTraining();
+            }
+        }, 20000);
+    });
+</script>

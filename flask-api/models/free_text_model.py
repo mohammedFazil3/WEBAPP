@@ -170,6 +170,15 @@ class FreeTextModel(BaseModel):
             
             # Save model and info
             self._save_model()
+
+            # If training was successful, update the active model file
+            if accuracy > 0.7:  # Use an appropriate threshold
+                try:
+                    # Import here to avoid circular imports
+                    from keystroke.model_transition_handler import switch_active_model
+                    switch_active_model("free-text")
+                except Exception as e:
+                    logger.warning(f"Error switching active model: {str(e)}")
             
             # Save model metadata
             info = {

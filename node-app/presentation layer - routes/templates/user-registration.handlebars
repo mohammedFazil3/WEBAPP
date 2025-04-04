@@ -1,0 +1,176 @@
+{{!-- presentation layer - routes/templates/user-registration.handlebars --}}
+<div class="registration-container">
+    <h1>ProfilerX User Registration</h1>
+    
+    {{#if error}}
+    <div class="error-banner">
+        {{error}}
+    </div>
+    {{/if}}
+    
+    <form id="registrationForm" action="/submit-registration" method="POST" novalidate>
+        <div class="form-group">
+            <label for="username">Name</label>
+            <input type="text" id="username" name="username" placeholder="Enter your name">
+            <div id="usernameError" class="error">Name is required</div>
+        </div>
+        
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email address">
+            <div id="emailEmptyError" class="error">Email is required</div>
+            <div id="emailFormatError" class="error">Please enter a valid email address</div>
+        </div>
+        
+        <button type="submit">Begin Session</button>
+    </form>
+</div>
+
+<style>
+    /* Custom styles for the registration page */
+    .registration-container {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 450px;
+        padding: 30px;
+        margin: 0 auto;
+    }
+    
+    h1 {
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 24px;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #4a5568;
+        font-size: 14px;
+    }
+    
+    input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+        box-sizing: border-box;
+    }
+    
+    input:focus {
+        border-color: #3498db;
+        outline: none;
+    }
+    
+    .error {
+        color: #e74c3c;
+        font-size: 14px;
+        margin-top: 5px;
+        display: none;
+    }
+    
+    .error-banner {
+        background-color: #ffebee;
+        color: #e74c3c;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    
+    button {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 12px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        width: 100%;
+        transition: background-color 0.3s;
+    }
+    
+    button:hover {
+        background-color: #2980b9;
+    }
+    
+    .input-error {
+        border-color: #e74c3c;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('registrationForm');
+        const username = document.getElementById('username');
+        const email = document.getElementById('email');
+        
+        const usernameError = document.getElementById('usernameError');
+        const emailEmptyError = document.getElementById('emailEmptyError');
+        const emailFormatError = document.getElementById('emailFormatError');
+        
+        // Hide error messages initially
+        usernameError.style.display = 'none';
+        emailEmptyError.style.display = 'none';
+        emailFormatError.style.display = 'none';
+        
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            let isValid = true;
+            
+            // Reset previous error states
+            resetErrors();
+            
+            // Validate username
+            if (username.value.trim() === '') {
+                displayError(username, usernameError);
+                isValid = false;
+            }
+            
+            // Validate email
+            if (email.value.trim() === '') {
+                displayError(email, emailEmptyError);
+                isValid = false;
+            } else if (!isValidEmail(email.value)) {
+                displayError(email, emailFormatError);
+                isValid = false;
+            }
+            
+            if (isValid) {
+                // If the form is valid, submit it
+                form.submit();
+            }
+        });
+        
+        function displayError(input, errorElement) {
+            input.classList.add('input-error');
+            errorElement.style.display = 'block';
+        }
+        
+        function resetErrors() {
+            // Remove all error classes and hide error messages
+            username.classList.remove('input-error');
+            email.classList.remove('input-error');
+            
+            usernameError.style.display = 'none';
+            emailEmptyError.style.display = 'none';
+            emailFormatError.style.display = 'none';
+        }
+        
+        function isValidEmail(email) {
+            // Regular expression for email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+    });
+</script>

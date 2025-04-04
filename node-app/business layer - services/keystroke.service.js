@@ -1,268 +1,117 @@
-const keystrokeRepo = require('../persistence layer - data/repositories/keystroke.repo');
+const keystrokeRepo = require('../persistence layer - data/keystroke.repo');
 const logger = require('../config/winston');
 
 class KeystrokeService {
+
+  //I AM STARTING FROM HERE..................
+
   /**
-   * Get a summary of keystroke models and alerts
+   * Start keystroke collection for a user
+   * @param {string} username - User to collect keystrokes from
+   * @param {string} modelType - Model type (fixed-text, free-text, multi-binary)
    */
-  async getSummary() {
+  async startKeystrokeCollection(username, modelType) {
     try {
-      const summary = await keystrokeRepo.getSummary();
-      return summary;
+      return await keystrokeRepo.startKeystrokeCollection(username, modelType);
     } catch (error) {
-      logger.error('Error in KeystrokeService.getSummary:', error);
+      logger.error(`Error in KeystrokeService.startKeystrokeCollection for user ${username} and model ${modelType}:`, error);
       throw error;
     }
   }
 
   /**
-   * Get all available models
+   * Stop keystroke collection
    */
-  async getAllModels() {
+  async stopKeystrokeCollection() {
     try {
-      return await keystrokeRepo.getAllModels();
+      return await keystrokeRepo.stopKeystrokeCollection();
     } catch (error) {
-      logger.error('Error in KeystrokeService.getAllModels:', error);
+      logger.error('Error in KeystrokeService.stopKeystrokeCollection:', error);
       throw error;
     }
   }
 
   /**
-   * Get model details by type
-   * @param {string} modelType - Type of model
+   * Get keystroke collection status
    */
-  async getModelDetails(modelType) {
+  async getKeystrokeCollectionStatus() {
     try {
-      return await keystrokeRepo.getModelDetails(modelType);
+      return await keystrokeRepo.getKeystrokeCollectionStatus();
     } catch (error) {
-      logger.error('Error in KeystrokeService.getModelDetails:', error);
+      logger.error('Error in KeystrokeService.getKeystrokeCollectionStatus:', error);
+      throw error;
+    }
+  }
+  
+  /**
+   * Download keystroke collection data
+   * @param {string} username - Username for filtering data (required)
+   * @param {string} modelType - Model type to download data for (required)
+   * @param {string} date - Optional date parameter (defaults to current date)
+   * @returns {Blob} - CSV file as blob data
+   */
+  async downloadKeystrokeData(username, modelType, date = null) {
+    try {
+      return await keystrokeRepo.downloadKeystrokeData(username, modelType, date);
+    } catch (error) {
+      logger.error('Error in KeystrokeService.downloadKeystrokeData:', error);
       throw error;
     }
   }
 
   /**
-   * Get active model
+   * Get a list of all available keystroke collection files
    */
-  async getActiveModel() {
+  async getKeystrokeFiles() {
     try {
-      return await keystrokeRepo.getActiveModel();
+      return await keystrokeRepo.getKeystrokeFiles();
     } catch (error) {
-      logger.error('Error in KeystrokeService.getActiveModel:', error);
+      logger.error('Error in KeystrokeService.getKeystrokeFiles:', error);
       throw error;
     }
   }
 
   /**
-   * Train a model
-   * @param {string} modelType - Type of model to train
+   * Get keystroke data for a specific date
+   * @param {string} date - Date in YYYY-MM-DD format
+   */
+  async getKeystrokeDataByDate(date) {
+    try {
+      return await keystrokeRepo.getKeystrokeDataByDate(date);
+    } catch (error) {
+      logger.error(`Error in KeystrokeService.getKeystrokeDataByDate for date ${date}:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Train a keystroke model with the specified parameters
+   * @param {string} modelType - Model type (fixed-text, free-text, multi-binary)
    * @param {Object} parameters - Training parameters
+   * @param {string} username - Username for model training
    */
-  async trainModel(modelType, parameters) {
+  async trainKeystrokeModel(modelType, parameters, username) {
     try {
-      return await keystrokeRepo.trainModel(modelType, parameters);
+      return await keystrokeRepo.trainKeystrokeModel(modelType, parameters, username);
     } catch (error) {
-      logger.error('Error in KeystrokeService.trainModel:', error);
+      logger.error(`Error in KeystrokeService.trainKeystrokeModel for ${modelType}:`, error);
       throw error;
     }
   }
 
   /**
-   * Get training status
+   * Get training status for a specific job
    * @param {string} jobId - Training job ID
    */
-  async getTrainingStatus(jobId) {
+  async getKeystrokeTrainingStatus(jobId) {
     try {
-      return await keystrokeRepo.getTrainingStatus(jobId);
+      return await keystrokeRepo.getKeystrokeTrainingStatus(jobId);
     } catch (error) {
-      logger.error('Error in KeystrokeService.getTrainingStatus:', error);
+      logger.error(`Error in KeystrokeService.getKeystrokeTrainingStatus for job ${jobId}:`, error);
       throw error;
     }
   }
 
-  /**
-   * Make predictions
-   * @param {string} modelType - Type of model to use
-   * @param {Object} data - Input data
-   */
-  async predict(modelType, data) {
-    try {
-      return await keystrokeRepo.predict(modelType, data);
-    } catch (error) {
-      logger.error('Error in KeystrokeService.predict:', error);
-      throw error;
-    }
-  }
-
-  /**
-   * Switch active model
-   * @param {string} modelType - Type of model to activate
-   */
-  async switchActiveModel(modelType) {
-    try {
-      return await keystrokeRepo.switchActiveModel(modelType);
-    } catch (error) {
-      logger.error('Error in KeystrokeService.switchActiveModel:', error);
-      throw error;
-    }
-  }
-
-  /**
-   * Get data collection status
-   */
-  async getDataCollectionStatus() {
-    try {
-      return await keystrokeRepo.getDataCollectionStatus();
-    } catch (error) {
-      logger.error('Error in KeystrokeService.getDataCollectionStatus:', error);
-      throw error;
-    }
-  }
-
-  /**
-   * Get recent alerts
-   * @param {number} limit - Number of alerts to retrieve
-   */
-  async getRecentAlerts(limit) {
-    try {
-      const alerts = await keystrokeRepo.getRecentAlerts(limit);
-      
-      // Transform alerts to a common format
-      return alerts.map(alert => ({
-        id: alert.id,
-        timestamp: alert.timestamp,
-        description: alert.description || 'Unknown alert',
-        level: alert.level || 0,
-        source: 'keystroke',
-        type: alert.type || 'unknown',
-        details: alert
-      }));
-    } catch (error) {
-      logger.error('Error in KeystrokeService.getRecentAlerts:', error);
-      throw error;
-    }
-  }
-
-  /**
-   * Get alerts with pagination
-   * @param {number} page - Page number
-   * @param {number} limit - Items per page
-   * @param {string} filter - Filter string
-   */
-  async getAlerts(page, limit, filter) {
-    try {
-      const result = await keystrokeRepo.getAlerts(page, limit, filter);
-      
-      // Transform alerts to a common format
-      const alerts = result.items.map(alert => ({
-        id: alert.id,
-        timestamp: alert.timestamp,
-        description: alert.description || 'Unknown alert',
-        level: alert.level || 0,
-        source: 'keystroke',
-        type: alert.type || 'unknown',
-        details: alert
-      }));
-      
-      return {
-        alerts,
-        totalCount: result.totalItems
-      };
-    } catch (error) {
-      logger.error('Error in KeystrokeService.getAlerts:', error);
-      throw error;
-    }
-  }
-
-  /**
-   * Get alert by ID
-   * @param {string} id - Alert ID
-   */
-  async getAlertById(id) {
-    try {
-      const alert = await keystrokeRepo.getAlertById(id);
-      
-      if (!alert) {
-        return null;
-      }
-      
-      return {
-        id: alert.id,
-        timestamp: alert.timestamp,
-        description: alert.description || 'Unknown alert',
-        level: alert.level || 0,
-        source: 'keystroke',
-        type: alert.type || 'unknown',
-        details: alert
-      };
-    } catch (error) {
-      logger.error('Error in KeystrokeService.getAlertById:', error);
-      throw error;
-    }
-  }
-
-  /**
-   * Get all schedules
-   */
-  async getSchedules() {
-    try {
-      return await keystrokeRepo.getSchedules();
-    } catch (error) {
-      logger.error('Error in KeystrokeService.getSchedules:', error);
-      throw error;
-    }
-  }
-
-  /**
-   * Create a new schedule
-   * @param {Object} scheduleData - Schedule data
-   */
-  async createSchedule(scheduleData) {
-    try {
-      return await keystrokeRepo.createSchedule(scheduleData);
-    } catch (error) {
-      logger.error('Error in KeystrokeService.createSchedule:', error);
-      throw error;
-    }
-  }
-
-  /**
-   * Update a schedule
-   * @param {string} id - Schedule ID
-   * @param {Object} scheduleData - Updated schedule data
-   */
-  async updateSchedule(id, scheduleData) {
-    try {
-      return await keystrokeRepo.updateSchedule(id, scheduleData);
-    } catch (error) {
-      logger.error('Error in KeystrokeService.updateSchedule:', error);
-      throw error;
-    }
-  }
-
-  /**
-   * Delete a schedule
-   * @param {string} id - Schedule ID
-   */
-  async deleteSchedule(id) {
-    try {
-      return await keystrokeRepo.deleteSchedule(id);
-    } catch (error) {
-      logger.error('Error in KeystrokeService.deleteSchedule:', error);
-      throw error;
-    }
-  }
-
-  /**
-   * Get users for multi-binary model
-   */
-  async getMultiBinaryUsers() {
-    try {
-      return await keystrokeRepo.getMultiBinaryUsers();
-    } catch (error) {
-      logger.error('Error in KeystrokeService.getMultiBinaryUsers:', error);
-      throw error;
-    }
-  }
 }
 
 module.exports = new KeystrokeService(); 

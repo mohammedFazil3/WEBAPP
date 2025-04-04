@@ -1,60 +1,40 @@
-// app.js - Main application entry point
+// app.js
 const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const morgan = require('morgan');
-const cors = require('cors');
-const session = require('express-session');
-const { errorHandler } = require('./middleware/error');
-const config = require('./config/config');
+const bodyParser = require('body-parser');
+const fileupload = require('express-fileupload');
+const handlebars = require('express-handlebars');
 
 // Import routes
-const dashboardRoutes = require('./presentation layer - routes/dashboard');
-const wazuhApiRoutes = require('./presentation layer - routes/api/wazuh');
-const anomalyApiRoutes = require('./presentation layer - routes/api/anomaly');
-const keystrokeApiRoutes = require('./presentation layer - routes/api/keystroke');
-const keystrokeRoutes = require('./presentation layer - routes/keystroke');
-const settingsRoutes = require('./presentation layer - routes/settings');
+const htmlPresentation = require('./presentation layer - routes/htmlPresentation');
 
-const wazuhService = require('./business layer - services/wazuh.service');
-const keystrokeService = require('./business layer - services/keystroke.service');
-const anomalyService = require('./business layer - services/anomaly.service');
+// Initializing the Express app
+let app = express();
 
-const app = express();
+// Middleware setup
+app.use(fileupload());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use("/static", express.static(__dirname + "/static"));
 
-// View engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
-// Middleware
-app.use(cors());
-app.use(morgan('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({
-  secret: config.sessionSecret,
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: config.env === 'production' }
+// Setting up view engine with Handlebars
+app.set('views', __dirname + "/presentation layer - routes/templates");
+app.set('view engine', 'handlebars');
+app.engine('handlebars', handlebars.engine({
+  defaultLayout: false // No layout for simplicity
 }));
 
-// Routes
-app.use('/', dashboardRoutes);
-app.use('/api/wazuh', wazuhApiRoutes);
-app.use('/api/anomaly', anomalyApiRoutes);
-app.use('/api/keystroke', keystrokeApiRoutes);
-app.use('/keystroke', keystrokeRoutes);
-app.use('/settings', settingsRoutes);
+// Set root route to user registration
+app.get('/', (req, res) => {
+  res.redirect('/user-registration');
+});
 
-// Error handling
-app.use(errorHandler);
+// Use route modules
+app.use('/', htmlPresentation);
 
 // Start the server
-const PORT = config.port || 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
 
 module.exports = app;
