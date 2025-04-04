@@ -21,7 +21,7 @@ def run_scheduler(schedules, model_map):
         try:
             # Load current schedules from file to get updates
             try:
-                with open('storage/jobs/schedules.json', 'r') as f:
+                with open('flask-api/storage/jobs/schedules.json', 'r') as f:
                     current_schedules = json.load(f)
             except Exception as e:
                 logger.error(f"Error loading schedules: {str(e)}")
@@ -80,7 +80,7 @@ def run_scheduler(schedules, model_map):
                         schedule['lastRun'] = now.isoformat()
                         
                         # Save updated schedules
-                        with open('storage/jobs/schedules.json', 'w') as f:
+                        with open('flask-api/storage/jobs/schedules.json', 'w') as f:
                             json.dump(current_schedules, f)
                 except Exception as e:
                     logger.error(f"Error processing schedule {schedule.get('id')}: {str(e)}")

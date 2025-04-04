@@ -156,13 +156,14 @@ def process_keystroke_data(keystroke_data, user_name=None):
         df.sort_values(by='Timestamp_Release', inplace=True)
         df.reset_index(drop=True, inplace=True)
         
-        # Convert hold time to seconds
-        if 'Hold Time' in df.columns:
-            df['Hold Time (seconds)'] = pd.to_timedelta(df['Hold Time']).dt.total_seconds()
-            
-            # Remove outliers
-            quantile_99 = df['Hold Time (seconds)'].quantile(0.99)
-            df = df[df['Hold Time (seconds)'] < quantile_99]
+        if user_name==None:
+            # Convert hold time to seconds
+            if 'Hold Time' in df.columns:
+                df['Hold Time (seconds)'] = pd.to_timedelta(df['Hold Time']).dt.total_seconds()
+                
+                # Remove outliers
+                quantile_99 = df['Hold Time (seconds)'].quantile(0.99)
+                df = df[df['Hold Time (seconds)'] < quantile_99]
 
         # Clean Keystrokes
         if 'Key Stroke' in df.columns:
@@ -176,14 +177,22 @@ def process_keystroke_data(keystroke_data, user_name=None):
             # Group data
             df.reset_index(drop=True, inplace=True)
             df["Group"] = df.index // 5
-            grouped_df = df.groupby("Group").agg({
+            
+            # Create aggregation dictionary based on available columns
+            agg_dict = {
                 "Timestamp_Press": list,
                 "Timestamp_Release": list,
-                "Key Stroke": list,
-                "Application": list if "Application" in df.columns else None,
-                "Hold Time": list if "Hold Time" in df.columns else None,
-                "User": "first" if "User" in df.columns else None
-            }).reset_index(drop=True)
+                "Key Stroke": list
+            }
+            
+            if "Application" in df.columns:
+                agg_dict["Application"] = list
+            if "Hold Time" in df.columns:
+                agg_dict["Hold Time"] = list
+            if "User" in df.columns:
+                agg_dict["User"] = "first"
+            
+            grouped_df = df.groupby("Group").agg(agg_dict).reset_index(drop=True)
             
             # Remove None columns
             grouped_df = grouped_df.dropna(axis=1, how='all')
@@ -398,53 +407,72 @@ def preprocess_keystroke_data(keystroke_data, user_name=None, additional_users=N
         pd.DataFrame: Processed and feature-expanded DataFrame ready for ML
     """
     try:
-        # Process the primary user's data
-        if isinstance(keystroke_data, str) and os.path.exists(keystroke_data):
-            # It's a filepath
-            grouped_df = process_keystroke_file(keystroke_data, user_name)
+        if user_name is None:
+            # Process without user information
+            if isinstance(keystroke_data, str) and os.path.exists(keystroke_data):
+                # It's a filepath
+                grouped_df = process_keystroke_file(keystroke_data)
+            else:
+                # It's data
+                grouped_df = process_keystroke_data(keystroke_data)
+            
+            logger.info(f"Processed {len(grouped_df)} grouped keystroke entries without user information")
+            
+            # Expand features for the dataset
+            expanded_df = expand_features(grouped_df)
+            logger.info(f"Generated {len(expanded_df.columns)} features")
+            
+            # Merge grouped and expanded DataFrames
+            final_df = pd.concat([grouped_df, expanded_df], axis=1)
+            
         else:
-            # It's data
-            grouped_df = process_keystroke_data(keystroke_data, user_name)
-        
-        logger.info(f"Processed {len(grouped_df)} grouped keystroke entries for {user_name if user_name else 'primary user'}")
-        
-        # Process additional users if provided
-        all_grouped_dfs = [grouped_df]
-        
-        if additional_users:
-            for add_user_name, add_user_data in additional_users.items():
-                logger.info(f"Processing additional user: {add_user_name}")
-                
-                if isinstance(add_user_data, str) and os.path.exists(add_user_data):
-                    # It's a filepath
-                    add_grouped_df = process_keystroke_file(add_user_data, add_user_name)
-                else:
-                    # It's data
-                    add_grouped_df = process_keystroke_data(add_user_data, add_user_name)
-                
-                logger.info(f"Processed {len(add_grouped_df)} grouped keystroke entries for {add_user_name}")
-                all_grouped_dfs.append(add_grouped_df)
-        
-        # Combine all user data
-        combined_grouped_df = pd.concat(all_grouped_dfs, ignore_index=True)
-        logger.info(f"Combined dataset has {len(combined_grouped_df)} total entries")
-        
-        # Expand features for the combined dataset
-        expanded_df = expand_features(combined_grouped_df)
-        logger.info(f"Generated {len(expanded_df.columns)} features")
-        
-        # Merge grouped and expanded DataFrames
-        final_df = pd.concat([combined_grouped_df, expanded_df], axis=1)
-        
+            # Original processing with user information
+            if isinstance(keystroke_data, str) and os.path.exists(keystroke_data):
+                # It's a filepath
+                grouped_df = process_keystroke_file(keystroke_data, user_name)
+            else:
+                # It's data
+                grouped_df = process_keystroke_data(keystroke_data, user_name)
+            
+            logger.info(f"Processed {len(grouped_df)} grouped keystroke entries for {user_name}")
+            
+            # Process additional users if provided
+            all_grouped_dfs = [grouped_df]
+            
+            if additional_users:
+                for add_user_name, add_user_data in additional_users.items():
+                    logger.info(f"Processing additional user: {add_user_name}")
+                    
+                    if isinstance(add_user_data, str) and os.path.exists(add_user_data):
+                        # It's a filepath
+                        add_grouped_df = process_keystroke_file(add_user_data, add_user_name)
+                    else:
+                        # It's data
+                        add_grouped_df = process_keystroke_data(add_user_data, add_user_name)
+                    
+                    logger.info(f"Processed {len(add_grouped_df)} grouped keystroke entries for {add_user_name}")
+                    all_grouped_dfs.append(add_grouped_df)
+            
+            # Combine all user data
+            combined_grouped_df = pd.concat(all_grouped_dfs, ignore_index=True)
+            logger.info(f"Combined dataset has {len(combined_grouped_df)} total entries")
+            
+            # Expand features for the combined dataset
+            expanded_df = expand_features(combined_grouped_df)
+            logger.info(f"Generated {len(expanded_df.columns)} features")
+            
+            # Merge grouped and expanded DataFrames
+            final_df = pd.concat([combined_grouped_df, expanded_df], axis=1)
+
         # Cleanup unnecessary columns
         columns_to_drop = ['Hold Time', 'Application', 'Key Stroke', 
-                           'Timestamp_Release', 'Timestamp_Press']
+                          'Timestamp_Release', 'Timestamp_Press']
         
         for col in columns_to_drop:
             if col in final_df.columns:
                 final_df = final_df.drop(columns=[col])
         
-        # Encode categorical features (except User column)
+        # Encode categorical features (except User column if it exists)
         key_section_columns = [col for col in final_df.columns if col.startswith('Key_Section_')]
         key_type_columns = [col for col in final_df.columns if col.startswith('Key_Type_')]
         
@@ -470,10 +498,10 @@ def preprocess_keystroke_data(keystroke_data, user_name=None, additional_users=N
                 }
                 final_df[column] = final_df[column].map(type_mapping).fillna(0)
         
-        # Handle any remaining non-numeric columns, but keep User column as is
+        # Handle any remaining non-numeric columns, but keep User column as is if it exists
         for col in final_df.columns:
-            if col == 'User':
-                # Keep User column as categorical/string
+            if col == 'User' and user_name is not None:
+                # Keep User column as categorical/string only if user_name was provided
                 continue
             elif pd.api.types.is_object_dtype(final_df[col]):
                 try:
@@ -482,8 +510,8 @@ def preprocess_keystroke_data(keystroke_data, user_name=None, additional_users=N
                     # If conversion fails, drop the column
                     final_df = final_df.drop(columns=[col])
         
-        # Fill NA values except for User column
-        columns_to_fill = [col for col in final_df.columns if col != 'User']
+        # Fill NA values except for User column if it exists
+        columns_to_fill = [col for col in final_df.columns if col != 'User' or user_name is None]
         final_df[columns_to_fill] = final_df[columns_to_fill].fillna(0)
         
         return final_df

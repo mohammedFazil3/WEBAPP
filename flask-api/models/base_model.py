@@ -14,11 +14,19 @@ logger = logging.getLogger(__name__)
 class BaseModel:
     """Base class for all keystroke models"""
     
-    def __init__(self, model_type):
+    def __init__(self, model_type, username=None):
         self.model_type = model_type
-        self.model_path = f'storage/models/{model_type}_model.pkl'
-        self.info_path = f'storage/models/{model_type}_info.json'
+        self.username = username
+        
+        # Create a more organized directory structure with username
+    
+        self.model_path = f'flask-api/storage/models/{model_type}/{username}/{model_type}_model.pkl'
+        self.info_path = f'flask-api/storage/models/{model_type}/{username}/{model_type}_info.json'
+    
+            
         self.model = None
+        # Ensure the model directory exists
+        os.makedirs(os.path.dirname(self.model_path), exist_ok=True)
         self._load_model()
         
     def _load_model(self):
@@ -26,21 +34,23 @@ class BaseModel:
         try:
             if os.path.exists(self.model_path):
                 self.model = joblib.load(self.model_path)
-                logger.info(f"Loaded {self.model_type} model from {self.model_path}")
+                logger.info(f"Loaded {self.model_type} model for user {self.username} from {self.model_path}")
             else:
-                logger.info(f"No saved {self.model_type} model found")
+                logger.info(f"No saved {self.model_type} model found for user {self.username}")
         except Exception as e:
-            logger.error(f"Error loading {self.model_type} model: {str(e)}")
+            logger.error(f"Error loading {self.model_type} model for user {self.username}: {str(e)}")
             self.model = None
     
     def _save_model(self):
         """Save model to disk"""
         try:
+            # Ensure the directory exists before saving
+            os.makedirs(os.path.dirname(self.model_path), exist_ok=True)
             joblib.dump(self.model, self.model_path)
-            logger.info(f"Saved {self.model_type} model to {self.model_path}")
+            logger.info(f"Saved {self.model_type} model for user {self.username} to {self.model_path}")
             return True
         except Exception as e:
-            logger.error(f"Error saving {self.model_type} model: {str(e)}")
+            logger.error(f"Error saving {self.model_type} model for user {self.username}: {str(e)}")
             return False
     
     def _save_info(self, info):

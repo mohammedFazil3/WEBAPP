@@ -1,7 +1,8 @@
 // data/repositories/keystroke.repo.js
 const axios = require('axios');
-const config = require('../../config/config');
-const logger = require('../../config/winston');
+const path = require('path');
+const config = require(path.join(__dirname, '../../../config/config'));
+const logger = require(path.join(__dirname, '../../../config/winston'));
 
 class KeystrokeRepository {
   constructor() {

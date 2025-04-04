@@ -28,7 +28,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Global variables
-key_log_dir = os.path.join("storage", "keystroke_collection")
+key_log_dir = os.path.join("flask-api", "storage", "keystroke_collection")
 lock = threading.Lock()
 partial_data = {}
 collection_active = False

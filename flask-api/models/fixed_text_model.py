@@ -14,9 +14,9 @@ logger = logging.getLogger(__name__)
 class FixedTextModel(BaseModel):
     """Fixed text model implementation"""
     
-    def __init__(self):
-        super().__init__('fixed-text')
-        self.data_path = 'storage/data/fixed_text_data_preprocessed.csv'
+    def __init__(self, username=None):
+        super().__init__('fixed-text', username)
+        self.data_path = 'flask-api/storage/data/fixed_text_data_preprocessed.csv'
     
     def train(self, parameters=None):
         """Train the model with the given parameters"""

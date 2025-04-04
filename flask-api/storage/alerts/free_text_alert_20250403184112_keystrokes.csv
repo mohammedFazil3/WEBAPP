@@ -1,0 +1,35 @@
+Timestamp_Press,Timestamp_Release,Key Stroke,Application,Hold Time,Hold Time (seconds)
+2025-04-03 18:41:03.986891,2025-04-03 18:41:04.102333,Key.alt_l,127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.115442,0.115442
+2025-04-03 18:41:04.038528,2025-04-03 18:41:04.155813,Key.tab,127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.117285,0.117285
+2025-04-03 18:41:05.402408,2025-04-03 18:41:05.516858,'a',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.114450,0.11445
+2025-04-03 18:41:05.546914,2025-04-03 18:41:05.666856,'b',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.119942,0.119942
+2025-04-03 18:41:05.706939,2025-04-03 18:41:05.842861,'c',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.135922,0.135922
+2025-04-03 18:41:05.968680,2025-04-03 18:41:06.182692,'d',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.214012,0.214012
+2025-04-03 18:41:06.152680,2025-04-03 18:41:06.252272,'e',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.099592,0.099592
+2025-04-03 18:41:06.423311,2025-04-03 18:41:06.547987,'f',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.124676,0.124676
+2025-04-03 18:41:06.555988,2025-04-03 18:41:06.638079,'g',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.082091,0.082091
+2025-04-03 18:41:06.722986,2025-04-03 18:41:06.818169,'h',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.095183,0.095183
+2025-04-03 18:41:06.933770,2025-04-03 18:41:07.028854,'i',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.095084,0.095084
+2025-04-03 18:41:07.127844,2025-04-03 18:41:07.223770,'j',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.095926,0.095926
+2025-04-03 18:41:07.328770,2025-04-03 18:41:07.418773,'k',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.090003,0.090003
+2025-04-03 18:41:07.864579,2025-04-03 18:41:07.954727,'t',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.090148,0.090148
+2025-04-03 18:41:08.034805,2025-04-03 18:41:08.143974,'h',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.109169,0.109169
+2025-04-03 18:41:08.174898,2025-04-03 18:41:08.289662,'e',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.114764,0.114764
+2025-04-03 18:41:08.404068,2025-04-03 18:41:08.524605,'q',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.120537,0.120537
+2025-04-03 18:41:08.549498,2025-04-03 18:41:08.619779,'u',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.070281,0.070281
+2025-04-03 18:41:08.714819,2025-04-03 18:41:08.799813,'i',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.084994,0.084994
+2025-04-03 18:41:08.884861,2025-04-03 18:41:08.980862,'c',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.096001,0.096001
+2025-04-03 18:41:09.059861,2025-04-03 18:41:09.149862,'k',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.090001,0.090001
+2025-04-03 18:41:10.006638,2025-04-03 18:41:10.105785,'b',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.099147,0.099147
+2025-04-03 18:41:10.155705,2025-04-03 18:41:10.255826,'r',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.100121,0.100121
+2025-04-03 18:41:10.295900,2025-04-03 18:41:10.387336,'o',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.091436,0.091436
+2025-04-03 18:41:10.451422,2025-04-03 18:41:10.541350,'w',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.089928,0.089928
+2025-04-03 18:41:10.616418,2025-04-03 18:41:10.712202,'n',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.095784,0.095784
+2025-04-03 18:41:10.861212,2025-04-03 18:41:10.962696,'f',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.101484,0.101484
+2025-04-03 18:41:11.028201,2025-04-03 18:41:11.127253,'o',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.099052,0.099052
+2025-04-03 18:41:11.207249,2025-04-03 18:41:11.302288,'x',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.095039,0.095039
+2025-04-03 18:41:11.682428,2025-04-03 18:41:11.747837,'t',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.065409,0.065409
+2025-04-03 18:41:11.807290,2025-04-03 18:41:11.927522,'h',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.120232,0.120232
+2025-04-03 18:41:12.018512,2025-04-03 18:41:12.122588,'e',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.104076,0.104076
+2025-04-03 18:41:12.237593,2025-04-03 18:41:12.348248,'w',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.110655,0.110655
+2025-04-03 18:41:12.458267,2025-04-03 18:41:12.583267,'u',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.125000,0.125

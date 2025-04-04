@@ -1,5 +1,5 @@
-
 # models/multi_binary_model.py
+import uuid
 from models.base_model import BaseModel
 import logging
 import os
@@ -10,16 +10,17 @@ from datetime import datetime
 from catboost import CatBoostClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, classification_report
+import joblib
 
 logger = logging.getLogger(__name__)
 
 class MultiBinaryModel(BaseModel):
     """Multi-binary model implementation"""
     
-    def __init__(self):
-        super().__init__('multi-binary')
-        self.data_path = 'storage/data/multi_binary_data.csv'
-        self.users_path = 'storage/data/multi_binary_users.json'
+    def __init__(self, username=None):
+        super().__init__('multi-binary', username)
+        self.data_path = 'flask-api/storage/data/multi_binary_data.csv'
+        self.users_path = 'flask-api/storage/data/multi_binary_users.json'
         self.user_models = {}  # Dictionary to store individual user models
         
         # Initialize users file if it doesn't exist
@@ -52,7 +53,7 @@ class MultiBinaryModel(BaseModel):
             # Load each user's model
             for user in user_data.get('users', []):
                 user_id = user.get('id')
-                model_path = f'storage/models/multi_binary_{user_id}.pkl'
+                model_path = f'flask-api/storage/models/multi_binary_{user_id}.pkl'
                 
                 if os.path.exists(model_path):
                     try:
@@ -192,7 +193,7 @@ class MultiBinaryModel(BaseModel):
             report = classification_report(y_test, y_pred, output_dict=True)
             
             # Save user model
-            user_model_path = f'storage/models/multi_binary_{user_id}.pkl'
+            user_model_path = f'flask-api/storage/models/multi_binary_{user_id}.pkl'
             joblib.dump(user_model, user_model_path)
             
             # Store model in memory

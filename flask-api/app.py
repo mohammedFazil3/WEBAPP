@@ -30,13 +30,13 @@ logger = setup_logging()
 app = Flask(__name__)
 
 # Create storage directories if they don't exist
-os.makedirs('storage/models', exist_ok=True)
-os.makedirs('storage/data', exist_ok=True)
-os.makedirs('storage/alerts', exist_ok=True)
-os.makedirs('storage/jobs', exist_ok=True)
+os.makedirs('flask-api/storage/models', exist_ok=True)
+os.makedirs('flask-api/storage/data', exist_ok=True)
+os.makedirs('flask-api/storage/alerts', exist_ok=True)
+os.makedirs('flask-api/storage/jobs', exist_ok=True)
 
 # Load or initialize job status tracking
-JOBS_FILE = 'storage/jobs/jobs.json'
+JOBS_FILE = 'flask-api/storage/jobs/jobs.json'
 if os.path.exists(JOBS_FILE):
     with open(JOBS_FILE, 'r') as f:
         training_jobs = json.load(f)
@@ -46,7 +46,7 @@ else:
         json.dump(training_jobs, f)
 
 # Track active model
-ACTIVE_MODEL_FILE = 'storage/models/active_model.json'
+ACTIVE_MODEL_FILE = 'flask-api/storage/models/active_model.json'
 if os.path.exists(ACTIVE_MODEL_FILE):
     with open(ACTIVE_MODEL_FILE, 'r') as f:
         active_model = json.load(f)
@@ -60,7 +60,7 @@ else:
         json.dump(active_model, f)
 
 # Schedule registry
-SCHEDULES_FILE = 'storage/jobs/schedules.json'
+SCHEDULES_FILE = 'flask-api/storage/jobs/schedules.json'
 if os.path.exists(SCHEDULES_FILE):
     with open(SCHEDULES_FILE, 'r') as f:
         schedules = json.load(f)
@@ -70,9 +70,9 @@ else:
         json.dump(schedules, f)
 
 # Initialize model instances
-fixed_text = fixed_text_model.FixedTextModel()
-free_text = free_text_model.FreeTextModel()
-multi_binary = multi_binary_model.MultiBinaryModel()
+fixed_text = fixed_text_model.FixedTextModel(username=active_model.get('username'))
+free_text = free_text_model.FreeTextModel(username=active_model.get('username'))
+multi_binary = multi_binary_model.MultiBinaryModel(username=active_model.get('username'))
 
 # Map model types to their instances
 model_map = {
@@ -701,18 +701,12 @@ def stop_free_text_keystroke_collection():
 def get_free_text_collection_status():
     """Get free-text keystroke collection status"""
     try:
-        # Get status from both collectors
-        free_text_status = get_status()
-        collection_status = free_text.get_collection_status()
+        status = get_status()
         
-        # Combine the statuses
-        combined_status = {
+        return jsonify({
             "success": True,
-            "collection_status": collection_status,
-            "free_text_status": free_text_status
-        }
-        
-        return jsonify(combined_status)
+            "status": status
+        })
     except Exception as e:
         logger.error(f"Error getting free-text collection status: {str(e)}")
         return jsonify({
@@ -931,8 +925,8 @@ def analyze_free_text_progress():
         status = get_status()
         
         # Get free-text collection file
-        free_text_file = os.path.join("storage", "free_text_collection.csv")
-        if not os.path.exists(free_text_file):
+        csv_file = keystroke.keystroke_collector.get_log_file_path()
+        if not os.path.exists(csv_file):
             return jsonify({
                 "success": True,
                 "message": "No keystroke data collected yet",
@@ -945,7 +939,7 @@ def analyze_free_text_progress():
         
         # Read and analyze the data
         try:
-            df = pd.read_csv(free_text_file)
+            df = pd.read_csv(csv_file)
             
             # Basic statistics
             analysis = {
@@ -980,7 +974,8 @@ def analyze_free_text_progress():
             "success": False,
             "error": str(e)
         }), 500
-
+    
+##
 @app.route('/api/keystroke/predict', methods=['POST'])
 def predict():
     """Make prediction with active model"""
