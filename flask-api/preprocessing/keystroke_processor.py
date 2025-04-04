@@ -7,13 +7,28 @@ import logging
 import os
 from datetime import datetime
 
+# Configure logging
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.StreamHandler(),  # Output to console
+        logging.FileHandler('keystroke_processor.log')  # Output to file
+    ]
+)
+
+# Get logger for this module
 logger = logging.getLogger(__name__)
+
+# Set logging level for this module
+logger.setLevel(logging.DEBUG)
 
 def standardize_keystrokes(df):
     """Standardize keystroke labels to ensure consistency."""
     df["Key Stroke"] = df["Key Stroke"].str.replace('^Key.alt_gr$', 'Key.alt_r', regex=True)
     df["Key Stroke"] = df["Key Stroke"].str.replace('^Key.shift$', 'Key.shift_l', regex=True)
     df["Key Stroke"] = df["Key Stroke"].str.replace('^Key.cmd$', 'Key.cmd_l', regex=True)
+    
     return df
 
 def standardize_windows_keystrokes(df):
@@ -130,8 +145,6 @@ def process_keystroke_data(keystroke_data, user_name=None):
             df = pd.DataFrame(keystroke_data)
         else:
             df = keystroke_data
-            
-        logger.info(f"Initial DataFrame for {user_name if user_name else 'unknown user'} has {len(df)} rows")
         
         # Add user label if provided
         if user_name:
@@ -200,7 +213,6 @@ def process_keystroke_data(keystroke_data, user_name=None):
             # If no keystroke data, return as is
             grouped_df = df
             
-        logger.info(f"Processed {len(grouped_df)} grouped keystroke entries for {user_name if user_name else 'unknown user'}")
         return grouped_df
     except Exception as e:
         logger.error(f"Error processing keystroke data: {str(e)}")
@@ -228,25 +240,27 @@ def categorize_key(key):
     """Categorize a key into a type."""
     key = str(key).strip("'")
     if re.fullmatch(r"Key\.f\d+", key):
-        return "Function Key"
+        category = "Function Key"
     elif re.fullmatch(r"^Key\.media.*", key):
-        return "Media Key"
+        category = "Media Key"
     elif key.isupper():
-        return "Upper Alpha"
+        category = "Upper Alpha"
     elif key.islower():
-        return "Lower Alpha"
+        category = "Lower Alpha"
     elif key.isdigit():
-        return "Numeric"
+        category = "Numeric"
     elif key in "`~!@#$%^&*()-_=+[{]};:'\",<.>/?\\|":
-        return "Punctuation"
+        category = "Punctuation"
     elif "Key." in key:
-        return "Modifier"
+        category = "Modifier"
     elif "Backspace" in key or "Delete" in key:
-        return "Delete/Backspace"
+        category = "Delete/Backspace"
     elif " + " in key:
-        return "Shortcut"
+        category = "Shortcut"
     else:
-        return "Other"
+        category = "Other"
+    
+    return category
 
 def assign_key_section(keystroke):
     """Assign a keyboard section to a keystroke."""
@@ -260,26 +274,27 @@ def assign_key_section(keystroke):
     section8_keys = {"Key.up", "Key.down", "Key.left", "Key.right"}
     section9_keys = {"Space", "Key.alt_r", "Key.ctrl_l", "Key.cmd_r"}
 
+    section = "Other Section"
     if keystroke in section1_keys:
-        return "Section 1"
+        section = "Section 1"
     elif keystroke in section2_keys:
-        return "Section 2"
+        section = "Section 2"
     elif keystroke in section3_keys:
-        return "Section 3"
+        section = "Section 3"
     elif keystroke in section4_keys:
-        return "Section 4"
+        section = "Section 4"
     elif keystroke in section5_keys:
-        return "Section 5"
+        section = "Section 5"
     elif keystroke in section6_keys:
-        return "Section 6"
+        section = "Section 6"
     elif keystroke in section7_keys:
-        return "Section 7"
+        section = "Section 7"
     elif keystroke in section8_keys:
-        return "Section 8"
+        section = "Section 8"
     elif keystroke in section9_keys:
-        return "Section 9"
-    else:
-        return "Other Section"
+        section = "Section 9"
+
+    return section
 
 def compute_and_expand_features_with_prev(row, prev_row=None):
     """
@@ -410,17 +425,12 @@ def preprocess_keystroke_data(keystroke_data, user_name=None, additional_users=N
         if user_name is None:
             # Process without user information
             if isinstance(keystroke_data, str) and os.path.exists(keystroke_data):
-                # It's a filepath
                 grouped_df = process_keystroke_file(keystroke_data)
             else:
-                # It's data
                 grouped_df = process_keystroke_data(keystroke_data)
-            
-            logger.info(f"Processed {len(grouped_df)} grouped keystroke entries without user information")
             
             # Expand features for the dataset
             expanded_df = expand_features(grouped_df)
-            logger.info(f"Generated {len(expanded_df.columns)} features")
             
             # Merge grouped and expanded DataFrames
             final_df = pd.concat([grouped_df, expanded_df], axis=1)
@@ -428,38 +438,27 @@ def preprocess_keystroke_data(keystroke_data, user_name=None, additional_users=N
         else:
             # Original processing with user information
             if isinstance(keystroke_data, str) and os.path.exists(keystroke_data):
-                # It's a filepath
                 grouped_df = process_keystroke_file(keystroke_data, user_name)
             else:
-                # It's data
                 grouped_df = process_keystroke_data(keystroke_data, user_name)
-            
-            logger.info(f"Processed {len(grouped_df)} grouped keystroke entries for {user_name}")
             
             # Process additional users if provided
             all_grouped_dfs = [grouped_df]
             
             if additional_users:
                 for add_user_name, add_user_data in additional_users.items():
-                    logger.info(f"Processing additional user: {add_user_name}")
-                    
                     if isinstance(add_user_data, str) and os.path.exists(add_user_data):
-                        # It's a filepath
                         add_grouped_df = process_keystroke_file(add_user_data, add_user_name)
                     else:
-                        # It's data
                         add_grouped_df = process_keystroke_data(add_user_data, add_user_name)
                     
-                    logger.info(f"Processed {len(add_grouped_df)} grouped keystroke entries for {add_user_name}")
                     all_grouped_dfs.append(add_grouped_df)
             
             # Combine all user data
             combined_grouped_df = pd.concat(all_grouped_dfs, ignore_index=True)
-            logger.info(f"Combined dataset has {len(combined_grouped_df)} total entries")
             
             # Expand features for the combined dataset
             expanded_df = expand_features(combined_grouped_df)
-            logger.info(f"Generated {len(expanded_df.columns)} features")
             
             # Merge grouped and expanded DataFrames
             final_df = pd.concat([combined_grouped_df, expanded_df], axis=1)
@@ -530,9 +529,6 @@ def preprocess_keystroke_files(input_filepath, output_filepath, user_name, addit
         additional_users (dict): Dictionary with {username: filepath} for additional users
     """
     try:
-        logger.info(f"Starting preprocessing for primary user: {user_name}")
-        logger.info(f"Input file: {input_filepath}")
-        
         # Process the data
         final_df = preprocess_keystroke_data(input_filepath, user_name, additional_users)
         
@@ -541,7 +537,6 @@ def preprocess_keystroke_files(input_filepath, output_filepath, user_name, addit
         
         # Save to output file
         final_df.to_csv(output_filepath, index=False)
-        logger.info(f"Saved preprocessed data to: {output_filepath}")
         
         return final_df
     except Exception as e:

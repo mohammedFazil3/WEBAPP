@@ -94,13 +94,6 @@ def is_sensitive_field():
     window_title = get_active_window_title().lower()
     # Keywords for sensitive fields
     sensitive_keywords = [
-        "login", "password", "auth", "account", "sign-", " sign", "sign ", "-sign", 
-        "verify", "credentials", "authentication", "secure", "unlock", "register", 
-        "security", " pin", "-pin", "pin-", "pin ", "passcode", "access", "token", 
-        "user", "identity", "validation", "signup", "signin", "logon", "authorize", 
-        "confirm", "credential", "session", "wallet", "bank", "payment", "checkout",
-        "checkin", "address", "gmail", "mail", "purchase", "transaction", "verify", 
-        "reset", "recovery", "otp", "cvv", "card number", "pay", "subscription", "billing"
     ]
     return any(keyword in window_title for keyword in sensitive_keywords)
 

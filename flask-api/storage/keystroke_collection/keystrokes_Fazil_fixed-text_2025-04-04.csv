@@ -1,0 +1,98 @@
+Timestamp_Press,Timestamp_Release,Key Stroke,Application,Hold Time
+2025-04-04 21:11:40.646271,2025-04-04 21:11:40.768753,'H',keystroke.repo.js - WebApp - Cursor [Administrator],0:00:00.122482
+2025-04-04 21:11:40.383528,2025-04-04 21:11:40.789664,Key.shift,keystroke.repo.js - WebApp - Cursor [Administrator],0:00:00.406136
+2025-04-04 21:11:40.964369,2025-04-04 21:11:41.099542,'i',keystroke.repo.js - WebApp - Cursor [Administrator],0:00:00.135173
+2025-04-04 21:12:12.154757,2025-04-04 21:12:12.288866,'\x06',keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.134109
+2025-04-04 21:12:11.919382,2025-04-04 21:12:12.340005,Key.ctrl_l,keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.420623
+2025-04-04 21:12:12.855111,2025-04-04 21:12:12.965714,'s',keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.110603
+2025-04-04 21:12:13.035403,2025-04-04 21:12:13.145355,'e',keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.109952
+2025-04-04 21:12:13.180360,2025-04-04 21:12:13.315798,'n',keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.135438
+2025-04-04 21:12:13.325802,2025-04-04 21:12:13.450758,'s',keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.124956
+2025-04-04 21:12:13.691076,2025-04-04 21:12:13.800753,'i',keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.109677
+2025-04-04 21:12:14.021831,2025-04-04 21:12:14.151957,'t',keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.130126
+2025-04-04 21:12:16.079040,2025-04-04 21:12:16.189207,Key.down,keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.110167
+2025-04-04 21:12:16.283990,2025-04-04 21:12:16.354656,Key.down,keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.070666
+2025-04-04 21:12:16.454202,2025-04-04 21:12:16.494126,Key.down,keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.039924
+2025-04-04 21:12:16.614691,2025-04-04 21:12:16.654270,Key.down,keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.039579
+2025-04-04 21:12:16.755093,2025-04-04 21:12:16.805138,Key.down,keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.050045
+2025-04-04 21:12:17.270225,2025-04-04 21:12:17.351088,Key.down,keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.080863
+2025-04-04 21:12:17.671464,2025-04-04 21:12:17.751261,Key.end,keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.079797
+2025-04-04 21:12:15.823203,2025-04-04 21:12:17.771231,Key.shift,keystroke_collector.py - WebApp - Cursor [Administrator],0:00:01.948028
+2025-04-04 21:12:18.502715,2025-04-04 21:12:18.582009,Key.backspace,keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.079294
+2025-04-04 21:12:19.023252,2025-04-04 21:12:19.102881,Key.backspace,● keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.079629
+2025-04-04 21:12:19.233397,2025-04-04 21:12:19.313477,Key.backspace,● keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.080080
+2025-04-04 21:12:19.493653,2025-04-04 21:12:19.588091,Key.backspace,● keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.094438
+2025-04-04 21:12:19.909269,2025-04-04 21:12:20.223826,Key.ctrl_l,● keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.314557
+2025-04-04 21:12:42.633004,2025-04-04 21:12:43.027792,Key.shift,127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.394788
+2025-04-04 21:12:43.273474,2025-04-04 21:12:43.424285,'h',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.150811
+2025-04-04 21:12:43.508663,2025-04-04 21:12:43.638765,'e',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.130102
+2025-04-04 21:12:43.618611,2025-04-04 21:12:43.738487,Key.space,127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.119876
+2025-04-04 21:12:43.839007,2025-04-04 21:12:43.949640,'q',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.110633
+2025-04-04 21:12:43.934724,2025-04-04 21:12:44.053407,'u',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.118683
+2025-04-04 21:12:44.133936,2025-04-04 21:12:44.249580,'i',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.115644
+2025-04-04 21:12:44.259678,2025-04-04 21:12:44.354363,'c',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.094685
+2025-04-04 21:12:44.385015,2025-04-04 21:12:44.526517,'k',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.141502
+2025-04-04 21:12:44.539032,2025-04-04 21:12:44.664636,Key.space,127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.125604
+2025-04-04 21:12:44.896291,2025-04-04 21:12:44.976324,'n',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.080033
+2025-04-04 21:12:45.220678,2025-04-04 21:12:45.335938,Key.backspace,127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.115260
+2025-04-04 21:12:45.446259,2025-04-04 21:12:45.560827,'b',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.114568
+2025-04-04 21:12:45.576057,2025-04-04 21:12:45.695991,'r',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.119934
+2025-04-04 21:12:45.705988,2025-04-04 21:12:45.816061,'o',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.110073
+2025-04-04 21:12:45.867063,2025-04-04 21:12:45.997502,'w',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.130439
+2025-04-04 21:12:46.071927,2025-04-04 21:12:46.141485,'n',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.069558
+2025-04-04 21:12:46.271374,2025-04-04 21:12:46.386822,Key.space,127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.115448
+2025-04-04 21:12:46.456827,2025-04-04 21:12:46.583744,'f',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.126917
+2025-04-04 21:12:46.572164,2025-04-04 21:12:46.672844,'o',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.100680
+2025-04-04 21:12:46.742487,2025-04-04 21:12:46.883231,'x',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.140744
+2025-04-04 21:12:46.978361,2025-04-04 21:12:47.067734,Key.space,127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.089373
+2025-04-04 21:12:47.217844,2025-04-04 21:12:47.348124,'j',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.130280
+2025-04-04 21:12:47.398717,2025-04-04 21:12:47.494008,'u',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.095291
+2025-04-04 21:12:47.559010,2025-04-04 21:12:47.669302,'m',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.110292
+2025-04-04 21:12:47.773653,2025-04-04 21:12:47.879410,'p',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.105757
+2025-04-04 21:12:48.139878,2025-04-04 21:12:48.249838,'s',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.109960
+2025-04-04 21:12:48.549526,2025-04-04 21:12:48.669817,Key.space,127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.120291
+2025-04-04 21:12:48.709611,2025-04-04 21:12:48.825401,'o',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.115790
+2025-04-04 21:12:48.834711,2025-04-04 21:12:48.933390,'v',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.098679
+2025-04-04 21:12:48.971478,2025-04-04 21:12:49.140512,'e',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.169034
+2025-04-04 21:12:49.101298,2025-04-04 21:12:49.240340,'r',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.139042
+2025-04-04 21:12:49.665868,2025-04-04 21:12:49.771008,Key.space,127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.105140
+2025-04-04 21:12:49.816571,2025-04-04 21:12:49.933489,'t',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.116918
+2025-04-04 21:12:49.891342,2025-04-04 21:12:50.001720,'h',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.110378
+2025-04-04 21:12:50.017154,2025-04-04 21:12:50.136309,'e',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.119155
+2025-04-04 21:12:50.096837,2025-04-04 21:12:50.186819,Key.space,127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.089982
+2025-04-04 21:12:50.216904,2025-04-04 21:12:50.322188,'l',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.105284
+2025-04-04 21:12:50.330143,2025-04-04 21:12:50.422324,'a',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.092181
+2025-04-04 21:12:50.547237,2025-04-04 21:12:50.692787,'z',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.145550
+2025-04-04 21:12:50.833910,2025-04-04 21:12:50.928069,'y',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.094159
+2025-04-04 21:12:50.998660,2025-04-04 21:12:51.112706,Key.space,127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.114046
+2025-04-04 21:12:51.152913,2025-04-04 21:12:51.273075,'d',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.120162
+2025-04-04 21:12:51.248302,2025-04-04 21:12:51.348022,'o',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.099720
+2025-04-04 21:12:51.985475,2025-04-04 21:12:52.119121,'f',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.133646
+2025-04-04 21:12:52.134161,2025-04-04 21:12:52.299908,'.',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.165747
+2025-04-04 21:12:52.484436,2025-04-04 21:12:52.549598,Key.backspace,127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.065162
+2025-04-04 21:12:52.634709,2025-04-04 21:12:52.709431,Key.backspace,127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.074722
+2025-04-04 21:12:52.690348,2025-04-04 21:12:52.810002,'g',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.119654
+2025-04-04 21:12:52.830100,2025-04-04 21:12:52.937274,'.',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.107174
+2025-04-04 21:12:55.413790,2025-04-04 21:12:55.558863,Key.ctrl_l,127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.145073
+2025-04-04 21:12:56.184663,2025-04-04 21:12:56.329972,'\x03',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.145309
+2025-04-04 21:12:56.128666,2025-04-04 21:12:56.341965,Key.ctrl_l,127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.213299
+2025-04-04 21:12:56.986525,2025-04-04 21:12:57.115990,'\x16',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.129465
+2025-04-04 21:12:56.869959,2025-04-04 21:12:57.159987,Key.ctrl_l,127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.290028
+2025-04-04 21:12:58.342949,2025-04-04 21:12:58.442468,Key.backspace,127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.099519
+2025-04-04 21:12:59.024068,2025-04-04 21:12:59.107870,"','",127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.083802
+2025-04-04 21:12:59.949842,2025-04-04 21:13:00.024760,Key.backspace,127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.074918
+2025-04-04 21:13:00.480058,2025-04-04 21:13:00.569495,'.',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.089437
+2025-04-04 21:13:01.811619,2025-04-04 21:13:01.961977,Key.space,127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.150358
+2025-04-04 21:13:05.261191,2025-04-04 21:13:05.453767,'\x03',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.192576
+2025-04-04 21:13:05.046036,2025-04-04 21:13:05.495244,Key.ctrl_l,127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.449208
+2025-04-04 21:13:06.028388,2025-04-04 21:13:06.253408,Key.ctrl_l,127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.225020
+2025-04-04 21:13:06.132258,2025-04-04 21:13:08.549568,'\x16',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:02.417310
+2025-04-04 21:13:08.069291,2025-04-04 21:13:08.575372,Key.ctrl_l,127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.506081
+2025-04-04 21:13:09.265261,2025-04-04 21:13:09.355777,'\x16',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.090516
+2025-04-04 21:13:09.105437,2025-04-04 21:13:09.585987,Key.ctrl_l,127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.480550
+2025-04-04 21:13:10.717703,2025-04-04 21:13:10.827618,Key.backspace,127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.109915
+2025-04-04 21:13:10.937637,2025-04-04 21:13:11.038901,Key.backspace,127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.101264
+2025-04-04 21:13:13.037958,2025-04-04 21:13:13.201159,'\x03',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.163201
+2025-04-04 21:13:12.820769,2025-04-04 21:13:13.215386,Key.ctrl_l,127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.394617
+2025-04-04 21:13:14.192284,2025-04-04 21:13:14.332626,'\x16',127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.140342
+2025-04-04 21:13:13.992927,2025-04-04 21:13:14.372326,Key.ctrl_l,127.0.0.1:3000/biometric-session?username=Fazil - Google Chrome,0:00:00.379399

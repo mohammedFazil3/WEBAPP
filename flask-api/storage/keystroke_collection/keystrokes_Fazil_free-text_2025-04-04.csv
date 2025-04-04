@@ -31638,4 +31638,85 @@ Timestamp_Press,Timestamp_Release,Key Stroke,Application,Hold Time
 2024-11-23 23:59:58.574793,2024-11-23 23:59:58.728081,Key.esc,test.py - Battleship_CryptoCracks - Visual Studio Code,0:00:00.153288
 2024-11-23 23:59:58.919470,2024-11-23 23:59:59.018399,Key.up,test.py - Battleship_CryptoCracks - Visual Studio Code,0:00:00.098929
 2024-11-23 23:59:59.174927,2024-11-23 23:59:59.253898,Key.up,test.py - Battleship_CryptoCracks - Visual Studio Code,0:00:00.078971
-2024-11-23 23:59:59.374830,2024-11-23 23:59:59.450074,Key.up,test.py - Battleship_CryptoCracks - Visual Studio Code,0:00:00.075244
+2024-11-23 23:59:59.374830,2024-11-23 23:59:59.450074,Key.up,test.py - Battleship_CryptoCracks - Visual Studio Code,0:00:00.0752442025-04-04 21:47:23.972493,2025-04-04 21:47:24.411693,Key.shift,keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.439200
+2025-04-04 21:47:24.451551,2025-04-04 21:47:24.577485,'e',keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.125934
+2025-04-04 21:47:24.563046,2025-04-04 21:47:24.687950,'m',keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.124904
+2025-04-04 21:47:24.758267,2025-04-04 21:47:24.878857,'o',keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.120590
+2025-04-04 21:47:36.074578,2025-04-04 21:47:36.229638,'v',keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.155060
+2025-04-04 21:47:36.189973,2025-04-04 21:47:36.350555,'e',keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.160582
+2025-04-04 21:47:36.386267,2025-04-04 21:47:36.500080,Key.space,keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.113813
+2025-04-04 21:47:36.539932,2025-04-04 21:47:36.635469,'t',keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.095537
+2025-04-04 21:47:36.605338,2025-04-04 21:47:36.726328,'h',keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.120990
+2025-04-04 21:47:36.685429,2025-04-04 21:47:36.826008,'e',keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.140579
+2025-04-04 21:47:36.806113,2025-04-04 21:47:36.921926,Key.space,keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.115813
+2025-04-04 21:47:37.116411,2025-04-04 21:47:37.266658,'d',keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.150247
+2025-04-04 21:47:37.246174,2025-04-04 21:47:37.361556,'e',keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.115382
+2025-04-04 21:47:37.687116,2025-04-04 21:47:37.811985,'b',keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.124869
+2025-04-04 21:47:37.898537,2025-04-04 21:47:38.017948,'u',keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.119411
+2025-04-04 21:47:38.058078,2025-04-04 21:47:38.117605,'d',keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.059527
+2025-04-04 21:47:38.493614,2025-04-04 21:47:38.598477,Key.backspace,keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.104863
+2025-04-04 21:47:38.637338,2025-04-04 21:47:38.713877,'g',keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.076539
+2025-04-04 21:47:38.808842,2025-04-04 21:47:38.899821,'g',keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.090979
+2025-04-04 21:47:38.885107,2025-04-04 21:47:38.963782,'i',keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.078675
+2025-04-04 21:47:39.034028,2025-04-04 21:47:39.160433,'n',keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.126405
+2025-04-04 21:47:39.544924,2025-04-04 21:47:39.664838,'g',keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.119914
+2025-04-04 21:47:39.700347,2025-04-04 21:47:39.785204,Key.space,keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.084857
+2025-04-04 21:47:39.937257,2025-04-04 21:47:40.025940,'l',keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.088683
+2025-04-04 21:47:40.121093,2025-04-04 21:47:40.230830,'i',keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.109737
+2025-04-04 21:47:40.328088,2025-04-04 21:47:40.355957,'n',keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.027869
+2025-04-04 21:47:40.328592,2025-04-04 21:47:40.421359,'e',keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.092767
+2025-04-04 21:47:40.521352,2025-04-04 21:47:40.641858,'s',keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.120506
+2025-04-04 21:47:41.127186,2025-04-04 21:47:41.222643,Key.enter,keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.095457
+2025-04-04 21:48:09.669154,2025-04-04 21:48:09.783889,'f',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.114735
+2025-04-04 21:48:09.807887,2025-04-04 21:48:09.869274,'l',● model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.061387
+2025-04-04 21:48:09.980354,2025-04-04 21:48:10.089400,'a',● model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.109046
+2025-04-04 21:48:11.907160,2025-04-04 21:48:12.037159,Key.tab,● model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.129999
+2025-04-04 21:48:13.000338,2025-04-04 21:48:13.269237,Key.ctrl_l,● model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.268899
+2025-04-04 21:48:38.106694,2025-04-04 21:48:38.258344,'\x03',127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.151650
+2025-04-04 21:48:39.144187,2025-04-04 21:48:39.298395,'\x03',127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.154208
+2025-04-04 21:48:37.531327,2025-04-04 21:48:39.550722,Key.ctrl_l,127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:02.019395
+2025-04-04 21:50:03.055502,2025-04-04 21:50:03.166932,'a',keystroke_processor.py - WebApp - Cursor [Administrator],0:00:00.111430
+2025-04-04 21:50:03.220533,2025-04-04 21:50:03.366227,'b',keystroke_processor.py - WebApp - Cursor [Administrator],0:00:00.145694
+2025-04-04 21:50:03.386230,2025-04-04 21:50:03.511496,'c',keystroke_processor.py - WebApp - Cursor [Administrator],0:00:00.125266
+2025-04-04 21:50:03.616616,2025-04-04 21:50:03.776758,'d',keystroke_processor.py - WebApp - Cursor [Administrator],0:00:00.160142
+2025-04-04 21:50:03.794118,2025-04-04 21:50:03.901952,'e',keystroke_processor.py - WebApp - Cursor [Administrator],0:00:00.107834
+2025-04-04 21:50:04.077444,2025-04-04 21:50:04.203486,'f',keystroke_processor.py - WebApp - Cursor [Administrator],0:00:00.126042
+2025-04-04 21:50:04.247483,2025-04-04 21:50:04.362995,'g',keystroke_processor.py - WebApp - Cursor [Administrator],0:00:00.115512
+2025-04-04 21:50:04.493478,2025-04-04 21:50:04.628951,'h',keystroke_processor.py - WebApp - Cursor [Administrator],0:00:00.135473
+2025-04-04 21:50:04.783564,2025-04-04 21:50:04.943587,'i',keystroke_processor.py - WebApp - Cursor [Administrator],0:00:00.160023
+2025-04-04 21:50:05.039264,2025-04-04 21:50:05.170112,'j',keystroke_processor.py - WebApp - Cursor [Administrator],0:00:00.130848
+2025-04-04 21:50:05.605151,2025-04-04 21:50:05.710030,'k',keystroke_processor.py - WebApp - Cursor [Administrator],0:00:00.104879
+2025-04-04 21:53:33.546002,2025-04-04 21:53:33.675225,'a',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.129223
+2025-04-04 21:53:33.795006,2025-04-04 21:53:33.940455,'b',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.145449
+2025-04-04 21:53:34.034294,2025-04-04 21:53:34.105477,'c',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.071183
+2025-04-04 21:53:34.241320,2025-04-04 21:53:34.410583,'d',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.169263
+2025-04-04 21:53:34.395582,2025-04-04 21:53:34.522258,'e',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.126676
+2025-04-04 21:53:34.621395,2025-04-04 21:53:34.761586,'f',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.140191
+2025-04-04 21:53:34.926956,2025-04-04 21:53:35.062148,'g',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.135192
+2025-04-04 21:53:35.211904,2025-04-04 21:53:35.337743,'h',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.125839
+2025-04-04 21:53:35.447262,2025-04-04 21:53:35.590446,'i',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.143184
+2025-04-04 21:53:35.682973,2025-04-04 21:53:35.817991,'j',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.135018
+2025-04-04 21:53:35.983091,2025-04-04 21:53:36.088782,'k',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.105691
+2025-04-04 21:53:36.236586,2025-04-04 21:53:36.334218,'l',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.097632
+2025-04-04 21:53:36.469657,2025-04-04 21:53:36.585421,'m',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.115764
+2025-04-04 21:53:36.704256,2025-04-04 21:53:36.819829,'n',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.115573
+2025-04-04 21:53:36.970182,2025-04-04 21:53:37.105457,'o',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.135275
+2025-04-04 21:53:37.236165,2025-04-04 21:53:37.364986,'p',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.128821
+2025-04-04 21:53:37.485453,2025-04-04 21:53:37.596229,'q',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.110776
+2025-04-04 21:53:37.845855,2025-04-04 21:53:37.921628,'r',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.075773
+2025-04-04 21:53:38.211947,2025-04-04 21:53:38.347486,'s',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.135539
+2025-04-04 21:53:38.573743,2025-04-04 21:53:38.687579,'t',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.113836
+2025-04-04 21:53:38.832575,2025-04-04 21:53:38.963032,'u',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.130457
+2025-04-04 21:53:39.038025,2025-04-04 21:53:39.187944,'v',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.149919
+2025-04-04 21:53:39.328697,2025-04-04 21:53:39.448556,'e',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.119859
+2025-04-04 21:53:39.659185,2025-04-04 21:53:39.769047,'w',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.109862
+2025-04-04 21:53:40.725929,2025-04-04 21:53:40.825973,'x',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.100044
+2025-04-04 21:53:41.050675,2025-04-04 21:53:41.176549,'y',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.125874
+2025-04-04 21:53:41.286372,2025-04-04 21:53:41.412138,'z',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.125766
+2025-04-04 21:53:42.032780,2025-04-04 21:53:42.168319,'a',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.135539
+2025-04-04 21:53:42.458860,2025-04-04 21:53:42.601017,'b',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.142157
+2025-04-04 21:53:42.773443,2025-04-04 21:53:42.864380,'c',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.090937
+2025-04-04 21:53:43.019721,2025-04-04 21:53:43.144873,'d',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.125152
+2025-04-04 21:53:43.454821,2025-04-04 21:53:43.605222,'e',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.150401
+2025-04-04 21:53:43.680769,2025-04-04 21:53:43.790211,'f',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.109442
+2025-04-04 21:53:44.041457,2025-04-04 21:53:44.145950,'g',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.104493

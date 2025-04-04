@@ -406,12 +406,12 @@ def upload_fixed_text_data(username):
                     }), 400
                 
                 preprocessedDatadf = keystroke_processor.preprocess_keystroke_data(df, username, additional_users={
-                    "Aisha": "storage/data/FixedText_Aisha.csv",
-                    "Misbah": "storage/data/FixedText_Misbah.csv"
+                    "Aisha": "flask-api/storage/data/FixedText_Aisha.csv",
+                    "Misbah": "flask-api/storage/data/FixedText_Misbah.csv"
                 })
                 
                 # Save preprocessed data to CSV
-                preprocessed_filepath = os.path.join('storage/data', 'fixed_text_data_preprocessed.csv')
+                preprocessed_filepath = os.path.join('flask-api/storage/data', 'fixed_text_data_preprocessed.csv')
                 preprocessedDatadf.to_csv(preprocessed_filepath, index=False)
                 
                 return jsonify({
@@ -575,12 +575,12 @@ def train_model():
                 
                 # Process the data
                 preprocessedDatadf = keystroke_processor.preprocess_keystroke_data(df, username, additional_users={
-                    "Aisha": "storage/data/FixedText_Aisha.csv",
-                    "Misbah": "storage/data/FixedText_Misbah.csv"
+                    "Aisha": "flask-api/storage/data/FixedText_Aisha.csv",
+                    "Misbah": "flask-api/storage/data/FixedText_Misbah.csv"
                 })
                 
                 # Save preprocessed data to CSV
-                preprocessed_filepath = os.path.join('storage/data', 'fixed_text_data_preprocessed.csv')
+                preprocessed_filepath = os.path.join('flask-api/storage/data', 'fixed_text_data_preprocessed.csv')
                 preprocessedDatadf.to_csv(preprocessed_filepath, index=False)
                 
                 logger.info(f"Preprocessed keystroke data for {username} saved to {preprocessed_filepath}")
@@ -1011,7 +1011,7 @@ def predict():
             }
             
             # Save alert to file (in a real app, this would go to a database)
-            with open(f'storage/alerts/{alert_id}.json', 'w') as f:
+            with open(f'flask-api/storage/alerts/{alert_id}.json', 'w') as f:
                 json.dump(alert, f)
         
         return jsonify(result)
@@ -1057,15 +1057,15 @@ def get_alerts():
         filter_text = request.args.get('filter', '')
         
         # Get all alert files
-        alert_files = os.listdir('storage/alerts')
-        alert_files.sort(key=lambda x: os.path.getmtime(os.path.join('storage/alerts', x)), reverse=True)
+        alert_files = os.listdir('flask-api/storage/alerts')
+        alert_files.sort(key=lambda x: os.path.getmtime(os.path.join('flask-api/storage/alerts', x)), reverse=True)
         
         alerts = []
         for file_name in alert_files:
             if not file_name.endswith('.json'):
                 continue
                 
-            with open(os.path.join('storage/alerts', file_name), 'r') as f:
+            with open(os.path.join('flask-api/storage/alerts', file_name), 'r') as f:
                 alert = json.load(f)
                 
             # Apply filter if provided
@@ -1092,7 +1092,7 @@ def get_alerts():
 def get_alert_by_id(alert_id):
     """Get a specific alert by ID"""
     try:
-        alert_path = os.path.join('storage/alerts', f'{alert_id}.json')
+        alert_path = os.path.join('flask-api/storage/alerts', f'{alert_id}.json')
         
         if not os.path.exists(alert_path):
             return jsonify({'error': 'Alert not found'}), 404
@@ -1211,7 +1211,7 @@ def get_summary():
     """Get summary statistics for keystroke models and alerts"""
     try:
         # Count alerts
-        alert_count = len([f for f in os.listdir('storage/alerts') if f.endswith('.json')])
+        alert_count = len([f for f in os.listdir('flask-api/storage/alerts') if f.endswith('.json')])
         
         # Get model statuses
         model_statuses = {}
