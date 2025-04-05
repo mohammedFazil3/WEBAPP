@@ -1,0 +1,4 @@
+Timestamp_Press,Timestamp_Release,Key Stroke,Application,Hold Time
+2025-04-05 15:00:28.920774,2025-04-05 15:00:29.086421,'r',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.165647
+2025-04-05 15:00:29.039869,2025-04-05 15:00:29.176437,'e',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.136568
+2025-04-05 15:00:29.237119,2025-04-05 15:00:29.341871,'d',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.104752

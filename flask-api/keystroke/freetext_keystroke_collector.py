@@ -26,6 +26,7 @@ keystroke_threshold = 30  # Number of keystrokes before prediction
 free_text_target = 10000  # Target for free-text model training
 monitor_thread = None
 last_prediction_time = None
+multi_binary_model = False
 
 # File paths based on the actual project structure
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -75,7 +76,7 @@ def is_model_trained():
 
 def get_status():
     """Get the current status of free-text collection and prediction."""
-    global collection_active, prediction_active, keystroke_count, keystroke_threshold, free_text_target, last_prediction_time
+    global collection_active, prediction_active, keystroke_count, keystroke_threshold, free_text_target, last_prediction_time, multi_binary_model
     
     # Get the collection status from the existing collector
     collector_status = keystroke_collector.get_collection_status()
@@ -116,7 +117,8 @@ def get_status():
             "model_path": FIXED_TEXT_MODEL_PATH,
             "info_path": MODEL_INFO_PATH
         },
-        "last_updated": datetime.now().isoformat()
+        "last_updated": datetime.now().isoformat(),
+        "multi_binary_model": multi_binary_model
     }
     
     return status
@@ -151,29 +153,35 @@ def _reset_prediction_buffer():
     except Exception as e:
         logger.error(f"Error resetting prediction buffer: {str(e)}")
 
-def start_free_text_collection(username):
+def start_free_text_collection(username, is_multi_binary=False,prediction_mode=False):
     """Start collecting keystrokes for free-text model with real-time anomaly detection."""
-    global collection_active, prediction_active, monitor_thread, keystroke_count
+    global collection_active, prediction_active, monitor_thread, keystroke_count, multi_binary_model
     
+    prediction_active = prediction_mode
     if collection_active:
         logger.warning("Free-text collection already active")
         return False, "Free-text collection is already active"
     
     try:
-        # Check if fixed-text model exists and is initialized
-        if fixed_text is None:
-            logger.error(f"Fixed-text model file not found at: {FIXED_TEXT_MODEL_PATH}")
-            return False, f"Fixed-text model file not found at: {FIXED_TEXT_MODEL_PATH}"
-            
-        # Check if the model file exists in the expected location
-        if not os.path.exists(FIXED_TEXT_MODEL_PATH):
-            logger.error(f"Fixed-text model file not found at: {FIXED_TEXT_MODEL_PATH}")
-            return False, f"Fixed-text model file not found at: {FIXED_TEXT_MODEL_PATH}"
+        # Set the global multi_binary_model variable
+        multi_binary_model = is_multi_binary
         
-        # Check if fixed-text model is trained
-        if not is_model_trained():
-            logger.error("Fixed-text model is not trained yet")
-            return False, "Fixed-text model is not trained yet for anomaly detection"
+        # Skip fixed-text model checks if multi_binary_model is True
+        if not multi_binary_model:
+            # Check if fixed-text model exists and is initialized
+            if fixed_text is None:
+                logger.error(f"Fixed-text model file not found at: {FIXED_TEXT_MODEL_PATH}")
+                return False, f"Fixed-text model file not found at: {FIXED_TEXT_MODEL_PATH}"
+                
+            # Check if the model file exists in the expected location
+            if not os.path.exists(FIXED_TEXT_MODEL_PATH):
+                logger.error(f"Fixed-text model file not found at: {FIXED_TEXT_MODEL_PATH}")
+                return False, f"Fixed-text model file not found at: {FIXED_TEXT_MODEL_PATH}"
+            
+            # Check if fixed-text model is trained
+            if not is_model_trained():
+                logger.error("Fixed-text model is not trained yet")
+                return False, "Fixed-text model is not trained yet for anomaly detection"
         
         # First, start the normal keystroke collection for free-text
         if not keystroke_collector.get_collection_status()["active"]:
@@ -191,7 +199,7 @@ def start_free_text_collection(username):
         
         # Activate collection and prediction
         collection_active = True
-        prediction_active = True
+        prediction_active = not multi_binary_model  # Only enable prediction if not multi_binary_model
         
         # Start background monitoring thread
         if monitor_thread is None or not monitor_thread.is_alive():
@@ -204,8 +212,13 @@ def start_free_text_collection(username):
         
         logger.info(f"Started free-text collection for user {username}")
 
-        # Start transition monitoring
-        transition_integration.init_transition_monitoring("keystroke.freetext_keystroke_collector")
+        # Start transition monitoring only if not in multi-binary model mode
+        if not multi_binary_model:
+            transition_integration.init_transition_monitoring("keystroke.freetext_keystroke_collector")
+            logger.info("Started transition monitoring for model switching")
+        else:
+            logger.info("Skipping transition monitoring in multi-binary model mode")
+            
         return True, "Free-text collection started successfully"
         
     except Exception as e:
@@ -432,7 +445,7 @@ def create_alert(result, keystroke_data):
 
 def monitor_collection():
     """Background thread to monitor free-text collection and trigger anomaly detection."""
-    global keystroke_count, collection_active, prediction_active
+    global keystroke_count, collection_active, prediction_active, multi_binary_model
     
     logger.info("Started free-text collection monitoring thread")
     
@@ -455,7 +468,8 @@ def monitor_collection():
                 # Check if we've reached the free-text target
                 if keystroke_count >= free_text_target:
                     logger.info(f"Reached target of {free_text_target} keystrokes for free-text model training")
-                    # Train free-text model once target is reached
+                    
+                    # Train free-text model regardless of mode
                     try:
                         logger.info("Starting free-text model training process")
                         
@@ -571,6 +585,12 @@ def monitor_collection():
                         
                         if result.get('success', False):
                             logger.info(f"Free-text model trained successfully with accuracy: {result.get('accuracy', 0)}")
+                            
+                            # For multi-binary model, stop collection after training but don't switch models
+                            if multi_binary_model:
+                                logger.info("Multi-binary model mode: stopping collection after training")
+                                stop_free_text_collection()
+                                return
                         else:
                             logger.error(f"Error in model training: {result.get('error', 'Unknown error')}")
                         

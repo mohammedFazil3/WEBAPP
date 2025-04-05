@@ -1,0 +1,32 @@
+Timestamp_Press,Timestamp_Release,Key Stroke,Application,Hold Time,Hold Time (seconds)
+2025-04-05 08:10:51.558265,2025-04-05 08:10:51.693514,'f',app.py - WebApp - Cursor [Administrator],0:00:00.135249,0.135249
+2025-04-05 08:16:24.080648,2025-04-05 08:16:24.241217,Key.right,127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.160569,0.160569
+2025-04-05 08:16:25.742842,2025-04-05 08:16:25.839397,Key.backspace,127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.096555,0.096555
+2025-04-05 08:16:25.953101,2025-04-05 08:16:26.033166,Key.backspace,127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.080065,0.080065
+2025-04-05 08:16:26.129122,2025-04-05 08:16:26.223736,Key.backspace,127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.094614,0.094614
+2025-04-05 08:16:26.309406,2025-04-05 08:16:26.394418,Key.backspace,127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.085012,0.085012
+2025-04-05 08:16:26.489438,2025-04-05 08:16:26.589368,Key.backspace,127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.099930,0.09993
+2025-04-05 08:16:27.561809,2025-04-05 08:16:27.691347,'m',127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.129538,0.129538
+2025-04-05 08:16:27.721016,2025-04-05 08:16:27.822539,'i',127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.101523,0.101523
+2025-04-05 08:16:28.102051,2025-04-05 08:16:28.192258,'s',127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.090207,0.090207
+2025-04-05 08:16:29.133289,2025-04-05 08:16:29.225407,'b',127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.092118,0.092118
+2025-04-05 08:16:29.604952,2025-04-05 08:16:29.709460,'a',127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.104508,0.104508
+2025-04-05 08:16:30.356130,2025-04-05 08:16:30.440940,'h',127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.084810,0.08481
+2025-04-05 08:17:07.511222,2025-04-05 08:17:07.585845,Key.backspace,127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.074623,0.074623
+2025-04-05 08:17:07.816612,2025-04-05 08:17:08.031858,Key.shift_r,127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.215246,0.215246
+2025-04-05 08:17:08.818139,2025-04-05 08:17:09.464055,Key.right,127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.645916,0.645916
+2025-04-05 08:17:09.579293,2025-04-05 08:17:09.709767,Key.right,127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.130474,0.130474
+2025-04-05 08:17:09.794337,2025-04-05 08:17:09.888039,Key.right,127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.093702,0.093702
+2025-04-05 08:17:09.970544,2025-04-05 08:17:10.044967,Key.right,127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.074423,0.074423
+2025-04-05 08:17:10.125245,2025-04-05 08:17:10.205253,Key.right,127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.080008,0.080008
+2025-04-05 08:17:10.560838,2025-04-05 08:17:10.666136,Key.backspace,127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.105298,0.105298
+2025-04-05 08:17:10.881144,2025-04-05 08:17:11.111587,Key.shift_r,127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.230443,0.230443
+2025-04-05 08:17:18.568884,2025-04-05 08:17:18.849763,Key.shift_r,127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.280879,0.280879
+2025-04-05 08:17:19.049955,2025-04-05 08:17:19.189972,Key.right,127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.140017,0.140017
+2025-04-05 08:17:19.275522,2025-04-05 08:17:19.365307,Key.right,127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.089785,0.089785
+2025-04-05 08:17:19.450169,2025-04-05 08:17:19.540907,Key.right,127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.090738,0.090738
+2025-04-05 08:17:19.615528,2025-04-05 08:17:19.691031,Key.right,127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.075503,0.075503
+2025-04-05 08:17:19.770796,2025-04-05 08:17:19.846403,Key.right,127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.075607,0.075607
+2025-04-05 08:17:19.927489,2025-04-05 08:17:20.006064,Key.right,127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.078575,0.078575
+2025-04-05 08:17:20.091651,2025-04-05 08:17:20.161245,Key.right,127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.069594,0.069594
+2025-04-05 08:17:20.236332,2025-04-05 08:17:20.336988,Key.right,127.0.0.1:5000/api/keystroke/free-text/start/Fazil - My Workspace,0:00:00.100656,0.100656

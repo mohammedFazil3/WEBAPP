@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProfilerX Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: #f5f7fa;
+        }
+        
+        .sidebar {
+            background-color: #2D1B4E;
+            width: 280px;
+            height: 100vh;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 10;
+            border-top-right-radius: 16px;
+            border-bottom-right-radius: 16px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        
+        .sidebar.collapsed {
+            width: 70px;
+        }
+        
+        .sidebar.collapsed .menu-text,
+        .sidebar.collapsed .category {
+            display: none;
+        }
+        
+        .sidebar.collapsed .logo h1 {
+            display: none;
+        }
+        
+        .content-wrapper {
+            margin-left: 280px;
+            transition: all 0.3s ease;
+        }
+        
+        .content-wrapper.sidebar-collapsed {
+            margin-left: 70px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .logo-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #0B3D91, #000033);
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: radial-gradient(white 1px, transparent 1px);
+            background-size: 10px 10px;
+            opacity: 0.3;
+        }
+        
+        .category {
+            font-size: 12px;
+            font-weight: 500;
+            color: #a599b5;
+            padding: 16px 20px;
+            letter-spacing: 1px;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        
+        .sidebar.collapsed .menu-item {
+            padding: 12px;
+            justify-content: center;
+        }
+        
+        .sidebar.collapsed .icon {
+            margin-right: 0;
+        }
+        
+        .menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+            border-left: 3px solid #6d5c9c;
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+        
+        .menu-item.active {
+            background-color: rgba(255, 255, 255, 0.12);
+            border-left: 3px solid #8B5CF6;
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+        
+        .icon {
+            width: 22px;
+            height: 22px;
+            opacity: 0.8;
+            margin-right: 12px;
+        }
+        
+        .menu-text {
+            font-size: 16px;
+            font-weight: 400;
+        }
+        
+        .back-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 36px;
+            height: 36px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .back-button:hover {
+            transform: translateX(-3px);
+        }
+        
+        .card {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-icon {
+            border-radius: 10px;
+        }
+
+        /* New dashboard styles */
+        .dashboard-content {
+            padding: 24px;
+        }
+        
+        .header-section {
+            padding: 16px 24px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+            margin-bottom: 24px;
+        }
+        
+        .rounded-progress {
+            height: 6px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="back-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2D1B4E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 18l-6-6 6-6"/>
+            </svg>
+        </div>
+        
+        <div class="logo">
+            <div class="logo-image"></div>
+            <h1 class="text-2xl font-semibold ml-4">ProfilerX</h1>
+        </div>
+        
+        <div class="category">SIGNATURE-BASED</div>
+        
+        <div class="menu-item active" id="overview">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            <span class="menu-text">OVERVIEW</span>
+        </div>
+        
+        <div class="menu-item" id="fileIntegrity">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            <span class="menu-text">File Integrity Monitoring</span>
+        </div>
+        
+        <div class="menu-item" id="malwareDetection">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+                <path d="M12 11L12 15"></path>
+                <path d="M12 18L12 17.5"></path>
+            </svg>
+            <span class="menu-text">Malware Detection</span>
+        </div>
+        
+        <div class="menu-item" id="logAnalysis">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <path d="M14 2v6h6"></path>
+                <path d="M16 13H8"></path>
+                <path d="M16 17H8"></path>
+                <path d="M10 9H8"></path>
+            </svg>
+            <span class="menu-text">Log Analysis</span>
+        </div>
+        
+        <div class="menu-item" id="intrusionDetection">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            <span class="menu-text">Intrusion Detection</span>
+        </div>
+        
+        <div class="category">BEHAVIOR-BASED</div>
+        
+        <div class="menu-item" id="anomalyDetection">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                <path d="M11 8L11 14"></path>
+                <path d="M8 11H14"></path>
+            </svg>
+            <span class="menu-text">Anomaly Detection</span>
+        </div>
+        
+        <div class="menu-item" id="keystrokeIdentification">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect>
+                <line x1="6" y1="8" x2="6" y2="8"></line>
+                <line x1="10" y1="8" x2="10" y2="8"></line>
+                <line x1="14" y1="8" x2="14" y2="8"></line>
+                <line x1="18" y1="8" x2="18" y2="8"></line>
+                <line x1="6" y1="12" x2="6" y2="12"></line>
+                <line x1="10" y1="12" x2="10" y2="12"></line>
+                <line x1="14" y1="12" x2="14" y2="12"></line>
+                <line x1="18" y1="12" x2="18" y2="12"></line>
+                <line x1="6" y1="16" x2="6" y2="16"></line>
+                <line x1="10" y1="16" x2="10" y2="16"></line>
+                <line x1="14" y1="16" x2="14" y2="16"></line>
+                <line x1="18" y1="16" x2="18" y2="16"></line>
+            </svg>
+            <span class="menu-text">Keystroke Identification</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-wrapper">
+        <div class="dashboard-content">
+            <!-- Header -->
+            <div class="header-section flex justify-between items-center mb-6">
+                <div>
+                    <h1 class="text-xl font-bold text-gray-800">ProfilerX Dashboard</h1>
+                    <p class="text-sm text-gray-500">Welcome back, Security Admin</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button class="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                        </svg>
+                    </button>
+                    <button class="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <div class="h-8 w-8 rounded-full bg-purple-600 flex items-center justify-center text-white font-medium">
+                        SA
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+                <div class="card bg-white p-5">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs text-gray-500 font-medium">Threat Detections</p>
+                            <p class="text-xl font-bold text-gray-800 mt-1">37</p>
+                            <p class="text-xs text-red-500 mt-1">
+                                <span class="inline-block mr-1">↑</span> 12% increase
+                            </p>
+                        </div>
+                        <div class="p-3 card-icon bg-red-100 text-red-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card bg-white p-5">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs text-gray-500 font-medium">Protected Files</p>
+                            <p class="text-xl font-bold text-gray-800 mt-1">1,254</p>
+                            <p class="text-xs text-green-500 mt-1">
+                                <span class="inline-block mr-1">↑</span> 4% increase
+                            </p>
+                        </div>
+                        <div class="p-3 card-icon bg-green-100 text-green-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+                                <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card bg-white p-5">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs text-gray-500 font-medium">System Load</p>
+                            <p class="text-xl font-bold text-gray-800 mt-1">42%</p>
+                            <p class="text-xs text-gray-500 mt-1">
+                                <span class="inline-block mr-1">○</span> Stable
+                            </p>
+                        </div>
+                        <div class="p-3 card-icon bg-blue-100 text-blue-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3 1h10v8H5V6zm6 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card bg-white p-5">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs text-gray-500 font-medium">Response Time</p>
+                            <p class="text-xl font-bold text-gray-800 mt-1">4.2ms</p>
+                            <p class="text-xs text-green-500 mt-1">
+                                <span class="inline-block mr-1">↓</span> 8% decrease
+                            </p>
+                        </div>
+                        <div class="p-3 card-icon bg-purple-100 text-purple-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Activity -->
+                <div class="md:col-span-2">
+                    <div class="card bg-white p-5 mb-6">
+                        <div class="flex justify-between items-center mb-5">
+                            <h2 class="text-base font-semibold text-gray-800">Security Activity</h2>
+                            <button class="text-xs text-indigo-600 hover:text-indigo-800 font-medium">View All</button>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="bg-red-100 p-2 rounded-full mr-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-800">Malware detected in system32 folder</p>
+                                    <p class="text-xs text-gray-500 mt-1">5 minutes ago</p>
+                                </div>
+                                <span class="ml-auto text-xs bg-red-100 text-red-800 font-medium px-2 py-1 rounded">Critical</span>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="bg-yellow-100 p-2 rounded-full mr-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-800">Unusual login attempt detected</p>
+                                    <p class="text-xs text-gray-500 mt-1">42 minutes ago</p>
+                                </div>
+                                <span class="ml-auto text-xs bg-yellow-100 text-yellow-800 font-medium px-2 py-1 rounded">Warning</span>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="bg-green-100 p-2 rounded-full mr-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-800">System scan completed successfully</p>
+                                    <p class="text-xs text-gray-500 mt-1">1 hour ago</p>
+                                </div>
+                                <span class="ml-auto text-xs bg-green-100 text-green-800 font-medium px-2 py-1 rounded">Success</span>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="bg-blue-100 p-2 rounded-full mr-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M18 8a6 6 0 01-7.743 5.743L10 14l-1 1-1 1H6v-1l1-1 1-1-.257-.257A6 6 0 1118 8zm-6-4a1 1 0 100 2 2 2 0 012 2 1 1 0 102 0 4 4 0 00-4-4z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-800">Security definitions updated</p>
+                                    <p class="text-xs text-gray-500 mt-1">3 hours ago</p>
+                                </div>
+                                <span class="ml-auto text-xs bg-blue-100 text-blue-800 font-medium px-2 py-1 rounded">Info</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card bg-white p-5">
+                        <div class="flex justify-between items-center mb-5">
+                            <h2 class="text-base font-semibold text-gray-800">Quick Actions</h2>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <button class="p-3 border border-gray-200 rounded-lg text-sm text-gray-700 hover:bg-gray-50 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-indigo-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
+                                </svg>
+                                Run Scan
+                            </button>
+                            <button class="p-3 border border-gray-200 rounded-lg text-sm text-gray-700 hover:bg-gray-50 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
+                                </svg>
+                                Update Definitions
+                            </button>
+                            <button class="p-3 border border-gray-200 rounded-lg text-sm text-gray-700 hover:bg-gray-50 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-purple-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+                                </svg>
+                                Configure Settings
+                            </button>
+                            <button class="p-3 border border-gray-200 rounded-lg text-sm text-gray-700 hover:bg-gray-50 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                                </svg>
+                                View Reports
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status -->
+                <div>
+                    <div class="card bg-white p-5 mb-6">
+                        <h2 class="text-base font-semibold text-gray-800 mb-4">System Status</h2>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between text-xs font-medium text-gray-600 mb-1">
+                                    <span>CPU Usage</span>
+                                    <span>42%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full rounded-progress">
+                                    <div class="bg-blue-500 rounded-progress" style="width: 42%; height: 6px;"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs font-medium text-gray-600 mb-1">
+                                    <span>Memory Usage</span>
+                                    <span>68%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full rounded-progress">
+                                    <div class="bg-green-500 rounded-progress" style="width: 68%; height: 6px;"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs font-medium text-gray-600 mb-1">
+                                    <span>Disk Space</span>
+                                    <span>87%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full rounded-progress">
+                                    <div class="bg-yellow-500 rounded-progress" style="width: 87%; height: 6px;"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs font-medium text-gray-600 mb-1">
+                                    <span>Network</span>
+                                    <span>35%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full rounded-progress">
+                                    <div class="bg-purple-500 rounded-progress" style="width: 35%; height: 6px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white p-5">
+                        <h2 class="text-base font-semibold text-gray-800 mb-4">Active Monitors</h2>
+                        <ul class="divide-y divide-gray-100">
+                            <li class="py-3 flex items-center">
+                                <div class="w-2 h-2 rounded-full bg-green-500 mr-2"></div>
+                                <span class="text-sm font-medium text-gray-700">File Integrity</span>
+                                <span class="ml-auto text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">Active</span>
+                            </li>
+                            <li class="py-3 flex items-center">
+                                <div class="w-2 h-2 rounded-full bg-green-500 mr-2"></div>
+                                <span class="text-sm font-medium text-gray-700">Malware Detection</span>
+                                <span class="ml-auto text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">Active</span>
+                            </li>
+                            <li class="py-3 flex items-center">
+                                <div class="w-2 h-2 rounded-full bg-yellow-500 mr-2"></div>
+                                <span class="text-sm font-medium text-gray-700">Log Analysis</span>
+                                <span class="ml-auto text-xs bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded-full">Paused</span>
+                            </li>
+                            <li class="py-3 flex items-center">
+                                <div class="w-2 h-2 rounded-full bg-green-500 mr-2"></div>
+                                <span class="text-sm font-medium text-gray-700">Intrusion Detection</span>
+                                <span class="ml-auto text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">Active</span>
+                            </li>
+                            <li class="py-3 flex items-center">
+                                <div class="w-2 h-2 rounded-full bg-red-500 mr-2"></div>
+                                <span class="text-sm font-medium text-gray-700">Keystroke Monitor</span>
+                                <span class="ml-auto text-xs bg-red-100 text-red-800 px-2 py-0.5 rounded-full">Alert</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle sidebar
+        document.querySelector('.back-button').addEventListener('click', function() {
+            const sidebar = document.querySelector('.sidebar');
+            const contentWrapper = document.querySelector('.content-wrapper');
+            
+            sidebar.classList.toggle('collapsed');
+            contentWrapper.classList.toggle('sidebar-collapsed');
+            
+            // Change the back button icon direction
+            const backIcon = this.querySelector('svg path');
+            if (sidebar.classList.contains('collapsed')) {
+                backIcon.setAttribute('d', 'M9 18l6-6-6-6');
+            } else {
+                backIcon.setAttribute('d', 'M15 18l-6-6 6-6');
+            }
+        });
+        
+        // Setup page navigation for sidebar items
+        const menuItems = {
+            'overview': '/dashboard-page',
+            'fileIntegrity': '/fileIntegrity',
+            'malwareDetection': '/malwareDetection',
+            'logAnalysis': '/logAnalysis',
+            'intrusionDetection': '/intrusionDetection',
+            'anomalyDetection': '/anomalyDetection',
+            'keystrokeIdentification': '/keystrokeIdentification'
+        };
+        
+        // Add click event listeners to all menu items
+        Object.keys(menuItems).forEach(id => {
+            const menuItem = document.getElementById(id);
+            if (menuItem) {
+                menuItem.addEventListener('click', function() {
+                    // Remove active class from all menu items
+                    document.querySelectorAll('.menu-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked menu item
+                    this.classList.add('active');
+                    
+                    // Navigate to the corresponding page
+                    console.log(`Navigating to ${menuItems[id]}`);
+                    window.location.href = menuItems[id];
+                });
+            }
+        });
+    </script>
+</body>
+</html>

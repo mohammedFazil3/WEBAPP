@@ -112,6 +112,43 @@ class KeystrokeService {
     }
   }
 
+//add the below functions in Keystroke.repo.js in persistence layer................................................................
+
+  /**
+   * Fetch keystroke alerts based on filters
+   * @param {string} username - Username to filter alerts for
+   * @param {string} timeRange - Time range for alerts (e.g., '24h', '7d', '30d')
+   * @param {number} confidence - Minimum confidence threshold for alerts
+   * @returns {Array} - Array of keystroke alerts
+   */
+  async fetchKeystrokeAletrs(username, timeRange, confidence) {
+    try {
+      return await keystrokeRepo.fetchKeystrokeAlerts(username, timeRange, confidence);
+    } catch (error) {
+      logger.error(`Error in KeystrokeService.fetchKeystrokeAletrs for user ${username}:`, error);
+      throw error;
+    }
+  }
+  
+  /**
+   * Add a new user to the system
+   * @param {Object} userData - User data object
+   * @param {string} userData.username - Username
+   * @param {string} userData.email - Email address
+   * @param {string} userData.role - User role (optional)
+   * @param {string} userData.department - User department (optional)
+   * @param {string} userData.created_at - Creation timestamp
+   * @returns {Object} - Created user object
+   */
+  async addUser(userData) {
+    try {
+      return await keystrokeRepo.addUser(userData);
+    } catch (error) {
+      logger.error(`Error in KeystrokeService.addUser for user ${userData.username}:`, error);
+      throw error;
+    }
+  }
+
 }
 
 module.exports = new KeystrokeService(); 

@@ -1,0 +1,324 @@
+Timestamp_Press,Timestamp_Release,Key Stroke,Application,Hold Time
+2025-04-05 12:43:52.448831,2025-04-05 12:43:52.562829,'h',multi_binary_model.py - WebApp - Cursor [Administrator],0:00:00.113998
+2025-04-05 12:43:52.727506,2025-04-05 12:43:52.868129,'i',multi_binary_model.py - WebApp - Cursor [Administrator],0:00:00.140623
+2025-04-05 12:44:08.210404,2025-04-05 12:44:08.334130,'\x06',app.py - WebApp - Cursor [Administrator],0:00:00.123726
+2025-04-05 12:44:07.949106,2025-04-05 12:44:08.424430,Key.ctrl_l,app.py - WebApp - Cursor [Administrator],0:00:00.475324
+2025-04-05 12:44:08.949802,2025-04-05 12:44:09.186272,Key.shift,app.py - WebApp - Cursor [Administrator],0:00:00.236470
+2025-04-05 12:44:09.295595,2025-04-05 12:44:09.390693,'e',app.py - WebApp - Cursor [Administrator],0:00:00.095098
+2025-04-05 12:44:09.445789,2025-04-05 12:44:09.566627,'n',app.py - WebApp - Cursor [Administrator],0:00:00.120838
+2025-04-05 12:44:09.586138,2025-04-05 12:44:09.692603,'d',app.py - WebApp - Cursor [Administrator],0:00:00.106465
+2025-04-05 12:44:09.680573,2025-04-05 12:44:09.796405,'i',app.py - WebApp - Cursor [Administrator],0:00:00.115832
+2025-04-05 12:44:09.823775,2025-04-05 12:44:09.920859,'n',app.py - WebApp - Cursor [Administrator],0:00:00.097084
+2025-04-05 12:44:09.932889,2025-04-05 12:44:10.041650,'g',app.py - WebApp - Cursor [Administrator],0:00:00.108761
+2025-04-05 12:44:10.056709,2025-04-05 12:44:10.172275,Key.space,app.py - WebApp - Cursor [Administrator],0:00:00.115566
+2025-04-05 12:44:10.361703,2025-04-05 12:44:10.481382,'s',app.py - WebApp - Cursor [Administrator],0:00:00.119679
+2025-04-05 12:44:10.542081,2025-04-05 12:44:10.671205,'u',app.py - WebApp - Cursor [Administrator],0:00:00.129124
+2025-04-05 12:44:10.736943,2025-04-05 12:44:10.826994,'c',app.py - WebApp - Cursor [Administrator],0:00:00.090051
+2025-04-05 12:44:10.907062,2025-04-05 12:44:10.997467,'c',app.py - WebApp - Cursor [Administrator],0:00:00.090405
+2025-04-05 12:44:11.138415,2025-04-05 12:44:11.222573,'e',app.py - WebApp - Cursor [Administrator],0:00:00.084158
+2025-04-05 12:44:11.622417,2025-04-05 12:44:11.728434,'s',app.py - WebApp - Cursor [Administrator],0:00:00.106017
+2025-04-05 12:44:11.808471,2025-04-05 12:44:11.923346,'s',app.py - WebApp - Cursor [Administrator],0:00:00.114875
+2025-04-05 12:44:12.007864,2025-04-05 12:44:12.129476,'f',app.py - WebApp - Cursor [Administrator],0:00:00.121612
+2025-04-05 12:44:12.159541,2025-04-05 12:44:12.242803,'u',app.py - WebApp - Cursor [Administrator],0:00:00.083262
+2025-04-05 12:44:12.348577,2025-04-05 12:44:12.448419,'l',app.py - WebApp - Cursor [Administrator],0:00:00.099842
+2025-04-05 12:45:04.043932,2025-04-05 12:45:04.154002,'\x06',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.110070
+2025-04-05 12:45:03.303205,2025-04-05 12:45:04.374492,Key.ctrl_l,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:01.071287
+2025-04-05 12:45:04.905401,2025-04-05 12:45:05.044233,'s',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.138832
+2025-04-05 12:45:05.256149,2025-04-05 12:45:05.375545,'t',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.119396
+2025-04-05 12:45:05.491003,2025-04-05 12:45:05.635949,'a',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.144946
+2025-04-05 12:45:05.680860,2025-04-05 12:45:05.830481,'r',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.149621
+2025-04-05 12:45:05.931076,2025-04-05 12:45:06.036027,'t',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.104951
+2025-04-05 12:45:06.526468,2025-04-05 12:45:07.327413,Key.shift,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.800945
+2025-04-05 12:45:07.552942,2025-04-05 12:45:07.687012,'f',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.134070
+2025-04-05 12:45:07.853364,2025-04-05 12:45:08.052768,'r',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.199404
+2025-04-05 12:45:08.061972,2025-04-05 12:45:08.137681,'e',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.075709
+2025-04-05 12:45:08.219243,2025-04-05 12:45:08.327854,'e',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.108611
+2025-04-05 12:45:21.237387,2025-04-05 12:45:21.341102,'m',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.103715
+2025-04-05 12:45:21.396153,2025-04-05 12:45:21.509984,'o',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.113831
+2025-04-05 12:45:21.500993,2025-04-05 12:45:21.655530,'d',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.154537
+2025-04-05 12:45:21.675460,2025-04-05 12:45:21.825560,'e',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.150100
+2025-04-05 12:45:21.810626,2025-04-05 12:45:21.951165,'l',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.140539
+2025-04-05 12:45:22.031323,2025-04-05 12:45:22.161413,'t',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.130090
+2025-04-05 12:45:22.517268,2025-04-05 12:45:22.627307,'y',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.110039
+2025-04-05 12:45:22.997213,2025-04-05 12:45:23.081485,Key.backspace,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.084272
+2025-04-05 12:45:23.152754,2025-04-05 12:45:23.223190,Key.backspace,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.070436
+2025-04-05 12:45:23.622956,2025-04-05 12:45:23.747422,'T',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.124466
+2025-04-05 12:45:23.447016,2025-04-05 12:45:23.792675,Key.shift,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.345659
+2025-04-05 12:45:23.973253,2025-04-05 12:45:24.048153,Key.backspace,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.074900
+2025-04-05 12:45:24.678137,2025-04-05 12:45:24.823702,Key.enter,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.145565
+2025-04-05 12:45:26.745508,2025-04-05 12:45:26.860173,Key.enter,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.114665
+2025-04-05 12:45:27.180286,2025-04-05 12:45:27.281441,Key.enter,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.101155
+2025-04-05 12:45:27.516239,2025-04-05 12:45:27.625897,Key.enter,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.109658
+2025-04-05 12:45:28.787261,2025-04-05 12:45:28.896998,Key.enter,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.109737
+2025-04-05 12:45:29.147610,2025-04-05 12:45:29.253768,Key.enter,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.106158
+2025-04-05 12:45:30.143728,2025-04-05 12:45:30.244267,Key.enter,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.100539
+2025-04-05 12:45:30.514139,2025-04-05 12:45:30.589088,Key.enter,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.074949
+2025-04-05 12:45:31.384683,2025-04-05 12:45:31.485162,Key.enter,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.100479
+2025-04-05 12:45:31.984559,2025-04-05 12:45:32.040350,Key.enter,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.055791
+2025-04-05 12:45:32.325435,2025-04-05 12:45:32.441074,Key.enter,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.115639
+2025-04-05 12:45:32.660373,2025-04-05 12:45:32.781206,Key.enter,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.120833
+2025-04-05 12:45:33.036445,2025-04-05 12:45:33.156654,Key.enter,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.120209
+2025-04-05 12:45:39.387600,2025-04-05 12:45:39.532673,'k',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.145073
+2025-04-05 12:45:39.727457,2025-04-05 12:45:39.862132,'e',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.134675
+2025-04-05 12:45:39.942782,2025-04-05 12:45:40.083007,'y',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.140225
+2025-04-05 12:45:40.122667,2025-04-05 12:45:40.243384,'s',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.120717
+2025-04-05 12:45:40.453082,2025-04-05 12:45:40.618101,'t',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.165019
+2025-04-05 12:45:40.628187,2025-04-05 12:45:40.743460,'r',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.115273
+2025-04-05 12:45:40.783583,2025-04-05 12:45:40.928511,'o',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.144928
+2025-04-05 12:45:40.873838,2025-04-05 12:45:41.013935,'k',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.140097
+2025-04-05 12:45:40.972845,2025-04-05 12:45:41.105261,'e',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.132416
+2025-04-05 12:45:41.280279,2025-04-05 12:45:41.528236,Key.shift,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.247957
+2025-04-05 12:45:42.664139,2025-04-05 12:45:42.789423,'s',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.125284
+2025-04-05 12:45:07.222875,2025-04-05 12:45:43.485731,'_',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:36.262856
+2025-04-05 12:45:42.929599,2025-04-05 12:45:43.556416,Key.shift,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.626817
+2025-04-05 12:45:51.773627,2025-04-05 12:45:51.892647,Key.enter,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.119020
+2025-04-05 12:46:01.656896,2025-04-05 12:46:01.741099,Key.enter,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.084203
+2025-04-05 12:46:01.916359,2025-04-05 12:46:02.036929,Key.enter,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.120570
+2025-04-05 12:46:02.212547,2025-04-05 12:46:02.337636,Key.enter,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.125089
+2025-04-05 12:46:02.487865,2025-04-05 12:46:02.602134,Key.enter,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.114269
+2025-04-05 12:46:02.742724,2025-04-05 12:46:02.878038,Key.enter,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.135314
+2025-04-05 12:46:03.007368,2025-04-05 12:46:03.152713,Key.enter,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.145345
+2025-04-05 12:46:13.635921,2025-04-05 12:46:13.741693,'m',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.105772
+2025-04-05 12:46:13.851350,2025-04-05 12:46:13.961882,'u',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.110532
+2025-04-05 12:46:14.067164,2025-04-05 12:46:14.181836,'l',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.114672
+2025-04-05 12:46:14.196954,2025-04-05 12:46:14.303260,'t',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.106306
+2025-04-05 12:46:14.328258,2025-04-05 12:46:14.431949,'i',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.103691
+2025-04-05 12:46:14.642591,2025-04-05 12:46:14.757301,'-',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.114710
+2025-04-05 12:46:15.137955,2025-04-05 12:46:15.239038,'b',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.101083
+2025-04-05 12:46:15.335045,2025-04-05 12:46:15.458286,'i',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.123241
+2025-04-05 12:46:15.478653,2025-04-05 12:46:15.602913,'n',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.124260
+2025-04-05 12:46:15.758967,2025-04-05 12:46:15.868699,'a',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.109732
+2025-04-05 12:46:16.024519,2025-04-05 12:46:16.178125,'r',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.153606
+2025-04-05 12:46:17.980720,2025-04-05 12:46:18.110479,'y',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.129759
+2025-04-05 12:46:18.745696,2025-04-05 12:46:18.860580,Key.enter,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.114884
+2025-04-05 12:46:19.366232,2025-04-05 12:46:19.471969,Key.enter,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.105737
+2025-04-05 12:46:20.082148,2025-04-05 12:46:20.202256,Key.enter,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.120108
+2025-04-05 12:46:20.762337,2025-04-05 12:46:20.862389,Key.enter,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.100052
+2025-04-05 12:46:21.073002,2025-04-05 12:46:21.178626,Key.enter,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.105624
+2025-04-05 12:46:21.507967,2025-04-05 12:46:21.623234,Key.enter,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.115267
+2025-04-05 12:46:22.289761,2025-04-05 12:46:22.403829,Key.enter,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.114068
+2025-04-05 12:47:13.006257,2025-04-05 12:47:13.111798,'\x03',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.105541
+2025-04-05 12:47:12.751735,2025-04-05 12:47:13.131834,Key.ctrl_l,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.380099
+2025-04-05 12:47:14.167679,2025-04-05 12:47:14.293181,'\x16',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.125502
+2025-04-05 12:47:14.032913,2025-04-05 12:47:14.313938,Key.ctrl_l,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.281025
+2025-04-05 12:47:21.133338,2025-04-05 12:47:21.248658,Key.home,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.115320
+2025-04-05 12:47:21.295205,2025-04-05 12:47:21.509074,Key.shift,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.213869
+2025-04-05 12:47:21.683836,2025-04-05 12:47:21.799044,'t',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.115208
+2025-04-05 12:47:21.807044,2025-04-05 12:47:21.890574,Key.space,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.083530
+2025-04-05 12:47:21.960001,2025-04-05 12:47:22.078768,'w',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.118767
+2025-04-05 12:47:22.053912,2025-04-05 12:47:22.149708,'h',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.095796
+2025-04-05 12:47:22.189181,2025-04-05 12:47:22.305571,'i',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.116390
+2025-04-05 12:47:22.344939,2025-04-05 12:47:22.443890,'c',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.098951
+2025-04-05 12:47:22.424885,2025-04-05 12:47:22.544494,'h',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.119609
+2025-04-05 12:47:22.564912,2025-04-05 12:47:22.679079,Key.space,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.114167
+2025-04-05 12:47:23.135057,2025-04-05 12:47:23.245585,'i',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.110528
+2025-04-05 12:47:23.505581,2025-04-05 12:47:23.600797,Key.backspace,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.095216
+2025-04-05 12:47:23.721267,2025-04-05 12:47:23.825518,'l',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.104251
+2025-04-05 12:47:23.915595,2025-04-05 12:47:24.005721,'i',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.090126
+2025-04-05 12:47:24.030422,2025-04-05 12:47:24.161207,'n',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.130785
+2025-04-05 12:47:24.172485,2025-04-05 12:47:24.270871,'e',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.098386
+2025-04-05 12:47:24.231014,2025-04-05 12:47:24.327118,Key.space,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.096104
+2025-04-05 12:47:24.500941,2025-04-05 12:47:24.592653,'i',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.091712
+2025-04-05 12:47:24.626299,2025-04-05 12:47:24.750644,'s',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.124345
+2025-04-05 12:47:24.721766,2025-04-05 12:47:24.801022,Key.space,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.079256
+2025-04-05 12:47:24.916165,2025-04-05 12:47:25.031843,'t',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.115678
+2025-04-05 12:47:25.039274,2025-04-05 12:47:25.112155,'h',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.072881
+2025-04-05 12:47:25.141919,2025-04-05 12:47:25.286610,'e',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.144691
+2025-04-05 12:47:25.368080,2025-04-05 12:47:25.462002,Key.space,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.093922
+2025-04-05 12:47:25.782668,2025-04-05 12:47:25.852513,Key.backspace,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.069845
+2025-04-05 12:47:25.912127,2025-04-05 12:47:25.981857,Key.backspace,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.069730
+2025-04-05 12:47:26.087934,2025-04-05 12:47:26.181875,'i',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.093941
+2025-04-05 12:47:26.208026,2025-04-05 12:47:26.298046,'s',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.090020
+2025-04-05 12:47:26.282567,2025-04-05 12:47:26.382961,Key.space,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.100394
+2025-04-05 12:47:26.507400,2025-04-05 12:47:26.622953,'f',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.115553
+2025-04-05 12:47:26.562383,2025-04-05 12:47:26.632846,'i',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.070463
+2025-04-05 12:47:26.738160,2025-04-05 12:47:26.803246,'l',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.065086
+2025-04-05 12:47:26.814256,2025-04-05 12:47:26.903122,'e',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.088866
+2025-04-05 12:47:26.953295,2025-04-05 12:47:27.058253,Key.space,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.104958
+2025-04-05 12:47:27.359183,2025-04-05 12:47:27.513352,'c',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.154169
+2025-04-05 12:47:27.613790,2025-04-05 12:47:27.764305,'r',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.150515
+2025-04-05 12:47:27.704300,2025-04-05 12:47:27.808861,'e',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.104561
+2025-04-05 12:47:27.898577,2025-04-05 12:47:28.023802,'a',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.125225
+2025-04-05 12:47:28.068954,2025-04-05 12:47:28.204110,'t',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.135156
+2025-04-05 12:47:28.216810,2025-04-05 12:47:28.325223,'e',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.108413
+2025-04-05 12:47:28.365714,2025-04-05 12:47:28.495145,'d',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.129431
+2025-04-05 12:47:28.453944,2025-04-05 12:47:28.588757,Key.space,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.134813
+2025-04-05 12:47:28.569065,2025-04-05 12:47:28.689532,'i',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.120467
+2025-04-05 12:47:28.734111,2025-04-05 12:47:28.874957,'n',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.140846
+2025-04-05 12:47:28.849801,2025-04-05 12:47:28.969662,Key.space,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.119861
+2025-04-05 12:47:30.275765,2025-04-05 12:47:30.356479,Key.backspace,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.080714
+2025-04-05 12:47:30.426082,2025-04-05 12:47:30.505956,Key.backspace,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.079874
+2025-04-05 12:47:30.560378,2025-04-05 12:47:30.600882,Key.backspace,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.040504
+2025-04-05 12:47:30.971145,2025-04-05 12:47:31.250971,Key.shift,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.279826
+2025-04-05 12:47:31.347590,2025-04-05 12:47:31.451916,Key.backspace,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.104326
+2025-04-05 12:47:31.671990,2025-04-05 12:47:31.756685,"'""'",freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.084695
+2025-04-05 12:47:31.506952,2025-04-05 12:47:31.841960,Key.shift,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.335008
+2025-04-05 12:47:31.951869,2025-04-05 12:47:32.096546,Key.space,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.144677
+2025-04-05 12:47:32.262479,2025-04-05 12:47:32.328010,Key.backspace,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.065531
+2025-04-05 12:47:32.393898,2025-04-05 12:47:32.487561,Key.backspace,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.093663
+2025-04-05 12:47:32.833072,2025-04-05 12:47:32.908456,"'""'",freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.075384
+2025-04-05 12:47:32.507257,2025-04-05 12:47:32.923072,Key.shift,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.415815
+2025-04-05 12:47:33.057913,2025-04-05 12:47:33.092636,Key.space,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.034723
+2025-04-05 12:47:33.242935,2025-04-05 12:47:33.348416,Key.backspace,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.105481
+2025-04-05 12:47:33.428782,2025-04-05 12:47:33.518335,Key.backspace,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.089553
+2025-04-05 12:47:33.682840,2025-04-05 12:47:33.804027,':',freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.121187
+2025-04-05 12:47:33.583552,2025-04-05 12:47:33.838690,Key.shift,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.255138
+2025-04-05 12:47:33.863708,2025-04-05 12:47:33.979199,Key.space,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.115491
+2025-04-05 12:47:34.253633,2025-04-05 12:47:34.359539,Key.enter,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.105906
+2025-04-05 12:48:11.572875,2025-04-05 12:48:11.668526,Key.home,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.095651
+2025-04-05 12:48:10.778310,2025-04-05 12:48:11.688568,Key.shift_r,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.910258
+2025-04-05 12:48:11.842959,2025-04-05 12:48:11.863471,Key.backspace,freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.020512
+2025-04-05 12:48:14.286349,2025-04-05 12:48:14.371534,Key.backspace,● freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.085185
+2025-04-05 12:48:14.505512,2025-04-05 12:48:14.595489,Key.backspace,● freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.089977
+2025-04-05 12:48:14.745574,2025-04-05 12:48:14.856398,Key.backspace,● freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.110824
+2025-04-05 12:48:15.055833,2025-04-05 12:48:15.170994,Key.backspace,● freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.115161
+2025-04-05 12:48:16.717427,2025-04-05 12:48:16.921978,Key.ctrl_l,● freetext_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.204551
+2025-04-05 14:54:32.638222,2025-04-05 14:54:32.989167,Key.shift,127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.350945
+2025-04-05 14:54:33.439416,2025-04-05 14:54:33.550919,'i',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.111503
+2025-04-05 14:54:34.465874,2025-04-05 14:54:34.606919,'h',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.141045
+2025-04-05 14:54:34.581402,2025-04-05 14:54:34.696559,'e',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.115157
+2025-04-05 14:54:34.741354,2025-04-05 14:54:34.796314,'l',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.054960
+2025-04-05 14:54:34.876086,2025-04-05 14:54:34.956688,'l',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.080602
+2025-04-05 14:54:35.025694,2025-04-05 14:54:35.150718,'o',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.125024
+2025-04-05 14:54:35.831498,2025-04-05 14:54:35.932130,'h',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.100632
+2025-04-05 14:54:36.027171,2025-04-05 14:54:36.146972,'o',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.119801
+2025-04-05 14:54:36.126935,2025-04-05 14:54:36.237727,'w',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.110792
+2025-04-05 14:54:36.352537,2025-04-05 14:54:36.481591,'a',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.129054
+2025-04-05 14:54:36.603339,2025-04-05 14:54:36.762930,'r',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.159591
+2025-04-05 14:54:36.707337,2025-04-05 14:54:36.842715,'e',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.135378
+2025-04-05 14:54:36.987501,2025-04-05 14:54:37.123593,'y',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.136092
+2025-04-05 14:54:37.182763,2025-04-05 14:54:37.348251,'o',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.165488
+2025-04-05 14:54:37.248549,2025-04-05 14:54:37.383248,'u',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.134699
+2025-04-05 14:54:38.494104,2025-04-05 14:54:38.609770,'t',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.115666
+2025-04-05 14:54:38.617734,2025-04-05 14:54:38.694220,'h',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.076486
+2025-04-05 14:54:38.704215,2025-04-05 14:54:38.824879,'e',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.120664
+2025-04-05 14:54:38.834962,2025-04-05 14:54:38.924386,Key.space,127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.089424
+2025-04-05 14:54:38.949936,2025-04-05 14:54:39.049767,'p',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.099831
+2025-04-05 14:54:39.029207,2025-04-05 14:54:39.199512,'r',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.170305
+2025-04-05 14:54:39.159498,2025-04-05 14:54:39.274582,'e',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.115084
+2025-04-05 14:54:39.341261,2025-04-05 14:54:39.454865,'d',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.113604
+2025-04-05 14:54:39.520861,2025-04-05 14:54:39.630857,'i',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.109996
+2025-04-05 14:54:39.915657,2025-04-05 14:54:40.020417,'c',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.104760
+2025-04-05 14:54:40.225688,2025-04-05 14:54:40.346194,'t',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.120506
+2025-04-05 14:54:40.330549,2025-04-05 14:54:40.406114,'i',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.075565
+2025-04-05 14:54:40.480881,2025-04-05 14:54:40.576706,'o',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.095825
+2025-04-05 14:54:40.616705,2025-04-05 14:54:40.725726,'n',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.109021
+2025-04-05 14:54:40.716557,2025-04-05 14:54:40.825589,Key.space,127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.109032
+2025-04-05 14:54:40.809390,2025-04-05 14:54:40.900540,'i',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.091150
+2025-04-05 14:54:40.920541,2025-04-05 14:54:41.036225,'s',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.115684
+2025-04-05 14:54:40.991282,2025-04-05 14:54:41.090591,Key.space,127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.099309
+2025-04-05 14:54:41.171317,2025-04-05 14:54:41.271240,'n',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.099923
+2025-04-05 14:54:42.122284,2025-04-05 14:54:42.242304,'o',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.120020
+2025-04-05 14:54:42.327393,2025-04-05 14:54:42.452859,'t',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.125466
+2025-04-05 14:54:42.477855,2025-04-05 14:54:42.582995,Key.space,127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.105140
+2025-04-05 14:54:42.727640,2025-04-05 14:54:42.863242,'w',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.135602
+2025-04-05 14:54:42.838046,2025-04-05 14:54:42.952521,'o',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.114475
+2025-04-05 14:54:42.972927,2025-04-05 14:54:43.103681,'r',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.130754
+2025-04-05 14:54:43.063681,2025-04-05 14:54:43.157887,'k',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.094206
+2025-04-05 14:54:43.213267,2025-04-05 14:54:43.373808,'i',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.160541
+2025-04-05 14:54:43.348811,2025-04-05 14:54:43.468094,'n',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.119283
+2025-04-05 14:54:43.479505,2025-04-05 14:54:43.594207,'g',127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.114702
+2025-04-05 14:54:43.638879,2025-04-05 14:54:43.833897,Key.shift_r,127.0.0.1:5000/api/keystroke/switch-user/stop - My Workspace,0:00:00.195018
+2025-04-05 14:56:47.729058,2025-04-05 14:56:48.093543,Key.shift,multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.364485
+2025-04-05 14:56:48.243798,2025-04-05 14:56:48.333490,'i',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.089692
+2025-04-05 14:56:48.422952,2025-04-05 14:56:48.538741,Key.space,multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.115789
+2025-04-05 14:56:48.848756,2025-04-05 14:56:49.074414,Key.shift,multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.225658
+2025-04-05 14:56:49.173944,2025-04-05 14:56:49.279504,'e',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.105560
+2025-04-05 14:56:49.293975,2025-04-05 14:56:49.364493,'l',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.070518
+2025-04-05 14:56:49.444231,2025-04-05 14:56:49.520266,'l',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.076035
+2025-04-05 14:56:49.604073,2025-04-05 14:56:49.715767,'o',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.111694
+2025-04-05 14:56:49.727850,2025-04-05 14:56:49.844723,Key.space,multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.116873
+2025-04-05 14:56:49.960052,2025-04-05 14:56:50.275192,Key.shift,multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.315140
+2025-04-05 14:56:50.420275,2025-04-05 14:56:50.540643,'o',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.120368
+2025-04-05 14:56:50.564817,2025-04-05 14:56:50.690867,'w',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.126050
+2025-04-05 14:56:50.860266,2025-04-05 14:56:50.985616,Key.space,multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.125350
+2025-04-05 14:56:50.995625,2025-04-05 14:56:51.115961,'a',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.120336
+2025-04-05 14:56:51.246104,2025-04-05 14:56:51.410856,'r',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.164752
+2025-04-05 14:56:51.355850,2025-04-05 14:56:51.495764,'e',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.139914
+2025-04-05 14:56:51.465627,2025-04-05 14:56:51.561367,Key.space,multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.095740
+2025-04-05 14:56:51.732057,2025-04-05 14:56:51.841245,'y',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.109188
+2025-04-05 14:56:51.881328,2025-04-05 14:56:52.067079,'o',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.185751
+2025-04-05 14:56:51.961922,2025-04-05 14:56:52.102083,'u',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.140161
+2025-04-05 14:56:52.141825,2025-04-05 14:56:52.241921,Key.space,multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.100096
+2025-04-05 14:56:52.761856,2025-04-05 14:56:52.892629,'p',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.130773
+2025-04-05 14:56:55.594531,2025-04-05 14:56:55.725451,'a',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.130920
+2025-04-05 14:56:55.770381,2025-04-05 14:56:55.914915,'b',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.144534
+2025-04-05 14:56:55.975694,2025-04-05 14:56:56.090427,'c',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.114733
+2025-04-05 14:56:56.205170,2025-04-05 14:56:56.385421,'d',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.180251
+2025-04-05 14:56:56.393420,2025-04-05 14:56:56.490116,'e',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.096696
+2025-04-05 14:56:56.615540,2025-04-05 14:56:56.741839,'f',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.126299
+2025-04-05 14:56:56.870992,2025-04-05 14:56:56.958466,'g',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.087474
+2025-04-05 14:56:57.075854,2025-04-05 14:56:57.186469,'h',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.110615
+2025-04-05 14:56:57.301108,2025-04-05 14:56:57.461313,'i',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.160205
+2025-04-05 14:56:57.471311,2025-04-05 14:56:57.606645,'j',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.135334
+2025-04-05 14:56:57.718438,2025-04-05 14:56:57.851648,'k',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.133210
+2025-04-05 14:56:57.986943,2025-04-05 14:56:58.111518,'l',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.124575
+2025-04-05 14:56:58.197435,2025-04-05 14:56:58.307179,'m',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.109744
+2025-04-05 14:56:58.396851,2025-04-05 14:56:58.512363,'n',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.115512
+2025-04-05 14:56:58.698286,2025-04-05 14:56:58.827403,'o',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.129117
+2025-04-05 14:57:11.129082,2025-04-05 14:57:11.288973,'\x1a',model_transition_handler.py - WebApp - Cursor [Administrator],0:00:00.159891
+2025-04-05 14:57:10.397270,2025-04-05 14:57:11.740897,Key.ctrl_l,model_transition_handler.py - WebApp - Cursor [Administrator],0:00:01.343627
+2025-04-05 14:56:48.023189,2025-04-05 14:57:36.216440,'H',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:48.193251
+2025-04-05 14:57:35.912142,2025-04-05 14:57:36.229361,Key.shift,keystrokes_misbah_anomaly-detection_2025-04-05.csv - WebApp - Cursor [Administrator],0:00:00.317219
+2025-04-05 14:57:36.281858,2025-04-05 14:57:36.411403,'o',keystrokes_misbah_anomaly-detection_2025-04-05.csv - WebApp - Cursor [Administrator],0:00:00.129545
+2025-04-05 14:57:36.461594,2025-04-05 14:57:36.612329,'w',keystrokes_misbah_anomaly-detection_2025-04-05.csv - WebApp - Cursor [Administrator],0:00:00.150735
+2025-04-05 14:57:38.222936,2025-04-05 14:57:38.358979,Key.space,keystrokes_misbah_anomaly-detection_2025-04-05.csv - WebApp - Cursor [Administrator],0:00:00.136043
+2025-04-05 14:57:39.680229,2025-04-05 14:57:39.791114,'i',keystrokes_misbah_anomaly-detection_2025-04-05.csv - WebApp - Cursor [Administrator],0:00:00.110885
+2025-04-05 14:57:39.855104,2025-04-05 14:57:40.005098,'s',keystrokes_misbah_anomaly-detection_2025-04-05.csv - WebApp - Cursor [Administrator],0:00:00.149994
+2025-04-05 14:57:40.015090,2025-04-05 14:57:40.135403,Key.space,keystrokes_misbah_anomaly-detection_2025-04-05.csv - WebApp - Cursor [Administrator],0:00:00.120313
+2025-04-05 14:57:40.345257,2025-04-05 14:57:40.455423,'t',keystrokes_misbah_anomaly-detection_2025-04-05.csv - WebApp - Cursor [Administrator],0:00:00.110166
+2025-04-05 14:57:40.417417,2025-04-05 14:57:40.571167,'h',keystrokes_misbah_anomaly-detection_2025-04-05.csv - WebApp - Cursor [Administrator],0:00:00.153750
+2025-04-05 14:57:40.520361,2025-04-05 14:57:40.645793,'i',keystrokes_misbah_anomaly-detection_2025-04-05.csv - WebApp - Cursor [Administrator],0:00:00.125432
+2025-04-05 14:57:40.686135,2025-04-05 14:57:40.800822,'s',keystrokes_misbah_anomaly-detection_2025-04-05.csv - WebApp - Cursor [Administrator],0:00:00.114687
+2025-04-05 14:57:40.821252,2025-04-05 14:57:40.945532,Key.space,keystrokes_misbah_anomaly-detection_2025-04-05.csv - WebApp - Cursor [Administrator],0:00:00.124280
+2025-04-05 14:57:41.286612,2025-04-05 14:57:41.427801,'p',keystrokes_misbah_anomaly-detection_2025-04-05.csv - WebApp - Cursor [Administrator],0:00:00.141189
+2025-04-05 14:57:41.566529,2025-04-05 14:57:41.691844,'o',keystrokes_misbah_anomaly-detection_2025-04-05.csv - WebApp - Cursor [Administrator],0:00:00.125315
+2025-04-05 14:57:41.801944,2025-04-05 14:57:41.891692,'s',keystrokes_misbah_anomaly-detection_2025-04-05.csv - WebApp - Cursor [Administrator],0:00:00.089748
+2025-04-05 14:57:41.961931,2025-04-05 14:57:42.087090,'s',keystrokes_misbah_anomaly-detection_2025-04-05.csv - WebApp - Cursor [Administrator],0:00:00.125159
+2025-04-05 14:57:42.062015,2025-04-05 14:57:42.128307,'i',keystrokes_misbah_anomaly-detection_2025-04-05.csv - WebApp - Cursor [Administrator],0:00:00.066292
+2025-04-05 14:57:42.216806,2025-04-05 14:57:42.312008,'b',keystrokes_misbah_anomaly-detection_2025-04-05.csv - WebApp - Cursor [Administrator],0:00:00.095202
+2025-04-05 14:57:42.407035,2025-04-05 14:57:42.512323,'l',keystrokes_misbah_anomaly-detection_2025-04-05.csv - WebApp - Cursor [Administrator],0:00:00.105288
+2025-04-05 14:57:42.525344,2025-04-05 14:57:42.633286,'e',keystrokes_misbah_anomaly-detection_2025-04-05.csv - WebApp - Cursor [Administrator],0:00:00.107942
+2025-04-05 14:58:12.303797,2025-04-05 14:58:12.418574,Key.up,keystrokes_misbah_multi-binary_2025-04-05.csv - WebApp - Cursor [Administrator],0:00:00.114777
+2025-04-05 14:58:12.548879,2025-04-05 14:58:12.634231,Key.up,keystrokes_misbah_multi-binary_2025-04-05.csv - WebApp - Cursor [Administrator],0:00:00.085352
+2025-04-05 14:58:12.853815,2025-04-05 14:58:13.194595,Key.up,keystrokes_misbah_multi-binary_2025-04-05.csv - WebApp - Cursor [Administrator],0:00:00.340780
+2025-04-05 14:58:13.375131,2025-04-05 14:58:13.775884,Key.left,keystrokes_misbah_multi-binary_2025-04-05.csv - WebApp - Cursor [Administrator],0:00:00.400753
+2025-04-05 14:58:11.993532,2025-04-05 14:58:13.859722,Key.shift,keystrokes_misbah_multi-binary_2025-04-05.csv - WebApp - Cursor [Administrator],0:00:01.866190
+2025-04-05 15:00:20.673560,2025-04-05 15:00:20.874599,Key.shift,multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.201039
+2025-04-05 15:00:20.891836,2025-04-05 15:00:21.019125,'h',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.127289
+2025-04-05 15:00:21.029126,2025-04-05 15:00:21.169076,'a',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.139950
+2025-04-05 15:00:21.293781,2025-04-05 15:00:21.429135,'t',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.135354
+2025-04-05 15:00:21.514026,2025-04-05 15:00:21.609181,Key.space,multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.095155
+2025-04-05 15:00:21.698912,2025-04-05 15:00:21.820162,'i',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.121250
+2025-04-05 15:00:21.833162,2025-04-05 15:00:21.949708,'s',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.116546
+2025-04-05 15:00:21.925827,2025-04-05 15:00:22.019937,Key.space,multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.094110
+2025-04-05 15:00:22.214278,2025-04-05 15:00:22.330113,'g',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.115835
+2025-04-05 15:00:22.340500,2025-04-05 15:00:22.415055,'o',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.074555
+2025-04-05 15:00:22.510527,2025-04-05 15:00:22.605017,'i',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.094490
+2025-04-05 15:00:22.670712,2025-04-05 15:00:22.805486,'n',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.134774
+2025-04-05 15:00:22.830880,2025-04-05 15:00:22.935407,'g',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.104527
+2025-04-05 15:00:22.946406,2025-04-05 15:00:23.070274,Key.space,multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.123868
+2025-04-05 15:00:23.636236,2025-04-05 15:00:23.736419,'o',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.100183
+2025-04-05 15:00:23.834165,2025-04-05 15:00:23.936433,'n',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.102268
+2025-04-05 15:00:23.944346,2025-04-05 15:00:24.040964,Key.space,multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.096618
+2025-04-05 15:00:24.532132,2025-04-05 15:00:24.692027,'?',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.159895
+2025-04-05 15:00:24.387021,2025-04-05 15:00:24.705024,Key.shift_r,multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.318003
+2025-04-05 15:00:25.127752,2025-04-05 15:00:25.247703,Key.space,multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.119951
+2025-04-05 15:00:25.267780,2025-04-05 15:00:25.532917,Key.shift,multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.265137
+2025-04-05 15:00:26.920585,2025-04-05 15:00:27.038981,'w',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.118396
+2025-04-05 15:00:27.048982,2025-04-05 15:00:27.159235,'h',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.110253
+2025-04-05 15:00:27.209676,2025-04-05 15:00:27.329509,'e',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.119833
+2025-04-05 15:00:27.450127,2025-04-05 15:00:27.595299,'r',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.145172
+2025-04-05 15:00:27.554531,2025-04-05 15:00:27.694805,'e',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.140274
+2025-04-05 15:00:27.704495,2025-04-05 15:00:27.830402,Key.space,multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.125907
+2025-04-05 15:00:27.838439,2025-04-05 15:00:27.954634,'i',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.116195
+2025-04-05 15:00:27.945545,2025-04-05 15:00:28.075151,'s',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.129606
+2025-04-05 15:00:28.035545,2025-04-05 15:00:28.137018,Key.space,multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.101473
+2025-04-05 15:00:28.225370,2025-04-05 15:00:28.366011,'t',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.140641
+2025-04-05 15:00:28.320877,2025-04-05 15:00:28.435695,'h',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.114818
+2025-04-05 15:00:28.450622,2025-04-05 15:00:28.581269,'e',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.130647
+2025-04-05 15:00:28.550676,2025-04-05 15:00:28.650892,Key.space,multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.100216
+2025-04-05 15:00:28.776484,2025-04-05 15:00:28.911774,'p',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.135290
+2025-04-05 15:00:28.920774,2025-04-05 15:00:29.086421,'r',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.165647
+2025-04-05 15:00:29.039869,2025-04-05 15:00:29.176437,'e',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.136568
+2025-04-05 15:00:29.237119,2025-04-05 15:00:29.341871,'d',multi_binary_keystroke_collector.py - WebApp - Cursor [Administrator],0:00:00.104752

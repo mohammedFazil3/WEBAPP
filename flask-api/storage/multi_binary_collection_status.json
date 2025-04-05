@@ -1,0 +1,20 @@
+{
+    "collection_active": true,
+    "prediction_active": true,
+    "keystroke_count": 323,
+    "keystroke_threshold": 30,
+    "prediction_buffer_size": 3,
+    "last_prediction_time": "2025-04-05T15:00:29.052867",
+    "collector_status": {
+        "start_time": "2025-04-05T15:00:07.411303",
+        "keystroke_count": 323,
+        "active": true,
+        "target": 10000,
+        "last_error": null,
+        "username": "misbah",
+        "model_type": "multi-binary"
+    },
+    "model_loaded": true,
+    "model_path": "c:\\Users\\moham\\OneDrive\\Desktop\\UDST\\Winter 2025\\Capstone\\WebApp\\flask-api\\storage\\models\\multi_binary_classifier.pkl",
+    "last_updated": "2025-04-05T15:00:42.298670"
+}

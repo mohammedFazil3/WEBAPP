@@ -9,12 +9,12 @@ import pandas as pd
 import numpy as np
 from threading import Thread
 import time
+import traceback
 
 # Import custom modules
 from keystroke import keystroke_collector
-from models import fixed_text_model, free_text_model, multi_binary_model
-from preprocessing import keystroke_processor
-from utils import scheduler, data_handler
+from keystroke import freetext_keystroke_collector
+from keystroke import multi_binary_keystroke_collector
 from keystroke.freetext_keystroke_collector import (
     start_free_text_collection,
     stop_free_text_collection,
@@ -22,6 +22,9 @@ from keystroke.freetext_keystroke_collector import (
     get_status,
     set_keystroke_threshold
 )
+from models import fixed_text_model, free_text_model, multi_binary_model
+from preprocessing import keystroke_processor
+from utils import scheduler, data_handler
 
 # Set up logging
 from log_config import setup_logging
@@ -869,113 +872,6 @@ def get_free_text_alert_keystrokes(alert_id):
             "error": str(e)
         }), 500
 
-@app.route('/api/keystroke/free-text/train', methods=['POST'])
-def train_free_text_model():
-    """Train the free-text model using collected keystrokes"""
-    try:
-        # Check if we have enough keystrokes
-        status = get_status()
-        if status["keystroke_count"] < status["free_text_progress"]["target"]:
-            return jsonify({
-                "success": False,
-                "message": f"Not enough keystrokes collected. Need {status['free_text_progress']['target']} but only have {status['keystroke_count']}.",
-                "status": status
-            }), 400
-            
-        # Import the free text model
-        from models import free_text_model
-        free_text = free_text_model.FreeTextModel()
-        
-        # Get training parameters from request or use defaults
-        data = request.json or {}
-        parameters = data.get('parameters', {
-            'iterations': 100,
-            'learning_rate': 0.05,
-            'depth': 4
-        })
-        
-        # Start training
-        result = free_text.train(parameters)
-        
-        if result.get('success', False):
-            return jsonify({
-                "success": True,
-                "message": "Free-text model trained successfully",
-                "result": result,
-                "status": get_status()
-            })
-        else:
-            return jsonify({
-                "success": False,
-                "message": "Failed to train free-text model",
-                "result": result,
-                "status": get_status()
-            }), 500
-    except Exception as e:
-        logger.error(f"Error training free-text model: {str(e)}")
-        return jsonify({
-            "success": False,
-            "error": str(e)
-        }), 500
-
-@app.route('/api/keystroke/free-text/analyze-progress', methods=['GET'])
-def analyze_free_text_progress():
-    """Analyze the free-text collection progress with detailed statistics"""
-    try:
-        status = get_status()
-        
-        # Get free-text collection file
-        csv_file = keystroke.keystroke_collector.get_log_file_path()
-        if not os.path.exists(csv_file):
-            return jsonify({
-                "success": True,
-                "message": "No keystroke data collected yet",
-                "status": status,
-                "analysis": {
-                    "total_keystrokes": 0,
-                    "collection_started": False
-                }
-            })
-        
-        # Read and analyze the data
-        try:
-            df = pd.read_csv(csv_file)
-            
-            # Basic statistics
-            analysis = {
-                "total_keystrokes": len(df),
-                "collection_started": True,
-                "collection_complete": len(df) >= status["free_text_progress"]["target"],
-                "unique_keys": len(df["Key Stroke"].unique()),
-                "applications": df["Application"].unique().tolist(),
-                "first_keystroke_time": df["Timestamp_Press"].iloc[0] if not df.empty else None,
-                "last_keystroke_time": df["Timestamp_Press"].iloc[-1] if not df.empty else None
-            }
-            
-            # Get counts by application
-            application_counts = df["Application"].value_counts().to_dict()
-            analysis["application_distribution"] = application_counts
-            
-            return jsonify({
-                "success": True,
-                "status": status,
-                "analysis": analysis
-            })
-        except Exception as e:
-            logger.error(f"Error analyzing free-text data: {str(e)}")
-            return jsonify({
-                "success": False,
-                "error": f"Error analyzing data: {str(e)}",
-                "status": status
-            }), 500
-    except Exception as e:
-        logger.error(f"Error analyzing free-text progress: {str(e)}")
-        return jsonify({
-            "success": False,
-            "error": str(e)
-        }), 500
-    
-##
 @app.route('/api/keystroke/predict', methods=['POST'])
 def predict():
     """Make prediction with active model"""
@@ -1236,15 +1132,587 @@ def get_summary():
         logger.error(f"Error getting summary: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
-@app.route('/api/keystroke/multi-binary/users', methods=['GET'])
-def get_multi_binary_users():
-    """Get users for multi-binary model"""
+# Add these new routes to app.py
+@app.route('/api/keystroke/multi-binary/add-user', methods=['POST'])
+def add_multi_binary_user():
+    """Register a new user in the multi-binary model system (without starting collection)"""
     try:
-        users = multi_binary.get_users()
-        return jsonify(users)
+        data = request.json
+        username = data.get('username')
+        
+        if not username:
+            return jsonify({
+                'success': False, 
+                'error': 'Username is required'
+            }), 400
+        
+        # Add user to multi-binary model
+        result = multi_binary.add_user(username)
+        
+        if not result.get('success', False):
+            return jsonify(result), 400
+        
+        # Store user info for tracking
+        user_info = {
+            'id': result['user']['id'],
+            'name': username,
+            'registered_at': datetime.now().isoformat(),
+            'collection_complete': False,
+            'model_trained': False
+        }
+        
+        # Create directory for tracking multi-binary training progress
+        os.makedirs('flask-api/storage/models/multi-binary/progress', exist_ok=True)
+        progress_file = f'flask-api/storage/models/multi-binary/progress/{username}.json'
+        
+        with open(progress_file, 'w') as f:
+            json.dump(user_info, f)
+        
+        return jsonify({
+            'success': True,
+            'message': f'User {username} registered in multi-binary model system',
+            'user': result['user'],
+            'note': 'Use /api/keystroke/switch-user/start to begin keystroke collection for this user'
+        })
     except Exception as e:
-        logger.error(f"Error getting multi-binary users: {str(e)}")
-        return jsonify({'error': str(e)}), 500
+        logger.error(f"Error adding multi-binary user: {str(e)}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+    
+# Global variable to track previous active model
+_previous_active_model = None
+_in_switch_user_mode = False
+
+@app.route('/api/keystroke/switch-user/start', methods=['POST'])
+def start_switch_user():
+    """
+    Start collecting keystrokes for a new user, temporarily disabling anomaly detection.
+    This puts the system in "switch user mode" where we're collecting data for a new user
+    rather than performing anomaly detection.
+    """
+    global _previous_active_model, _in_switch_user_mode
+    
+    print("Entering start_switch_user function")
+    try:
+        data = request.json
+        username = data.get('username')
+        print(f"Received request with username: {username}")
+        
+        if not username:
+            print("Username not provided in request")
+            return jsonify({
+                'success': False, 
+                'error': 'Username is required'
+            }), 400
+        
+        # Check if already in switch user mode
+        print(f"Current switch user mode status: {_in_switch_user_mode}")
+        if _in_switch_user_mode:
+            print("Already in switch user mode, returning error")
+            return jsonify({
+                'success': False,
+                'error': 'Already in switch user mode. Please stop the current session first.'
+            }), 400
+        
+        # Store current active model
+        print(f"Storing current active model: {active_model}")
+        _previous_active_model = active_model.copy()
+        _in_switch_user_mode = True
+        
+        # Add user to multi-binary model if not already exists
+        user_exists = False
+        print("Fetching current users from multi-binary model")
+        users = multi_binary.get_users()
+        print(f"Current users in multi-binary model: {users}")
+        
+        print(f"Checking if user {username} exists")
+        for user in users:
+            if user.get('name') == username:
+                user_exists = True
+                user_id = user.get('id')
+                print(f"User found with ID: {user_id}")
+                break
+                
+        if not user_exists:
+            print(f"User {username} not found, adding to multi-binary model")
+            result = multi_binary.add_user(username)
+            print(f"Add user result: {result}")
+            if not result.get('success', False):
+                print(f"Failed to add user: {result}")
+                return jsonify({
+                    'success': False,
+                    'error': f'Failed to add user: {result.get("error", "Unknown error")}'
+                }), 500
+            user_id = result['user']['id']
+            print(f"New user added with ID: {user_id}")
+        
+        # Create directory for tracking user progress if needed
+        progress_dir = 'flask-api/storage/models/multi-binary/progress'
+        print(f"Creating progress directory: {progress_dir}")
+        os.makedirs(progress_dir, exist_ok=True)
+        progress_file = f'{progress_dir}/{username}.json'
+        print(f"Progress file path: {progress_file}")
+        
+        # Create or update progress tracking
+        user_info = {
+            'id': user_id,
+            'name': username,
+            'collection_started': datetime.now().isoformat(),
+            'collection_complete': False,
+            'model_trained': False,
+            'switch_user_mode': True
+        }
+        print(f"Creating user progress info: {user_info}")
+        
+        with open(progress_file, 'w') as f:
+            json.dump(user_info, f)
+        print("Saved user progress info to file")
+        
+        # Stop any current keystroke collection or anomaly detection
+        try:
+            print("Attempting to stop existing keystroke collection")
+            stop_free_text_collection()
+            stop_collection()
+            print("Stopped any existing keystroke collection or anomaly detection")
+        except Exception as e:
+            print(f"Error stopping existing collection: {str(e)}")
+        
+        # Start free-text collection for this user
+        print(f"Starting free-text collection for user: {username}")
+        collection_result, message = start_free_text_collection(username, True)
+        print(f"Collection start result: {collection_result}, message: {message}")
+        
+        if not collection_result:
+            print(f"Failed to start collection: {message}")
+            _in_switch_user_mode = False
+            _previous_active_model = None
+            return jsonify({
+                'success': False,
+                'error': f'Failed to start keystroke collection: {message}'
+            }), 500
+        
+        # Collection started successfully
+        current_status = get_status()
+        print(f"Current collection status: {current_status}")
+        response_data = {
+            'success': True,
+            'message': f'Started switch user mode for {username}. Collecting keystrokes...',
+            'previous_model': _previous_active_model.get('type'),
+            'collection_status': current_status
+        }
+        print(f"Sending successful response: {response_data}")
+        return jsonify(response_data)
+        
+    except Exception as e:
+        print(f"Error starting switch user mode: {str(e)}")
+        print(f"Full traceback: {traceback.format_exc()}")
+        _in_switch_user_mode = False
+        _previous_active_model = None
+        return jsonify({'success': False, 'error': str(e)}), 500
+    
+@app.route('/api/keystroke/switch-user/stop', methods=['POST'])
+def stop_switch_user():
+    """
+    Stop collecting keystrokes for a new user and restore previous anomaly detection.
+    This exits "switch user mode" and returns to normal operation.
+    Automatically trains free-text model if threshold reached, then integrates into multi-binary.
+    """
+    global _previous_active_model, _in_switch_user_mode
+    
+    try:
+        # Check if we're actually in switch user mode
+        if not _in_switch_user_mode:
+            return jsonify({
+                'success': False,
+                'error': 'Not in switch user mode'
+            }), 400
+        
+        # Get current status to know which user we're collecting for
+        status = get_status()
+        username = status.get('collector_status', {}).get('username', 'unknown')
+        
+        # Stop keystroke collection
+        stop_free_text_collection()
+        
+        # Get progress file
+        progress_file = f'flask-api/storage/models/multi-binary/progress/{username}.json'
+        if os.path.exists(progress_file):
+            with open(progress_file, 'r') as f:
+                progress = json.load(f)
+                user_id = progress.get('id')
+        else:
+            user_id = None
+            
+        # If user_id still not found, try to get from users list
+        if not user_id:
+            users = multi_binary.get_users()
+            for user in users:
+                if user.get('name') == username:
+                    print(user)
+                    user_id = user.get('id')
+                    break
+        
+        # Restore previous active model temporarily
+        if _previous_active_model:
+            active_model.update(_previous_active_model)
+            _save_active_model()
+            logger.info(f"Restored previous active model: {_previous_active_model.get('type')}")
+        
+        # Reset state
+        previous_model = _previous_active_model.get('type') if _previous_active_model else None
+        _previous_active_model = None
+        _in_switch_user_mode = False
+        
+        # Calculate collection progress
+        collection_progress = status.get('free_text_progress', {}).get('percentage', 0)
+        collection_complete = collection_progress >= 100
+        
+        # Always train model if threshold reached
+        training_job_id = None
+        multi_binary_job_id = None
+        
+        if collection_complete and user_id:
+            logger.info(f"Threshold reached for user {username}. Automatically training free-text model...")
+            
+            # 1. Train free-text model
+            free_text_job_id = str(uuid.uuid4())
+            
+            # Store job info for free-text training
+            training_jobs[free_text_job_id] = {
+                'id': free_text_job_id,
+                'model_type': 'free-text',
+                'parameters': {},
+                'username': username,
+                'status': 'pending',
+                'created_at': datetime.now().isoformat()
+            }
+            _save_jobs()
+            
+            # Update progress file
+            if os.path.exists(progress_file):
+                progress['free_text_training_job_id'] = free_text_job_id
+                progress['free_text_training_started'] = datetime.now().isoformat()
+                with open(progress_file, 'w') as f:
+                    json.dump(progress, f)
+            
+            # Start free-text training in a separate thread
+            training_thread = Thread(
+                target=run_training_and_integrate, 
+                args=(free_text_job_id, 'free-text', {}, username, user_id)
+            )
+            training_thread.daemon = True
+            training_thread.start()
+            
+            training_job_id = free_text_job_id
+            
+            return jsonify({
+                'success': True,
+                'message': f'Stopped switch user mode for {username}. Automatically training models...',
+                'restored_model': previous_model,
+                'collection_progress': collection_progress,
+                'collection_complete': collection_complete,
+                'training_started': True,
+                'free_text_training_job_id': free_text_job_id
+            })
+        else:
+            # Not enough data collected
+            return jsonify({
+                'success': True,
+                'message': f'Stopped switch user mode for {username}. Not enough data for training.',
+                'restored_model': previous_model,
+                'collection_progress': collection_progress,
+                'collection_complete': collection_complete,
+                'training_started': False,
+                'reason': 'Not enough data collected. Need 10,000 keystrokes.'
+            })
+    except Exception as e:
+        logger.error(f"Error stopping switch user mode: {str(e)}")
+        # Try to restore previous state even if there's an error
+        if _previous_active_model:
+            active_model.update(_previous_active_model)
+            _save_active_model()
+        _previous_active_model = None
+        _in_switch_user_mode = False
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+# Helper function to automatically train free-text model and integrate into multi-binary
+def run_training_and_integrate(job_id, model_type, parameters, username, user_id):
+    """
+    Run training for free-text model and then automatically integrate into multi-binary model.
+    This function runs in a background thread to handle the complete workflow.
+    """
+    try:
+        # Step 1: Update job status to "in progress"
+        training_jobs[job_id]['status'] = 'in_progress'
+        training_jobs[job_id]['start_time'] = datetime.now().isoformat()
+        _save_jobs()
+        
+        # Step 2: Get free-text model instance
+        from models import free_text_model
+        ft_model = free_text_model.FreeTextModel(username)
+        
+        # Step 3: Train free-text model
+        logger.info(f"Training free-text model for user {username}...")
+        result = ft_model.train(parameters)
+        
+        # Step 4: Update job status based on result
+        if result.get('success', False):
+            training_jobs[job_id]['status'] = 'completed'
+            training_jobs[job_id]['result'] = result
+            training_jobs[job_id]['end_time'] = datetime.now().isoformat()
+            _save_jobs()
+            
+            # Update progress file
+            progress_file = f'flask-api/storage/models/multi-binary/progress/{username}.json'
+            if os.path.exists(progress_file):
+                with open(progress_file, 'r') as f:
+                    progress = json.load(f)
+                
+                progress['free_text_trained'] = True
+                progress['free_text_training_complete'] = datetime.now().isoformat()
+                progress['free_text_model_accuracy'] = result.get('accuracy', 0)
+                
+                with open(progress_file, 'w') as f:
+                    json.dump(progress, f)
+            
+            logger.info(f"Free-text model for user {username} trained successfully with accuracy: {result.get('accuracy', 0)}")
+            
+            # Step 5: Now integrate into multi-binary model
+            logger.info(f"Integrating user {username} into multi-binary model...")
+            
+            # Generate a new job ID for multi-binary integration
+            mb_job_id = str(uuid.uuid4())
+            
+            # Store job info for multi-binary integration
+            training_jobs[mb_job_id] = {
+                'id': mb_job_id,
+                'model_type': 'multi-binary',
+                'parameters': {
+                    'user_id': user_id,
+                    'confidence_threshold': 0.6,  # Default threshold
+                    'switch_active': True  # Switch to multi-binary when done
+                },
+                'username': username,
+                'status': 'pending',
+                'created_at': datetime.now().isoformat()
+            }
+            _save_jobs()
+            
+            # Update progress file
+            if os.path.exists(progress_file):
+                with open(progress_file, 'r') as f:
+                    progress = json.load(f)
+                
+                progress['multi_binary_training_job_id'] = mb_job_id
+                progress['multi_binary_training_started'] = datetime.now().isoformat()
+                
+                with open(progress_file, 'w') as f:
+                    json.dump(progress, f)
+            
+            # Step 6: Start multi-binary integration
+            # Import the multi-binary model
+            from models import multi_binary_model
+            mb_model = multi_binary_model.MultiBinaryModel()
+            
+            mb_result = mb_model.train({
+                'user_id': user_id,
+                'confidence_threshold': 0.6
+            })
+            
+            # Step 7: Update multi-binary job status
+            if mb_result.get('success', False):
+                training_jobs[mb_job_id]['status'] = 'completed'
+                training_jobs[mb_job_id]['result'] = mb_result
+                
+                # CRITICAL: Switch active model to the new multi-binary model for anomaly detection
+                active_model['type'] = 'multi-binary'
+                active_model['last_updated'] = datetime.now().isoformat()
+                _save_active_model()
+                
+                # Start anomaly detection with the new multi-binary model
+                try:
+                    # First make sure any existing collection is stopped
+                    stop_free_text_collection()
+                    
+                    # Initialize prediction mode with the multi-binary model
+                    # This ensures we're using the new model for anomaly detection
+                    logger.info("Starting anomaly detection with the new multi-binary model")
+                    
+                    # Toggle anomaly detection on (in case it was disabled)
+                    toggle_anomaly_detection(True)
+                    
+                    # Set appropriate keystroke threshold for anomaly detection
+                    set_keystroke_threshold(30)  # Standard value for anomaly detection
+                    
+                    logger.info("Multi-binary model is now active for anomaly detection")
+                except Exception as e:
+                    logger.error(f"Error starting anomaly detection with multi-binary model: {str(e)}")
+                
+                logger.info(f"Multi-binary model updated and set as active. Users: {mb_result.get('users', [])}")
+                
+                # Add this right after the logger.info line
+                try:
+                    # Start multi-binary keystroke collection
+                    collection_result, message = multi_binary_keystroke_collector.start_multi_binary_collection(username)
+                    
+                    if collection_result:
+                        logger.info(f"Successfully started multi-binary collection for user {username}")
+                    else:
+                        logger.error(f"Failed to start multi-binary collection for user {username}: {message}")
+                except Exception as e:
+                    logger.error(f"Error starting multi-binary keystroke collection: {str(e)}")
+                # Update progress file with multi-binary results
+                if os.path.exists(progress_file):
+                    with open(progress_file, 'r') as f:
+                        progress = json.load(f)
+                    
+                    progress['multi_binary_trained'] = True
+                    progress['multi_binary_training_complete'] = datetime.now().isoformat()
+                    progress['users_in_model'] = mb_result.get('users', [])
+                    progress['active_model'] = 'multi-binary'
+                    progress['anomaly_detection_active'] = True
+                    
+                    with open(progress_file, 'w') as f:
+                        json.dump(progress, f)
+            else:
+                training_jobs[mb_job_id]['status'] = 'failed'
+                training_jobs[mb_job_id]['error'] = mb_result.get('error', 'Unknown error')
+                logger.error(f"Failed to integrate user {username} into multi-binary model: {mb_result.get('error')}")
+            
+            training_jobs[mb_job_id]['end_time'] = datetime.now().isoformat()
+            _save_jobs()
+        
+        else:
+            # Free-text model training failed
+            training_jobs[job_id]['status'] = 'failed'
+            training_jobs[job_id]['error'] = result.get('error', 'Unknown error')
+            training_jobs[job_id]['end_time'] = datetime.now().isoformat()
+            _save_jobs()
+            
+            logger.error(f"Free-text model training failed for user {username}: {result.get('error')}")
+    
+    except Exception as e:
+        # Update job status to "failed"
+        training_jobs[job_id]['status'] = 'failed'
+        training_jobs[job_id]['error'] = str(e)
+        training_jobs[job_id]['end_time'] = datetime.now().isoformat()
+        _save_jobs()
+        
+        logger.error(f"Error in automatic training process for user {username}: {str(e)}")
+
+@app.route('/api/keystroke/multi-binary/process-status/<username>', methods=['GET'])
+def get_complete_process_status(username):
+    """
+    Get the complete status of the user's process from collection to multi-binary integration.
+    This provides a unified view of all steps in the process.
+    """
+    try:
+        response = {
+            'username': username,
+            'process_found': False
+        }
+        
+        # Check if progress file exists
+        progress_file = f'flask-api/storage/models/multi-binary/progress/{username}.json'
+        if not os.path.exists(progress_file):
+            return jsonify(response)
+        
+        # Load progress data
+        with open(progress_file, 'r') as f:
+            progress = json.load(f)
+        
+        response['process_found'] = True
+        response['progress'] = progress
+        
+        # Check user in multi-binary users
+        users = multi_binary.get_users()
+        user_found = False
+        user_trained = False
+        
+        for user in users:
+            if user.get('name') == username:
+                user_found = True
+                user_trained = user.get('is_trained', False)
+                user_id = user.get('id')
+                response['user_registered'] = True
+                response['user_model_trained'] = user_trained
+                response['user_id'] = user_id
+                break
+        
+        if not user_found:
+            response['user_registered'] = False
+        
+        # Check if free-text model exists and is trained
+        from models import free_text_model
+        ft_model = free_text_model.FreeTextModel(username)
+        ft_info = ft_model.get_info()
+        
+        response['free_text_model_exists'] = os.path.exists(ft_model.model_path)
+        response['free_text_model_trained'] = ft_info.get('is_trained', False)
+        
+        if ft_info.get('is_trained', False):
+            response['free_text_model_info'] = {
+                'accuracy': ft_info.get('accuracy', 0),
+                'last_trained': ft_info.get('last_trained'),
+                'feature_count': ft_info.get('feature_count', 0)
+            }
+        
+        # Check training jobs
+        if 'free_text_training_job_id' in progress:
+            job_id = progress['free_text_training_job_id']
+            if job_id in training_jobs:
+                response['free_text_training_job'] = training_jobs[job_id]
+        
+        if 'multi_binary_training_job_id' in progress:
+            job_id = progress['multi_binary_training_job_id']
+            if job_id in training_jobs:
+                response['multi_binary_training_job'] = training_jobs[job_id]
+        
+        # Check multi-binary model status
+        mb_info = multi_binary.get_info()
+        response['multi_binary_model_trained'] = mb_info.get('is_trained', False)
+        
+        if mb_info.get('is_trained', False):
+            response['multi_binary_model_info'] = {
+                'last_updated': mb_info.get('last_updated'),
+                'users': mb_info.get('users', []),
+                'model_count': mb_info.get('model_count', 0),
+                'confidence_threshold': mb_info.get('confidence_threshold', 0.6)
+            }
+        
+        # Check if user is in multi-binary model
+        if mb_info.get('users', []) and username in mb_info.get('users', []):
+            response['user_in_multi_binary'] = True
+        else:
+            response['user_in_multi_binary'] = False
+        
+        # Check active model
+        response['active_model'] = active_model.get('type')
+        response['is_multi_binary_active'] = (active_model.get('type') == 'multi-binary')
+        
+        # Calculate overall status
+        if not user_found:
+            response['overall_status'] = 'not_registered'
+        elif not response.get('free_text_model_trained', False):
+            if 'collection_complete' in progress and progress.get('collection_complete', False):
+                response['overall_status'] = 'collection_complete_training_in_progress'
+            else:
+                response['overall_status'] = 'registered_collection_needed'
+        elif not response.get('multi_binary_model_trained', False) or not response.get('user_in_multi_binary', False):
+            response['overall_status'] = 'free_text_trained_integration_needed'
+        elif not response.get('is_multi_binary_active', False):
+            response['overall_status'] = 'integration_complete_activation_needed'
+        else:
+            response['overall_status'] = 'complete'
+        
+        return jsonify(response)
+        
+    except Exception as e:
+        logger.error(f"Error getting process status for user {username}: {str(e)}")
+        return jsonify({
+            'success': False,
+            'error': str(e),
+            'username': username
+        }), 500
 
 # Start the Flask application
 if __name__ == '__main__':

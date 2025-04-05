@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProfilerX - File Integrity Monitoring</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: #f5f7fa;
+        }
+        
+        .sidebar {
+            background-color: #2D1B4E;
+            width: 280px;
+            height: 100vh;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 10;
+            border-top-right-radius: 16px;
+            border-bottom-right-radius: 16px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        
+        .sidebar.collapsed {
+            width: 70px;
+        }
+        
+        .sidebar.collapsed .menu-text,
+        .sidebar.collapsed .category {
+            display: none;
+        }
+        
+        .sidebar.collapsed .logo h1 {
+            display: none;
+        }
+        
+        .content-wrapper {
+            margin-left: 280px;
+            transition: all 0.3s ease;
+        }
+        
+        .content-wrapper.sidebar-collapsed {
+            margin-left: 70px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .logo-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #0B3D91, #000033);
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: radial-gradient(white 1px, transparent 1px);
+            background-size: 10px 10px;
+            opacity: 0.3;
+        }
+        
+        .category {
+            font-size: 12px;
+            font-weight: 500;
+            color: #a599b5;
+            padding: 16px 20px;
+            letter-spacing: 1px;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        
+        .sidebar.collapsed .menu-item {
+            padding: 12px;
+            justify-content: center;
+        }
+        
+        .sidebar.collapsed .icon {
+            margin-right: 0;
+        }
+        
+        .menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+            border-left: 3px solid #6d5c9c;
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+        
+        .menu-item.active {
+            background-color: rgba(255, 255, 255, 0.12);
+            border-left: 3px solid #8B5CF6;
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+        
+        .icon {
+            width: 22px;
+            height: 22px;
+            opacity: 0.8;
+            margin-right: 12px;
+        }
+        
+        .menu-text {
+            font-size: 16px;
+            font-weight: 400;
+        }
+        
+        .back-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 36px;
+            height: 36px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .back-button:hover {
+            transform: translateX(-3px);
+        }
+        
+        .card {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dashboard-content {
+            padding: 24px;
+        }
+        
+        .header-section {
+            padding: 16px 24px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+            margin-bottom: 24px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="back-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2D1B4E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 18l-6-6 6-6"/>
+            </svg>
+        </div>
+        
+        <div class="logo">
+            <div class="logo-image"></div>
+            <h1 class="text-2xl font-semibold ml-4">ProfilerX</h1>
+        </div>
+        
+        <div class="category">SIGNATURE-BASED</div>
+        
+        <div class="menu-item" id="overview">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            <span class="menu-text">OVERVIEW</span>
+        </div>
+        
+        <div class="menu-item" id="fileIntegrity">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            <span class="menu-text">File Integrity Monitoring</span>
+        </div>
+        
+        <div class="menu-item" id="malwareDetection">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+                <path d="M12 11L12 15"></path>
+                <path d="M12 18L12 17.5"></path>
+            </svg>
+            <span class="menu-text">Malware Detection</span>
+        </div>
+        
+        <div class="menu-item active" id="logAnalysis">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <path d="M14 2v6h6"></path>
+                <path d="M16 13H8"></path>
+                <path d="M16 17H8"></path>
+                <path d="M10 9H8"></path>
+            </svg>
+            <span class="menu-text">Log Analysis</span>
+        </div>
+        
+        <div class="menu-item" id="intrusionDetection">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            <span class="menu-text">Intrusion Detection</span>
+        </div>
+        
+        <div class="category">BEHAVIOR-BASED</div>
+        
+        <div class="menu-item" id="anomalyDetection">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                <path d="M11 8L11 14"></path>
+                <path d="M8 11H14"></path>
+            </svg>
+            <span class="menu-text">Anomaly Detection</span>
+        </div>
+        
+        <div class="menu-item" id="keystrokeIdentification">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect>
+                <line x1="6" y1="8" x2="6" y2="8"></line>
+                <line x1="10" y1="8" x2="10" y2="8"></line>
+                <line x1="14" y1="8" x2="14" y2="8"></line>
+                <line x1="18" y1="8" x2="18" y2="8"></line>
+                <line x1="6" y1="12" x2="6" y2="12"></line>
+                <line x1="10" y1="12" x2="10" y2="12"></line>
+                <line x1="14" y1="12" x2="14" y2="12"></line>
+                <line x1="18" y1="12" x2="18" y2="12"></line>
+                <line x1="6" y1="16" x2="6" y2="16"></line>
+                <line x1="10" y1="16" x2="10" y2="16"></line>
+                <line x1="14" y1="16" x2="14" y2="16"></line>
+                <line x1="18" y1="16" x2="18" y2="16"></line>
+            </svg>
+            <span class="menu-text">Keystroke Identification</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-wrapper">
+        <div class="dashboard-content">
+            <!-- Header -->
+            <div class="header-section flex justify-between items-center mb-6">
+                <div>
+                    <h1 class="text-xl font-bold text-gray-800">File Integrity Monitoring</h1>
+                    <p class="text-sm text-gray-500">Monitor and manage file integrity</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button class="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                        </svg>
+                    </button>
+                    <button class="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <div class="h-8 w-8 rounded-full bg-purple-600 flex items-center justify-center text-white font-medium">
+                        SA
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty Dashboard Content Area -->
+            <div class="bg-white p-8 rounded-lg shadow-sm text-center">
+                <p class="text-gray-500">File Integrity Monitoring dashboard content will appear here.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle sidebar
+        document.querySelector('.back-button').addEventListener('click', function() {
+            const sidebar = document.querySelector('.sidebar');
+            const contentWrapper = document.querySelector('.content-wrapper');
+            
+            sidebar.classList.toggle('collapsed');
+            contentWrapper.classList.toggle('sidebar-collapsed');
+            
+            // Change the back button icon direction
+            const backIcon = this.querySelector('svg path');
+            if (sidebar.classList.contains('collapsed')) {
+                backIcon.setAttribute('d', 'M9 18l6-6-6-6');
+            } else {
+                backIcon.setAttribute('d', 'M15 18l-6-6 6-6');
+            }
+        });
+        
+        // Setup page navigation for sidebar items
+        const menuItems = {
+            'overview': '/dashboard-page',
+            'fileIntegrity': '/fileIntegrity',
+            'malwareDetection': '/malwareDetection',
+            'logAnalysis': '/logAnalysis',
+            'intrusionDetection': '/intrusionDetection',
+            'anomalyDetection': '/anomalyDetection',
+            'keystrokeIdentification': '/keystrokeIdentification'
+        };
+        
+        // Add click event listeners to all menu items
+        Object.keys(menuItems).forEach(id => {
+            const menuItem = document.getElementById(id);
+            if (menuItem) {
+                menuItem.addEventListener('click', function() {
+                    // Remove active class from all menu items
+                    document.querySelectorAll('.menu-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked menu item
+                    this.classList.add('active');
+                    
+                    // Navigate to the corresponding page
+                    window.location.href = menuItems[id];
+                });
+            }
+        });
+    </script>
+</body>
+</html>
